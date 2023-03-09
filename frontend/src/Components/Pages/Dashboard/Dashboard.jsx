@@ -18,7 +18,6 @@ const Dashboard = () => {
   return (
     <main className={styles.dashboard}>
       {loading && <Loading />}
-
       {openPecaModal && <NovaPecaModal />}
       {openListaMaterialModal && <ListaMateriaisModal />}
       <Header />

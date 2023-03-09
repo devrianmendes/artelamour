@@ -59,7 +59,7 @@ const DetalhePeca = () => {
     { custoTotal: 0, materiais: [] },
   );
 
-  //Função que atualiza a lista de todos os materiais para aparecer no select
+  //Função que carrega a lista de todos os materiais para aparecer no select
   const getList = React.useCallback(() => {
     getMaterialList()
       .then((res) => setSelectList(res.data))
@@ -249,14 +249,14 @@ const DetalhePeca = () => {
                   <td>
                     <AiOutlineSave
                       className={styles.action}
-                      size="30"
+                      size="35"
                       onClick={() => {
                         handleEdit();
                       }}
                     />
                     <BsTrash
                       className={styles.action}
-                      size="30"
+                      size="35"
                       style={{ marginLeft: '15px' }}
                       onClick={() => setEditMat(false)}
                     />
@@ -309,14 +309,14 @@ const DetalhePeca = () => {
                       <td>
                         <AiOutlineSave
                           className={styles.action}
-                          size="30"
+                          size="35"
                           onClick={() => {
                             handleEditMat(eachMaterial.id);
                           }}
                         />
                         <BsTrash
                           className={styles.action}
-                          size="30"
+                          size="35"
                           style={{ marginLeft: '15px' }}
                           onClick={() => setEdit(false)}
                         />

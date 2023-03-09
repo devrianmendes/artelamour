@@ -12,16 +12,17 @@ export const GlobalStorage = ({ children }) => {
   const [user, setUser] = React.useState();
   const isAuthenticated = !!user;
   
+  //Verificadores
   const [loading, setLoading] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
   const [changed, setChanged] = React.useState(false);
-
   const [openPecaModal, setOpenPecaModal] = React.useState(false);
-  const [openListaMaterialModal, setOpenListaMaterialModal] =
-    React.useState(false);
+  const [openListaMaterialModal, setOpenListaMaterialModal] =  React.useState(false);
   const [editMat, setEditMat] = React.useState(false);
-  const [arrayPecas, setArrayPecas] = React.useState([]);
   const isSelected = !!selected;
+  
+  const [arrayPecas, setArrayPecas] = React.useState([]);
+  const [allMaterial, setAllMaterial] = React.useState([]);
 
   //LOGIN E AUTH
   const signUp = async (nome, apelido, email, passw) => {
@@ -181,10 +182,9 @@ export const GlobalStorage = ({ children }) => {
       const res = await axios.get('http://localhost:7070/material/list');
       return res;
     } catch (err) {
+      setLoading(false);
       console.log('Erro ao carregar a lista de materiais', err);
-      setLoading(false);
     } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -286,7 +286,9 @@ export const GlobalStorage = ({ children }) => {
         unMedidaUsado: unMedidaUsado,
         peca_id: peca_id,
         material_id: material_id
-      })
+      });
+
+      setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
@@ -301,12 +303,14 @@ export const GlobalStorage = ({ children }) => {
   //Função que deleta o material da peça
   const deletePecaMaterial = async (id) => {
     try {
+      setLoading(true);
       const res = await axios.delete('http://localhost:7070/pecaMaterial/delete', {
           data: {
             id: id
           }
       })
 
+      setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {

@@ -1,15 +1,18 @@
 ----------- FALTA FAZER
+colocar tudo pra carregar no carregamento da página
 previnir numeros negativos no input number
 o custo por peça não tá atualizando
 colocar upload de foto na peça
 arrumar os loads
 colocar o valor de venda no componente peça
-botao de editar peça não funciona
+botao de editar peça sem funcionalidade
 atualizar a lista de materiais na detalhepeça ao incluir ou excluir um material
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
+ao clicar em editar material os campos mudam de tamanho
+tamanho dos icones no detalhe peça estão diferentes se a edição de material estiver ativa
 
 ----------- FEITO
-colocar o nome da peça no header do detalhepeca (pra fazer isso eu vou ter que salvar no selected além do id, o nome, pra   isso vou ter que alterar tudo que recebeo selected e tratar como objeto)
+colocar o nome da peça no header do detalhepeca (pra fazer isso eu vou ter que salvar no selected além do id, o nome, pra isso vou ter que alterar tudo que recebeo selected e tratar como objeto)
 efeito hover nos botoes de ação
 ta dando erro ao editar o material da peça
 ajustar o tamanho das colunas no modal de materiais ao abrir a edição
