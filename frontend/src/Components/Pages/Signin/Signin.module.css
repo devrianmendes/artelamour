@@ -1,0 +1,32 @@
+.logo {
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.atelie {
+  font-family: Parisienne;
+}
+
+.nome {
+  font-family: "Libre Bodoni";
+}
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main form {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.main img {
+  width: 250px;
+  margin: 1rem;
+}

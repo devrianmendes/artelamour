@@ -1,0 +1,138 @@
+@keyframes teste {
+  from { opacity: 0 }
+  to { opacity: 1}
+}
+
+.outterContainer {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .8);
+  animation: teste .5s ease-in-out;
+}
+
+.modalWrapper {
+  width: 60%;
+  height: 80vh;
+  max-height: 80vh;
+}
+
+.container {
+  background-color: #FFF;
+  padding: 1rem;
+  border-radius: 20px;
+  height: 100%;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  height: 5%;
+}
+
+.closeModal {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+  box-sizing: content-box;
+}
+
+.closeModal:hover {
+  cursor: pointer;
+}
+
+.line1 {
+ width: 100%;
+ height: 2px;
+ background-color: #000;
+ transform: rotate(45deg) translate3d(7px,7px, 0px);
+}
+
+.line2 {
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  transform: rotate(-45deg) translate3d(6px, -6px, 0px);
+ }
+
+.row {
+  margin: 2% 0%;
+}
+
+.contentWrapper {
+  height: 100%;
+  padding: 1rem;
+}
+
+.modalBody {
+  height: 75%;
+  overflow: auto;
+}
+
+.modalFooter {
+  height: 5%;
+}
+
+/* TABLE */
+.materialTable {
+  width: 100%;
+}
+
+/* O tamanho não ta funcionando */
+.tableTr {
+  text-align: left;
+   margin: 5px 0px;
+}
+
+.tableTh {
+  width: 12%;
+}
+
+.tableTh:nth-child(1) {
+  width: 16%;
+}
+
+.tableTh:nth-child(2) {
+  width: 30%;
+
+}
+
+.tableTh:nth-child(3) {
+  width: 12%;
+
+}
+
+.tableTh:nth-child(4) {
+  width: 15%;
+  
+}
+
+.tableTh:nth-child(5) {
+  width: 15%;
+  
+}
+
+.tableTh:nth-child(6) {
+  width: 12%;
+  
+}
+
+.action {
+  padding: .3rem;
+  transition: .2s;
+  border: 2px solid transparent;
+}
+
+.action:hover {
+  cursor: pointer;
+  border: 2px solid var(--blue-darker);
+  border-radius: 5px;
+  background-color: var(--white);
+  transition: .2s;
+}

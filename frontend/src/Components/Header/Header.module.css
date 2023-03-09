@@ -1,0 +1,57 @@
+.header {
+  padding: 1.5rem 3rem;
+  background-color: var(--blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 150px;
+}
+
+.menu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  margin: .2rem;
+  padding: .8rem;
+  cursor: pointer;
+  border: 2px solid var(--blue);
+  border-radius: 5px;
+  transition: .3s;
+}
+
+.menu a:hover {
+  background-color: var(--white);
+  border: 2px solid var(--blue-darker);
+  border-radius: 5px;
+  transition: .3s;
+}
+
+.menu li {
+  display: flex;
+}
+
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.logout a {
+  padding: 1rem;
+}
+
+.logout a:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,53 @@
+.eachContainer {
+    background-color: var(--blue-lighter);
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.innerEachContainer {
+    padding: 0rem 1rem 1rem 1rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.materialTable {
+    width: 100%;
+    text-align: center;
+}
+
+.materialTable tr {
+    height: 3rem;
+}
+
+.materialTable td {
+    border-top: solid 1px #FFF;
+}
+
+.materialContent {
+    font-size: 14px;
+    font-style: normal;
+}
+
+.tableTh {
+    width: 20%;
+}
+
+select {
+    border: solid 1px var(--blue-darker);
+    border-radius: 5px;
+    font: normal 16px "Patrick Hand";
+}
+
+.action {
+    padding: .3rem;
+    transition: .2s;
+    border: 2px solid transparent;
+}
+
+.action:hover {
+    cursor: pointer;
+    border: 2px solid var(--blue-darker);
+    border-radius: 5px;
+    background-color: var(--white);
+    transition: .2s;
+}

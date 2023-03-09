@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+:root{
+  --blue-lighter: #D4F1FF;
+  --blue: #BFE4F6;
+  --blue-darker: #55C1F6;
+  --white: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  background-color: var(--blue);
+}
+
+body, input, button {
+  font-family: "Patrick Hand";
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+
+
+/* ***************************************** */
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main form {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.main img {
+  width: 250px;
+  margin: 1rem;
+}
+
+.main a {
+  margin-top: .5rem;
+  color: var(--blue-darker);
+}
+
+.main a:hover{
+  text-decoration: underline;
+}

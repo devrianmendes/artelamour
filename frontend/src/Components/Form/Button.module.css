@@ -1,0 +1,33 @@
+.button {
+  background-color: var(--blue);
+  color: var(--white);
+  border: solid 2px var(--white);
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: .5rem;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.button[disabled] {
+  cursor: not-allowed;
+}
+
+.button:hover {
+  background-color: var(--white);
+  color: var(--blue-darker);
+  border-color: var(--blue-darker);
+}
+
+.load {
+  animation: animate 1.5s infinite;
+}
+
+@keyframes animate{
+  from{
+    transoform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,61 @@
+.mainContainer{
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  border: solid 1px var(--white);
+  border-radius: 5px;
+  background-color: var(--blue-lighter);
+  padding: .5rem;
+  transition: .3s;
+  margin-bottom: .2rem;
+}
+
+.mainContainer:hover {
+  background-color: var(--white);
+  border-color: var(--blue-darker);
+  transition: .3s;
+}
+
+.field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.field h5 {
+  margin-bottom: .5rem;
+}
+
+.field:nth-child(2) {
+  flex-direction: column;
+  justify-content: start;
+}
+
+.trash,
+.edit {
+  margin-right: .5rem;
+}
+
+.trash:hover,
+.edit:hover {
+  cursor: pointer;
+}
+
+.action {
+  padding: .3rem;
+  transition: .2s;
+  border: 2px solid transparent;
+}
+
+.action:nth-child(1) {
+  margin-right: .5rem;
+}
+
+.action:hover {
+  cursor: pointer;
+  border: 2px solid var(--blue-darker);
+  border-radius: 5px;
+  background-color: var(--white);
+  transition: .2s;
+}

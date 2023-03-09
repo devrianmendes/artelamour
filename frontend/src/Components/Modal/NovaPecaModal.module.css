@@ -1,0 +1,74 @@
+@keyframes teste {
+  from { opacity: 0 }
+  to { opacity: 1}
+}
+
+.outterContainer {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, .8);
+  animation: teste .5s ease-in-out;
+}
+
+.container {
+  background-color: #FFF;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 60%;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  height: 2rem;
+}
+
+.closeModal {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+  box-sizing: content-box;
+}
+
+.closeModal:hover {
+  cursor: pointer;
+}
+
+.line1 {
+ width: 100%;
+ height: 2px;
+ background-color: #000;
+ transform: rotate(45deg) translate3d(7px,7px, 0px);
+}
+
+.line2 {
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  transform: rotate(-45deg) translate3d(6px, -6px, 0px);
+ }
+
+.row {
+  margin: 1rem 0rem;
+}
+
+label {
+  display: flex;
+}
+
+label input,
+label textarea {
+  width: 100%;
+}
+
+label p {
+  width: 30%;
+}

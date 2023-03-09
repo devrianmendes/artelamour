@@ -1,0 +1,356 @@
+import React from 'react';
+import styles from './DetalhePeca.module.css';
+import { toast } from 'react-toastify';
+import { GlobalContext } from '../../Contexts/GlobalContext';
+
+import { CiEdit } from 'react-icons/ci';
+import { BsTrash } from 'react-icons/bs';
+import { AiOutlineSave } from 'react-icons/ai';
+import Loading from '../Loading/Loading';
+
+import PecaHeader from '../PecaHeader/PecaHeader';
+import Input from '../Form/Input';
+
+const DetalhePeca = () => {
+  const {
+    getMaterials,
+    getMaterialList,
+    selected,
+    isSelected,
+    arrayPecas,
+    editMat,
+    setEditMat,
+    deletePecaMaterial,
+    updatePecaMateriais,
+    updateMaterialPeca,
+    loading
+  } = React.useContext(GlobalContext);
+
+  const [arrayMaterials, setArrayMaterials] = React.useState([]);
+
+  const [edit, setEdit] = React.useState(false);
+  const [selectList, setSelectList] = React.useState([]);
+  const [mat, setMat] = React.useState('Selecione...');
+  const [peca, setPeca] = React.useState('');
+  const [qtdMatUsado, setQtdMatUsado] = React.useState('');
+  const [unMedidaUsado, setUnMedidaUsado] = React.useState('');
+
+  const calcConsumo = (eachMaterial) => {
+    const qntComprada = eachMaterial.material.quantidadeCusto.includes(',')
+      ? Number(eachMaterial.material.quantidadeCusto.split(',').join('.'))
+      : Number(eachMaterial.material.quantidadeCusto);
+    const valorComprado = Number(eachMaterial.material.custo);
+    const calcValorGasto = valorComprado / qntComprada;
+
+    return calcValorGasto;
+  };
+
+  let calcConsumoTotal = arrayMaterials.reduce(
+    (acc, curr) => {
+      const materialCusto = Number(calcConsumo(curr).toFixed(2));
+      return {
+        custoTotal: acc.custoTotal + materialCusto,
+        materiais: [
+          ...acc.materiais,
+          { ...curr, custo: materialCusto.toFixed(2) },
+        ],
+      };
+    },
+    { custoTotal: 0, materiais: [] },
+  );
+
+  //Função que atualiza a lista de todos os materiais para aparecer no select
+  const getList = React.useCallback(() => {
+    getMaterialList()
+      .then((res) => setSelectList(res.data))
+      .catch((err) => console.log(err.message, err));
+  }, [getMaterialList]);
+
+  //Função que atualiza a lista de materiais usados na peça
+  const getMatList = async (id) => {
+    getMaterials(id)
+      .then((res) => setArrayMaterials(res.data))
+      .catch((err) => console.log(err.message, err));
+  };
+
+  //Carrega os materiais da peça inicial ou da selecionada
+  React.useEffect(() => {
+    const main = async () => {
+      if (!isSelected) {
+        const res = await getMaterials(arrayPecas[0].id);
+        setPeca(arrayPecas[0]);
+        setArrayMaterials(res.data);
+      } else {
+        const res = await getMaterials(selected.id);
+        setPeca(selected);
+        setArrayMaterials(res.data);
+      }
+    };
+    main();
+  }, [arrayPecas, getMaterials, isSelected, selected, peca]);
+
+  //Carregando todos os materiais ao carregar
+  //O ideal seria colocar isso aqui no context pq ta carregando aqui e qnd abre o motal de materiais
+  React.useEffect(() => {
+    getList();
+  }, [getList]);
+
+  //Adciona um material na peça ao preencher os campos e salvar
+  const handleEdit = async () => {
+    if (isSelected) {
+      setPeca(selected);
+    }
+
+    let data = {
+      qtdMatUsado,
+      unMedidaUsado,
+      peca_id: peca.id,
+      material_id: mat,
+    };
+
+    await updatePecaMateriais(data);
+
+    getMatList(peca.id);
+    setQtdMatUsado('');
+    setEditMat(false);
+  };
+
+  const handleDelete = async (id) => {
+    await deletePecaMaterial(id);
+    getMatList(peca.id);
+  };
+
+  //Edita o material da peça
+  const handleEditMat = async (id) => {
+    if (qtdMatUsado === '' || unMedidaUsado === '') {
+      toast.error('Preencha todos os campos');
+    } else {
+      let data = {
+        id,
+        qtdMatUsado,
+        unMedidaUsado,
+      };
+
+      await updateMaterialPeca(data);
+      setQtdMatUsado(''); //Limpando os campos de edição
+      setUnMedidaUsado(''); //Limpando os campos de edição
+      setEdit(false); //Fechando os campos de edição
+      getMatList(peca.id);
+    }
+  };
+
+  //o custo por peça não t´´a atualizando
+  //limpar o campo após clicar
+  return (
+    <div className={styles.mainContainer}>
+      <div className={styles.eachContainer}>
+        <PecaHeader title="Valor final da peça" button={false} content={peca} />
+        <div className={styles.innerEachContainer}>
+          <div>
+            <h4>Custo da peça</h4>
+            <p>R${calcConsumoTotal.custoTotal.toFixed(2).replace('.', ',')}</p>
+          </div>
+          <div>
+            <h4>Valor sugerido para venda</h4>
+            <p>
+              R$
+              {(calcConsumoTotal.custoTotal + calcConsumoTotal.custoTotal * 0.7)
+                .toFixed(2)
+                .replace('.', ',')}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.eachContainer}>
+        <PecaHeader
+          title="Materiais usados na peça"
+          button={true}
+          buttonTitle="Adicionar material à peça"
+          id="addMatToPeca"
+        />
+        <div className={styles.innerEachContainer}>
+          <table className={styles.materialTable}>
+            <thead>
+              <tr className={styles.tableTr}>
+                <th className={styles.tableTh}>Nome</th>
+                <th className={styles.tableTh}>Quantidade</th>
+                <th className={styles.tableTh}>Unidade de medida</th>
+                <th className={styles.tableTh}>Custo por peça</th>
+                <th className={styles.tableTh}>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {editMat ? (
+                <tr className={styles.materialContent}>
+                  <td>
+                    <select
+                      onChange={(e) => {
+                        setMat(e.target.value);
+                      }}
+                    >
+                      <option>Selecione...</option>
+                      {selectList.map((eachMat, index) => (
+                        <option value={eachMat.id} key={index}>
+                          {eachMat.nome}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <Input
+                      editinput="newMat"
+                      name="qtdMatUsado"
+                      type="number"
+                      value={qtdMatUsado}
+                      onChange={(e) => setQtdMatUsado(e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <select
+                      onChange={(e) => {
+                        setUnMedidaUsado(e.target.value);
+                      }}
+                    >
+                      <option>Selecione...</option>
+                      <option
+                        disabled
+                        style={{ fontWeight: 'bold', color: '#000' }}
+                      >
+                        Volume
+                      </option>
+                      <option value="mililitros">Mililitros</option>
+                      <option value="litros">Litros</option>
+                      <option
+                        disabled
+                        style={{ fontWeight: 'bold', color: '#000' }}
+                      >
+                        Peso
+                      </option>
+                      <option value="gramas">Gramas</option>
+                      <option value="quilo">Quilos</option>
+                      <option
+                        disabled
+                        style={{ fontWeight: 'bold', color: '#000' }}
+                      >
+                        Comprimento
+                      </option>
+                      <option value="centimetros">Centímetros</option>
+                      <option value="metros">Metros</option>
+                      <option
+                        disabled
+                        style={{ fontWeight: 'bold', color: '#000' }}
+                      >
+                        Outros
+                      </option>
+                      <option value="unidades">Unidades</option>
+                    </select>
+                  </td>
+                  <td> </td>
+                  <td>
+                    <AiOutlineSave
+                      className={styles.action}
+                      size="30"
+                      onClick={() => {
+                        handleEdit();
+                      }}
+                    />
+                    <BsTrash
+                      className={styles.action}
+                      size="30"
+                      style={{ marginLeft: '15px' }}
+                      onClick={() => setEditMat(false)}
+                    />
+                  </td>
+                </tr>
+              ) : null}
+              {calcConsumoTotal.materiais.map((eachMaterial, index) => (
+                <tr className={styles.materialContent} key={index}>
+                  {eachMaterial.id === edit ? (
+                    <>
+                      <td>{eachMaterial.material.nome}</td>
+                      <td>
+                        <Input
+                          editinput="newMat"
+                          name="name"
+                          type="number"
+                          value={qtdMatUsado}
+                          onChange={(e) => setQtdMatUsado(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <select
+                          onChange={(e) => {
+                            setUnMedidaUsado(e.target.value);
+                          }}
+                        >
+                          <option>Selecione...</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Volume
+                          </option>
+                          <option value="mililitros">Mililitros</option>
+                          <option value="litros">Litros</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Peso
+                          </option>
+                          <option value="gramas">Gramas</option>
+                          <option value="quilo">Quilos</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Comprimento
+                          </option>
+                          <option value="centimetros">Centímetros</option>
+                          <option value="metros">Metros</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Outros
+                          </option>
+                          <option value="unidades">Unidades</option>
+                        </select>
+                      </td>
+                      <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      <td>
+                        <AiOutlineSave
+                          className={styles.action}
+                          size="30"
+                          onClick={() => {
+                            handleEditMat(eachMaterial.id);
+                          }}
+                        />
+                        <BsTrash
+                          className={styles.action}
+                          size="30"
+                          style={{ marginLeft: '15px' }}
+                          onClick={() => setEdit(false)}
+                        />
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{eachMaterial.material.nome}</td>
+                      <td>{eachMaterial.qtdMatUsado}</td>
+                      <td>{eachMaterial.unMedidaUsado}</td>
+                      <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      <td>
+                        <CiEdit
+                          className={styles.action}
+                          size="35"
+                          onClick={() => setEdit(eachMaterial.id)}
+                        />
+                        <BsTrash
+                          className={styles.action}
+                          size="35"
+                          style={{ marginLeft: '15px' }}
+                          onClick={() => handleDelete(eachMaterial.id)}
+                        />
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DetalhePeca;
