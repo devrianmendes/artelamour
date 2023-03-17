@@ -50,28 +50,79 @@ const NovaPecaModal = () => {
 
   //Função que registra um novo material
   const handleSave = async () => {
+    let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
       toast.error('Preencha todos os campos');
-    } else {
-      let data = {
+    }
+
+    if (!custo.includes(',') && !custo.includes('.')) {
+      data = {
         nome,
         desc,
         qtdCusto,
         unMedCusto,
-        custo: custo.includes(',') ? custo.replace(',', '.') : null,
+        custo: Number(custo).toFixed(2),
       };
-      console.log(data);
-      await createMaterials(data);
-      setNewMaterial(false);
-
-      setNome('');
-      setDesc('');
-      setQtdCusto('');
-      setUnMedCusto('');
-      setCusto('');
-
-      getList();
+    } else {
+      data = {
+        nome,
+        desc,
+        qtdCusto,
+        unMedCusto,
+        custo: custo.includes(',') ? custo.replace(',', '.') : custo,
+      };
     }
+
+    await createMaterials(data);
+    setNewMaterial(false);
+
+    setNome('');
+    setDesc('');
+    setQtdCusto('');
+    setUnMedCusto('');
+    setCusto('');
+
+    getList();
+  };
+
+  //Edita um material
+  const handleEdit = async (id) => {
+    let data;
+    if (!nome || !qtdCusto || !unMedCusto || !custo) {
+      toast.error('Preencha todos os campos');
+    }
+
+    if (!custo.includes(',') && !custo.includes('.')) {
+      data = {
+        id,
+        nome,
+        desc,
+        qtdCusto,
+        unMedCusto,
+        custo: Number(custo).toFixed(2),
+      };
+    } else {
+      data = {
+        id,
+        nome,
+        desc,
+        qtdCusto,
+        unMedCusto,
+        custo: custo.includes(',') ? custo.replace(',', '.') : custo,
+      };
+    }
+
+    await updateMaterial(data);
+
+    setNome('');
+    setDesc('');
+    setQtdCusto('');
+    setUnMedCusto('');
+    setCusto('');
+
+    setEdit(null);
+
+    getList();
   };
 
   //Deleta um material da lista
@@ -80,41 +131,17 @@ const NovaPecaModal = () => {
     getList();
   };
 
-  //Edita um material
-  const handleEdit = async (id) => {
-    if (!nome || !qtdCusto || !unMedCusto || !custo) {
-      toast.error('Preencha todos os campos');
-    } else {
-      let data = {
-        id,
-        nome,
-        desc,
-        qtdCusto,
-        unMedCusto,
-        custo: custo.includes(',') ? custo.replace(',', '.') : null,
-      };
-
-      await updateMaterial(data);
-
-      setNome('');
-      setDesc('');
-      setQtdCusto('');
-      setUnMedCusto('');
-      setCusto('');
-
-      setEdit(null);
-
-      getList();
-    }
+  //Fecha o modal ao clicar no X
+  const closeModal = () => {
+    setOpenListaMaterialModal(false);
   };
 
-    //Fecha o modal ao clicar no X
-    const closeModal = () => {
-      setOpenListaMaterialModal(false);
-    };
-
   return (
-    <div className={`${styles.outterContainer} ${openListaMaterialModal && styles.opened}`}>
+    <div
+      className={`${styles.outterContainer} ${
+        openListaMaterialModal && styles.opened
+      }`}
+    >
       <div className={styles.modalWrapper}>
         <div className={styles.container}>
           <div className={`${styles.contentWrapper} `}>

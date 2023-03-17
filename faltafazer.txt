@@ -1,5 +1,4 @@
 ----------- FALTA FAZER
-colocar um unico numero no valor do material tá dando ruim, ajustar pro código colocar .00
 colocar tudo pra carregar no carregamento da página
 o custo por peça não tá atualizando
 colocar upload de foto na peça
@@ -10,6 +9,7 @@ atualizar a lista de materiais na detalhepeça ao incluir ou excluir um material
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
 
 ----------- FEITO
+colocar um unico numero no valor do material tá dando ruim, ajustar pro código colocar .00
 previnir numeros negativos no input number
 ao clicar em editar material os campos mudam de tamanho
 tamanho dos icones no detalhe peça estão diferentes se a edição de material estiver ativa
