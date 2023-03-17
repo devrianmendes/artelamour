@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   height: 150px;
-  border: solid 1px var(--white);
+  border: solid 2px transparent;
   border-radius: 5px;
   background-color: var(--blue-lighter);
   padding: .5rem;
@@ -27,9 +27,32 @@
   margin-bottom: .5rem;
 }
 
+.field:nth-child(1) {
+  padding: 1rem;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: .3s;
+  display: flex;
+  justify-content: center;
+}
+
+.field:nth-child(1):hover {
+  border-color: var(--blue-darker);
+  transition: .3s;
+}
+
 .field:nth-child(2) {
   flex-direction: column;
   justify-content: start;
+}
+
+.upload{
+  cursor: pointer;
+}
+
+.uploadImg {
+width: 100%;
+height: 100%;
 }
 
 .trash,

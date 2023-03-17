@@ -3,6 +3,7 @@ import styles from './Peca.module.css';
 
 import { BsTrash } from 'react-icons/bs';
 import { CiEdit } from 'react-icons/ci';
+import { FcAddImage } from 'react-icons/fc';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
@@ -19,7 +20,12 @@ const Peca = ({ data }) => {
 
   return (
     <div className={styles.mainContainer} onClick={handleClick}>
-      <div className={styles.field}></div>
+      <div className={styles.field}>
+        <label htmlFor="sendFile" className={styles.upload}>
+          <input type="file" id="sendFile" hidden />
+          <FcAddImage className={styles.uploadImg} />
+        </label>
+      </div>
       <div className={styles.field}>
         <h5>Nome</h5>
         <p>{nome}</p>
@@ -39,7 +45,7 @@ const Peca = ({ data }) => {
       <div className={styles.field}>
         <h5>Ações</h5>
         <div>
-          <CiEdit size="35" className={styles.action}/>
+          <CiEdit size="35" className={styles.action} />
           <BsTrash size="35" onClick={handleDelete} className={styles.action} />
         </div>
       </div>
