@@ -12,14 +12,13 @@ import ListaMateriaisModal from '../../Modal/ListaMateriaisModal';
 import { GlobalContext } from '../../../Contexts/GlobalContext';
 
 const Dashboard = () => {
-  const { openPecaModal, openListaMaterialModal, loading } =
-    React.useContext(GlobalContext);
+  const { loading } = React.useContext(GlobalContext);
 
   return (
     <main className={styles.dashboard}>
       {loading && <Loading />}
-      {openPecaModal && <NovaPecaModal />}
-      {openListaMaterialModal && <ListaMateriaisModal />}
+      <NovaPecaModal />
+      <ListaMateriaisModal />
       <Header />
       <section className={styles.sides}>
         <section className={styles.leftSide}>

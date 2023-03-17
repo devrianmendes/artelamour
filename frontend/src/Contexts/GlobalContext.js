@@ -185,6 +185,7 @@ export const GlobalStorage = ({ children }) => {
       setLoading(false);
       console.log('Erro ao carregar a lista de materiais', err);
     } finally {
+      setLoading(false);
     }
   }, []);
 

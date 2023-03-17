@@ -15,7 +15,7 @@ const NovaPecaModal = () => {
   const [minProd, setMinProd] = React.useState('');
   const [lucro, setLucro] = React.useState('');
 
-  const { createPeca, loading, openPecaModal, setOpenPecaModal } =
+  const { createPeca, openPecaModal, setOpenPecaModal } =
     React.useContext(GlobalContext);
 
   const handleSubmit = async (e) => {
@@ -44,9 +44,8 @@ const NovaPecaModal = () => {
     setOpenPecaModal(false);
   };
 
-  if (openPecaModal)
     return (
-      <div className={styles.outterContainer}>
+      <div className={`${styles.outterContainer} ${openPecaModal && styles.opened}`}>
         <div className={styles.container}>
           <header className={styles.modalHeader}>
             <h3>Dados da peça</h3>

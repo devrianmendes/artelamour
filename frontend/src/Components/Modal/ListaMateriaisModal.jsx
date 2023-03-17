@@ -27,6 +27,7 @@ const NovaPecaModal = () => {
     createMaterials,
     updateMaterial,
     setOpenListaMaterialModal,
+    openListaMaterialModal,
     deleteMaterial,
   } = React.useContext(GlobalContext);
 
@@ -41,11 +42,6 @@ const NovaPecaModal = () => {
   React.useEffect(() => {
     getList();
   }, [getList]);
-
-  //Fecha o modal ao clicar no X
-  const closeModal = () => {
-    setOpenListaMaterialModal(false);
-  };
 
   //Habilita o campo para criar material
   const handleClick = () => {
@@ -112,11 +108,16 @@ const NovaPecaModal = () => {
     }
   };
 
+    //Fecha o modal ao clicar no X
+    const closeModal = () => {
+      setOpenListaMaterialModal(false);
+    };
+
   return (
-    <div className={styles.outterContainer}>
+    <div className={`${styles.outterContainer} ${openListaMaterialModal && styles.opened}`}>
       <div className={styles.modalWrapper}>
         <div className={styles.container}>
-          <div className={styles.contentWrapper}>
+          <div className={`${styles.contentWrapper} `}>
             <header className={styles.modalHeader}>
               <h3>Cadastrar materiais</h3>
               <div className={styles.closeModal} onClick={closeModal}>
