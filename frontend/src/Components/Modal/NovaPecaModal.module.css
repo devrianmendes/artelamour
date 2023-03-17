@@ -36,10 +36,15 @@
   justify-content: space-between;
   padding: .5rem;
   box-sizing: content-box;
+  border: 2px solid transparent;
 }
 
 .closeModal:hover {
-  cursor: pointer;
+    cursor: pointer;
+    border: 2px solid var(--blue-darker);
+    border-radius: 5px;
+    background-color: var(--white);
+    transition: .2s;
 }
 
 .line1 {

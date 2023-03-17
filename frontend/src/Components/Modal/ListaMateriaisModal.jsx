@@ -207,12 +207,13 @@ const NovaPecaModal = () => {
                       </td>
                       <td>
                         <AiOutlineSave
-                          size="20"
-                          className="savebutton"
+                          size="35"
+                          className={styles.action}
                           onClick={handleSave}
                         />
                         <BsTrash
-                          size="20"
+                          size="35"
+                          className={styles.action}
                           style={{ marginLeft: '15px' }}
                           onClick={() => setNewMaterial(false)}
                         />
@@ -289,12 +290,13 @@ const NovaPecaModal = () => {
                           </td>
                           <td>
                             <AiOutlineSave
-                              size="20"
-                              className="savebutton"
+                              size="35"
+                              className={styles.action}
                               onClick={() => handleEdit(eachMaterial.id)}
                             />
                             <BsTrash
-                              size="20"
+                              size="35"
+                              className={styles.action}
                               style={{ marginLeft: '15px' }}
                               onClick={() => setEdit(null)}
                             />

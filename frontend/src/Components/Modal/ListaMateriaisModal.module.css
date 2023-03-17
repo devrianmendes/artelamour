@@ -41,10 +41,7 @@
   justify-content: space-between;
   padding: .5rem;
   box-sizing: content-box;
-}
-
-.closeModal:hover {
-  cursor: pointer;
+  border: 2px solid transparent;
 }
 
 .line1 {
@@ -129,7 +126,8 @@
   border: 2px solid transparent;
 }
 
-.action:hover {
+.action:hover,
+.closeModal:hover {
   cursor: pointer;
   border: 2px solid var(--blue-darker);
   border-radius: 5px;
