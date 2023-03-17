@@ -88,6 +88,7 @@ const NovaPecaModal = () => {
                   <Input
                     name="hrProd"
                     type="number"
+                    min="0"
                     style={{ border: '1px solid #000' }}
                     value={hrProd}
                     onChange={(e) => setHrProd(e.target.value)}
@@ -100,6 +101,7 @@ const NovaPecaModal = () => {
                   <Input
                     name="minProd"
                     type="number"
+                    min="0"
                     style={{ border: '1px solid #000' }}
                     value={minProd}
                     onChange={(e) => setMinProd(e.target.value)}
@@ -112,6 +114,7 @@ const NovaPecaModal = () => {
                   <Input
                     name="lucroDesejado"
                     type="number"
+                    min="0"
                     style={{ border: '1px solid #000' }}
                     value={lucro}
                     onChange={(e) => setLucro(e.target.value)}

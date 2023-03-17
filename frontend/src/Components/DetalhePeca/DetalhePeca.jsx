@@ -6,7 +6,6 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 import { CiEdit } from 'react-icons/ci';
 import { BsTrash } from 'react-icons/bs';
 import { AiOutlineSave } from 'react-icons/ai';
-import Loading from '../Loading/Loading';
 
 import PecaHeader from '../PecaHeader/PecaHeader';
 import Input from '../Form/Input';
@@ -23,7 +22,6 @@ const DetalhePeca = () => {
     deletePecaMaterial,
     updatePecaMateriais,
     updateMaterialPeca,
-    loading
   } = React.useContext(GlobalContext);
 
   const [arrayMaterials, setArrayMaterials] = React.useState([]);
@@ -201,6 +199,7 @@ const DetalhePeca = () => {
                       editinput="newMat"
                       name="qtdMatUsado"
                       type="number"
+                      min="0"
                       value={qtdMatUsado}
                       onChange={(e) => setQtdMatUsado(e.target.value)}
                     />
@@ -273,6 +272,7 @@ const DetalhePeca = () => {
                           editinput="newMat"
                           name="name"
                           type="number"
+                          min="0"
                           value={qtdMatUsado}
                           onChange={(e) => setQtdMatUsado(e.target.value)}
                         />

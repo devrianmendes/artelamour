@@ -165,6 +165,7 @@ const NovaPecaModal = () => {
                           editinput="newMat"
                           name="qtdCusto"
                           type="number"
+                          min="0"
                           value={qtdCusto}
                           onChange={(e) => setQtdCusto(e.target.value)}
                         />
@@ -248,6 +249,7 @@ const NovaPecaModal = () => {
                               editinput="newMat"
                               name="qtdCusto"
                               type="number"
+                              min="0"
                               value={qtdCusto}
                               onChange={(e) => setQtdCusto(e.target.value)}
                             />
