@@ -8,7 +8,10 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, deletePeca } = React.useContext(GlobalContext);
+  const { setSelected, deletePeca, uploadImg } = React.useContext(GlobalContext);
+  const [fileUrl, setFileUrl] = React.useState('');
+  const [file, setFile] = React.useState(null);
+  const [imageOptions, setImageOptions] = React.useState(false);
 
   const handleClick = () => {
     setSelected(data);
@@ -18,12 +21,63 @@ const Peca = ({ data }) => {
     await deletePeca(id, nome);
   };
 
+  const handleImage = () => {
+    setImageOptions(!imageOptions);
+  };
+
+  const handleFile = (e) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    const image = e.target.files[0];
+
+    if (!image) {
+      return;
+    }
+
+    if (image.type === 'image/jpg' || image.type === 'image/png') {
+      setFile(image);
+      setFileUrl(URL.createObjectURL(image));
+    }
+
+    const data = new FormData();
+    data.append('peca_id', id);
+    data.append('nome', nome);
+    data.append('desc', desc);
+    data.append('hrProd', hrProd);
+    data.append('minProd', minProd);
+    data.append('lucroDesejado', lucroDesejado);
+    data.append('file', image);
+
+    uploadImg(data);
+  };
+
   return (
-    <div className={styles.mainContainer} onClick={handleClick}>
-      <div className={styles.field}>
-        <label htmlFor="sendFile" className={styles.upload}>
-          <input type="file" id="sendFile" hidden />
-          <FcAddImage className={styles.uploadImg} />
+    <div
+      className={styles.mainContainer}
+      onClick={(e) => {
+        handleClick(e);
+      }}
+    >
+      <div className={styles.field} onClick={(e) => handleImage(e)}>
+        <label
+          htmlFor="sendFile"
+          className={styles.upload}
+          onClick={(e) => handleImage(e)}
+        >
+          <input
+            type="file"
+            id="sendFile"
+            accept="image/png, image/jpg"
+            onChange={(e) => handleFile(e)}
+            hidden
+          />
+          {fileUrl ? (
+            <img src={fileUrl} alt="Foto da peça" className={styles.preview} />
+          ) : (
+            <FcAddImage className={styles.uploadImg} />
+          )}
         </label>
       </div>
       <div className={styles.field}>

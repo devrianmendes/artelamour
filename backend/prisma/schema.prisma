@@ -120,6 +120,7 @@ model Peca{
   hrProd Int
   minProd Int
   lucroDesejado Int
+  banner String?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

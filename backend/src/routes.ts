@@ -1,4 +1,5 @@
 import Router from 'express';
+import multer from 'multer';
 
 import { CreateUserController } from './controllers/usuario/CreateUserController';
 import { AuthUserController } from './controllers/usuario/AuthUserController';
@@ -22,7 +23,10 @@ import { UpdatePecaMateriaisController } from './controllers/pecaMateriais/Updat
 import { isAuthenticated } from './middlewares/isAuthenticated'
 import { ListPecaController } from './controllers/peca/ListPecaController';
 
+import uploadConfig from './config/multer';
+
 const router = Router();
+const upload = multer(uploadConfig.upload("./tmp"));
 
 //ROTAS USER
 router.get('/user/details', isAuthenticated, new DetailUserController().handle);
@@ -40,7 +44,7 @@ router.get('/material/list', isAuthenticated, new ListMaterialController().handl
 //ROTAS PECA
 router.delete('/peca/delete', isAuthenticated, new DeletePecaController().handle);
 router.post('/peca/create', isAuthenticated, new CreatePecaController().handle);
-router.put('/peca/update', isAuthenticated, new UpdatePecaController().handle);
+router.put('/peca/update', isAuthenticated, upload.single('file'), new UpdatePecaController().handle);
 router.get('/peca/list', isAuthenticated, new ListPecaController().handle);
 
 //ROTAS PECAMATERIAL

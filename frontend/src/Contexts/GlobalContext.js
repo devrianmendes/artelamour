@@ -11,16 +11,17 @@ export const GlobalStorage = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = React.useState();
   const isAuthenticated = !!user;
-  
+
   //Verificadores
   const [loading, setLoading] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
   const [changed, setChanged] = React.useState(false);
   const [openPecaModal, setOpenPecaModal] = React.useState(false);
-  const [openListaMaterialModal, setOpenListaMaterialModal] =  React.useState(false);
+  const [openListaMaterialModal, setOpenListaMaterialModal] =
+    React.useState(false);
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
-  
+
   const [arrayPecas, setArrayPecas] = React.useState([]);
   const [allMaterial, setAllMaterial] = React.useState([]);
 
@@ -207,11 +208,11 @@ export const GlobalStorage = ({ children }) => {
         custo,
       });
 
-      toast.success(`${nome} registrado(a).`)
+      toast.success(`${nome} registrado(a).`);
       return res;
     } catch (err) {
       setLoading(false);
-      toast.success(`Erro ao registrar ${nome}.`)
+      toast.success(`Erro ao registrar ${nome}.`);
       console.log(`Erro ao registrar ${nome}`, err);
     } finally {
       setLoading(false);
@@ -233,7 +234,7 @@ export const GlobalStorage = ({ children }) => {
       return res;
     } catch (err) {
       setLoading(false);
-      toast.error(`Erro ao deletar ${matName}.`)
+      toast.error(`Erro ao deletar ${matName}.`);
       console.log(`Erro ao deletar ${matName}`, err);
     } finally {
       setLoading(false);
@@ -241,7 +242,14 @@ export const GlobalStorage = ({ children }) => {
   };
 
   //Função que edita um material
-  const updateMaterial = async ({id, nome, desc, qtdCusto, unMedCusto, custo}) => {
+  const updateMaterial = async ({
+    id,
+    nome,
+    desc,
+    qtdCusto,
+    unMedCusto,
+    custo,
+  }) => {
     try {
       setLoading(true);
       const res = await axios.put('http://localhost:7070/material/update', {
@@ -250,7 +258,7 @@ export const GlobalStorage = ({ children }) => {
         desc: desc,
         qtdCusto: qtdCusto,
         unMedCusto: unMedCusto,
-        custo: custo
+        custo: custo,
       });
       toast.success('Material atualizado.');
       return res;
@@ -261,83 +269,97 @@ export const GlobalStorage = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   //Função que carrega os materiais usados por uma peça
   const getPecaMaterial = async (id) => {
     try {
       const res = axios.get('http://localhost:7070/pecaMaterial/list', {
-        peca_id: id
-      })
+        peca_id: id,
+      });
 
       return res;
     } catch (err) {
-      console.log('Não foi possível carregar os materiais da peça.', err)
+      console.log('Não foi possível carregar os materiais da peça.', err);
     } finally {
-
     }
-  }
+  };
 
   //Função que adciona material na peça
-  const updatePecaMateriais = async ({qtdMatUsado, unMedidaUsado, peca_id, material_id}) => {
+  const updatePecaMateriais = async ({
+    qtdMatUsado,
+    unMedidaUsado,
+    peca_id,
+    material_id,
+  }) => {
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:7070/pecaMaterial/create', {
-        qtdMatUsado: qtdMatUsado,
-        unMedidaUsado: unMedidaUsado,
-        peca_id: peca_id,
-        material_id: material_id
-      });
+      const res = await axios.post(
+        'http://localhost:7070/pecaMaterial/create',
+        {
+          qtdMatUsado: qtdMatUsado,
+          unMedidaUsado: unMedidaUsado,
+          peca_id: peca_id,
+          material_id: material_id,
+        },
+      );
 
       setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
       setLoading(false);
-      toast.success('Erro ao atualizar a peça.')
-      console.log('Erro ao atualizar a peça', err)
+      toast.success('Erro ao atualizar a peça.');
+      console.log('Erro ao atualizar a peça', err);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   //Função que deleta o material da peça
   const deletePecaMaterial = async (id) => {
     try {
       setLoading(true);
-      const res = await axios.delete('http://localhost:7070/pecaMaterial/delete', {
+      const res = await axios.delete(
+        'http://localhost:7070/pecaMaterial/delete',
+        {
           data: {
-            id: id
-          }
-      })
+            id: id,
+          },
+        },
+      );
 
       setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
       setLoading(false);
-      toast.success('Erro ao atualizar a peça.')
-      console.log('Erro ao atualizar a peça', err)
+      toast.success('Erro ao atualizar a peça.');
+      console.log('Erro ao atualizar a peça', err);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const updateMaterialPeca = async ({id, qtdMatUsado, unMedidaUsado}) => {
+  const updateMaterialPeca = async ({ id, qtdMatUsado, unMedidaUsado }) => {
     try {
       const res = await axios.put('http://localhost:7070/pecaMaterial/update', {
         id: id,
         qtdMatUsado: qtdMatUsado,
-        unMedidaUsado: unMedidaUsado
-      })
+        unMedidaUsado: unMedidaUsado,
+      });
 
       return res;
     } catch (err) {
-      
+      console.log(err)
     } finally {
-
     }
-  }
+  };
+
+  const uploadImg = async (data) => {
+    const res = await axios.put('http://localhost:7070/peca/update', data);
+    return res;
+  };
 
   return (
     <GlobalContext.Provider
@@ -373,7 +395,8 @@ export const GlobalStorage = ({ children }) => {
         getPecaMaterial,
         updatePecaMateriais,
         deletePecaMaterial,
-        updateMaterialPeca
+        updateMaterialPeca,
+        uploadImg,
       }}
     >
       {children}

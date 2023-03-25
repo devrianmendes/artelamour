@@ -7,10 +7,12 @@ interface UpdatePeca{
   hrProd: number,
   minProd: number,
   lucroDesejado: number
+  banner: string
 }
 
 class UpdatePecaService{
-  async execute({nome, desc, hrProd, minProd, lucroDesejado, peca_id}: UpdatePeca) {
+  async execute({nome, desc, hrProd, minProd, lucroDesejado, peca_id, banner}: UpdatePeca) {
+        
     const updatePeca = await prismaClient.peca.update({
       where: {
         id: peca_id
@@ -19,8 +21,9 @@ class UpdatePecaService{
         nome,
         desc,
         hrProd,
+        banner,
         minProd,
-        lucroDesejado
+        lucroDesejado,
       }
     })
     return updatePeca;
