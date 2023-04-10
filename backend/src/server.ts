@@ -8,6 +8,9 @@ server.use(express.json())
 server.use(cors());
 server.use(router);
 
+// console.log(__dirname + '/../tmp')
+server.use('/images', express.static(__dirname + '/../tmp'));
+
 const port = 7070;
 
 server.listen(7070, () => {

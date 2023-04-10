@@ -35,7 +35,7 @@ const Pecas = () => {
 
       <div>
         {arrayPecas.map((eachData, index) => (
-          <Peca data={eachData} key={index} />
+          <Peca data={eachData} key={index}/>
         ))}
       </div>
     </div>

@@ -23,7 +23,6 @@ export const GlobalStorage = ({ children }) => {
   const isSelected = !!selected;
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
-  const [allMaterial, setAllMaterial] = React.useState([]);
 
   //LOGIN E AUTH
   const signUp = async (nome, apelido, email, passw) => {
@@ -358,45 +357,46 @@ export const GlobalStorage = ({ children }) => {
 
   const uploadImg = async (data) => {
     const res = await axios.put('http://localhost:7070/peca/update', data);
+    setChanged(true)
     return res;
   };
 
   return (
     <GlobalContext.Provider
       value={{
+        isSelected,
+        isAuthenticated,
         user,
         loading,
-        isAuthenticated,
-        setLoading,
+        selected,
+        changed,
+        openPecaModal,
+        openListaMaterialModal,
         signIn,
         signUp,
         signOut,
+        arrayPecas,
+        editMat,
+        uploadImg,
+        setLoading,
         setSelected,
-        selected,
-        isSelected,
-        changed,
         setChanged,
-        openPecaModal,
         setOpenPecaModal,
-        openListaMaterialModal,
         setOpenListaMaterialModal,
-        createPeca,
+        setEditMat,
+        setArrayPecas,
         getPeca,
-        deletePeca,
         getMaterials,
         getMaterialList,
+        getPecaMaterial,
+        createPeca,
+        deletePeca,
         createMaterials,
         deleteMaterial,
         updateMaterial,
-        setArrayPecas,
-        arrayPecas,
-        editMat,
-        setEditMat,
-        getPecaMaterial,
         updatePecaMateriais,
         deletePecaMaterial,
         updateMaterialPeca,
-        uploadImg,
       }}
     >
       {children}

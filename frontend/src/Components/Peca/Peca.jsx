@@ -9,9 +9,6 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
   const { setSelected, deletePeca, uploadImg } = React.useContext(GlobalContext);
-  const [fileUrl, setFileUrl] = React.useState('');
-  const [file, setFile] = React.useState(null);
-  const [imageOptions, setImageOptions] = React.useState(false);
 
   const handleClick = () => {
     setSelected(data);
@@ -19,10 +16,6 @@ const Peca = ({ data }) => {
 
   const handleDelete = async () => {
     await deletePeca(id, nome);
-  };
-
-  const handleImage = () => {
-    setImageOptions(!imageOptions);
   };
 
   const handleFile = (e) => {
@@ -36,21 +29,16 @@ const Peca = ({ data }) => {
       return;
     }
 
-    if (image.type === 'image/jpg' || image.type === 'image/png') {
-      setFile(image);
-      setFileUrl(URL.createObjectURL(image));
-    }
+    const newData = new FormData();
+    newData.append('peca_id', id);
+    newData.append('nome', nome);
+    newData.append('desc', desc);
+    newData.append('hrProd', hrProd);
+    newData.append('minProd', minProd);
+    newData.append('lucroDesejado', lucroDesejado);
+    newData.append('file', image);
 
-    const data = new FormData();
-    data.append('peca_id', id);
-    data.append('nome', nome);
-    data.append('desc', desc);
-    data.append('hrProd', hrProd);
-    data.append('minProd', minProd);
-    data.append('lucroDesejado', lucroDesejado);
-    data.append('file', image);
-
-    uploadImg(data);
+    uploadImg(newData);
   };
 
   return (
@@ -60,23 +48,13 @@ const Peca = ({ data }) => {
         handleClick(e);
       }}
     >
-      <div className={styles.field} onClick={(e) => handleImage(e)}>
-        <label
-          htmlFor="sendFile"
-          className={styles.upload}
-          onClick={(e) => handleImage(e)}
-        >
-          <input
-            type="file"
-            id="sendFile"
-            accept="image/png, image/jpg"
-            onChange={(e) => handleFile(e)}
-            hidden
-          />
-          {fileUrl ? (
-            <img src={fileUrl} alt="Foto da peça" className={styles.preview} />
-          ) : (
+      <div className={styles.field}>
+        <label className={styles.upload}>
+          <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleFile(e)} hidden/>
+          {typeof(data.banner) !== 'string' && data.banner === '' ? (
             <FcAddImage className={styles.uploadImg} />
+            ) : (
+            <img src={`http://localhost:7070/images/${data.banner}`} alt="Foto da peça" className={styles.preview} />
           )}
         </label>
       </div>
