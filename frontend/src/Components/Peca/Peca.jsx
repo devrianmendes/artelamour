@@ -8,8 +8,10 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, deletePeca, uploadImg } = React.useContext(GlobalContext);
-
+  const { setSelected, deletePeca, uploadImg } =
+    React.useContext(GlobalContext);
+  const [location, setLocation] = React.useState([]);
+  const [opened, setOpened] = React.useState(false);
   const handleClick = () => {
     setSelected(data);
   };
@@ -38,26 +40,43 @@ const Peca = ({ data }) => {
     newData.append('lucroDesejado', lucroDesejado);
     newData.append('file', image);
 
+    setOpened(false)
+
     uploadImg(newData);
+  };
+
+  const handleOptions = (e) => {
+    setOpened(true);
+    setLocation([e.clientX, e.clientY]);
   };
 
   return (
     <div
-      className={styles.mainContainer}
-      onClick={(e) => {
-        handleClick(e);
-      }}
+    className={styles.mainContainer}
+    onClick={(e) => {
+      handleClick(e);
+    }}
     >
-      <div className={styles.field}>
-        <label className={styles.upload}>
-          <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleFile(e)} hidden/>
-          {typeof(data.banner) !== 'string' && data.banner === '' ? (
+      <div className={styles.field} onClick={(e) => {handleOptions(e)}}>
+        {data.banner === null ? (
             <FcAddImage className={styles.uploadImg} />
             ) : (
             <img src={`http://localhost:7070/images/${data.banner}`} alt="Foto da peça" className={styles.preview} />
           )}
-        </label>
       </div>
+      {opened && (
+        <div style={{position: 'fixed', top: `${location[1]}px`, left: `${location[0]}px`}}>
+          <ul className={styles.optionsDropdown}>
+            <li className={styles.optionsDropdownItem}>
+              <label>
+                Enviar
+                <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleFile(e)} hidden/>
+              </label>
+            </li>
+            <li className={styles.optionsDropdownItem}>Apagar imagem</li>
+          </ul>
+        </div>
+      )}
       <div className={styles.field}>
         <h5>Nome</h5>
         <p>{nome}</p>

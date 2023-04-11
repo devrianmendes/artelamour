@@ -28,7 +28,7 @@
 }
 
 .field:nth-child(1) {
-  padding: 1rem;
+  padding: 1rem !important;
   border-radius: 5px;
   border: 2px solid transparent;
   transition: .3s;
@@ -45,6 +45,35 @@
 .field:nth-child(2) {
   flex-direction: column;
   justify-content: start;
+}
+
+.optionsDropdown {
+  width: 200px;
+  background-color: #FFF;
+  border: 2px solid var(--blue-darker);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.optionsDropdownItem {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.optionsDropdownItem label{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.optionsDropdownItem:hover {
+  background-color: var(--blue-lighter);
+  cursor: pointer;
 }
 
 .upload{

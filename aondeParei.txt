@@ -1,8 +1,3 @@
-Finalizei o envio da foto da peça corretamente para o banco de dados
-As fotos estão sendo exibidas corretamente de acordo com o id da peça
-agora preciso:
-
+Finalizei o dropdown de envio de foto e esta enviado e substituindo a foto, falta fazer a função de apagar a foto
   criar um dropdown pra fazer as funcionalidades abaixo
   se enviar uma nova foto, apagar a anterior (ou melhor, uma caixa com opção pra enviar, alterar ou excluir)
-  
-  exibir a foto enviada diretamente do banco de dados, sem preview. necessário fazer uma checagem se já existe foto no banco da dados, caso exista exiba ela senão o icon de upload. mas vai precisar apagar a foto anterior primeiro(fazer a verificação no envio)
