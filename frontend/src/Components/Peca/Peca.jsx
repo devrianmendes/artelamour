@@ -12,15 +12,16 @@ const Peca = ({ data }) => {
     React.useContext(GlobalContext);
   const [location, setLocation] = React.useState([]);
   const [opened, setOpened] = React.useState(false);
+
   const handleClick = () => {
     setSelected(data);
   };
 
-  const handleDelete = async () => {
+  const handleDeletePeca = async () => {
     await deletePeca(id, nome);
   };
 
-  const handleFile = (e) => {
+  const handleSendFile = (e) => {
     if (!e.target.files) {
       return;
     }
@@ -40,15 +41,37 @@ const Peca = ({ data }) => {
     newData.append('lucroDesejado', lucroDesejado);
     newData.append('file', image);
 
-    setOpened(false)
+    uploadImg(newData);
+    setOpened(false);
+  };
+
+  const handleDeleteFile = (e) => {
+
+    const newData = new FormData();
+    newData.append('peca_id', id);
+    newData.append('nome', nome);
+    newData.append('desc', desc);
+    newData.append('hrProd', hrProd);
+    newData.append('minProd', minProd);
+    newData.append('lucroDesejado', lucroDesejado);
+    newData.append('file', null);
 
     uploadImg(newData);
-  };
+
+    setOpened(false);
+  }
 
   const handleOptions = (e) => {
     setOpened(true);
     setLocation([e.clientX, e.clientY]);
   };
+
+  
+  const handleMenu = (e) => {
+    console.log(e.target)
+  }
+
+  document.addEventListener('click', (e) => {handleMenu(e)})
 
   return (
     <div
@@ -69,11 +92,11 @@ const Peca = ({ data }) => {
           <ul className={styles.optionsDropdown}>
             <li className={styles.optionsDropdownItem}>
               <label>
-                Enviar
-                <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleFile(e)} hidden/>
+                Enviar imagem
+                <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleSendFile(e)} hidden/>
               </label>
             </li>
-            <li className={styles.optionsDropdownItem}>Apagar imagem</li>
+            <li className={styles.optionsDropdownItem} onClick={handleDeleteFile}>Apagar imagem</li>
           </ul>
         </div>
       )}
@@ -97,7 +120,7 @@ const Peca = ({ data }) => {
         <h5>Ações</h5>
         <div>
           <CiEdit size="35" className={styles.action} />
-          <BsTrash size="35" onClick={handleDelete} className={styles.action} />
+          <BsTrash size="35" onClick={handleDeletePeca} className={styles.action} />
         </div>
       </div>
     </div>

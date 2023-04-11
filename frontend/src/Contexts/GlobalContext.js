@@ -357,7 +357,7 @@ export const GlobalStorage = ({ children }) => {
 
   const uploadImg = async (data) => {
     const res = await axios.put('http://localhost:7070/peca/update', data);
-    setChanged(true)
+    setChanged(true);
     return res;
   };
 
