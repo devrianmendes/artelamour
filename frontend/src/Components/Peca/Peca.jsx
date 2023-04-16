@@ -22,6 +22,7 @@ const Peca = ({ data }) => {
   };
 
   const handleSendFile = (e) => {
+
     if (!e.target.files) {
       return;
     }
@@ -43,6 +44,7 @@ const Peca = ({ data }) => {
 
     uploadImg(newData);
     setOpened(false);
+
   };
 
   const handleDeleteFile = (e) => {
@@ -57,46 +59,76 @@ const Peca = ({ data }) => {
     newData.append('file', null);
 
     uploadImg(newData);
-
     setOpened(false);
-  }
+  };
 
   const handleOptions = (e) => {
     setOpened(true);
     setLocation([e.clientX, e.clientY]);
   };
 
-  
   const handleMenu = (e) => {
-    console.log(e.target)
-  }
+    if (opened) {
+      if(!e.target.parentElement.classList.value.includes('closeDrop')) {
+        setOpened(false);
+      }
+    }
+  };
 
-  document.addEventListener('click', (e) => {handleMenu(e)})
+  document.addEventListener('click', (e) => {
+    handleMenu(e);
+  });
 
   return (
     <div
-    className={styles.mainContainer}
-    onClick={(e) => {
-      handleClick(e);
-    }}
+      className={styles.mainContainer}
+      onClick={(e) => {
+        handleClick(e);
+      }}
     >
-      <div className={styles.field} onClick={(e) => {handleOptions(e)}}>
+      <div
+        className={`closeDrop ${styles.field}`}
+        onClick={(e) => {
+          handleOptions(e);
+        }}
+      >
         {data.banner === null ? (
-            <FcAddImage className={styles.uploadImg} />
-            ) : (
-            <img src={`http://localhost:7070/images/${data.banner}`} alt="Foto da peça" className={styles.preview} />
-          )}
+          <FcAddImage className={`closeDrop ${styles.uploadImg}`} />
+        ) : (
+          <img
+            src={`http://localhost:7070/images/${data.banner}`}
+            alt="Foto da peça"
+            className={styles.preview}
+          />
+        )}
       </div>
       {opened && (
-        <div style={{position: 'fixed', top: `${location[1]}px`, left: `${location[0]}px`}}>
-          <ul className={styles.optionsDropdown}>
-            <li className={styles.optionsDropdownItem}>
-              <label>
+        <div
+          style={{
+            position: 'fixed',
+            top: `${location[1]}px`,
+            left: `${location[0]}px`,
+          }}
+        >
+          <ul className={`closeDrop ${styles.optionsDropdown}`}>
+            <li className={`closeDrop ${styles.optionsDropdownItem}`}>
+              <label id="closeDrop" className="closeDrop">
                 Enviar imagem
-                <input type="file" id="sendFile" accept="image/png, image/jpg" onChange={(e) => handleSendFile(e)} hidden/>
+                <input
+                  type="file"
+                  className="closeDrop"
+                  accept="image/png, image/jpg"
+                  onChange={(e) => handleSendFile(e)}
+                  hidden
+                />
               </label>
             </li>
-            <li className={styles.optionsDropdownItem} onClick={handleDeleteFile}>Apagar imagem</li>
+            <li
+              className={`closeDrop ${styles.optionsDropdownItem}`}
+              onClick={handleDeleteFile}
+            >
+              Apagar imagem
+            </li>
           </ul>
         </div>
       )}
@@ -120,7 +152,11 @@ const Peca = ({ data }) => {
         <h5>Ações</h5>
         <div>
           <CiEdit size="35" className={styles.action} />
-          <BsTrash size="35" onClick={handleDeletePeca} className={styles.action} />
+          <BsTrash
+            size="35"
+            onClick={handleDeletePeca}
+            className={styles.action}
+          />
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
-Finalizei o dropdown de envio de foto e esta enviado e substituindo a foto, falta fazer a função de apagar a foto
+Finalizei a função de enviar e deletar as fotos, agora preciso separar em um novo service a função de deletar a foto
+Finalizei também o fechamento do menu de opções para tratar as imagens, falta só apagar algumas classes de closeDrop
+
   criar um dropdown pra fazer as funcionalidades abaixo
   se enviar uma nova foto, apagar a anterior (ou melhor, uma caixa com opção pra enviar, alterar ou excluir)
