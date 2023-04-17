@@ -110,13 +110,12 @@ const Peca = ({ data }) => {
             left: `${location[0]}px`,
           }}
         >
-          <ul className={`closeDrop ${styles.optionsDropdown}`}>
+          <ul className={styles.optionsDropdown}>
             <li className={`closeDrop ${styles.optionsDropdownItem}`}>
-              <label id="closeDrop" className="closeDrop">
+              <label className="closeDrop">
                 Enviar imagem
                 <input
                   type="file"
-                  className="closeDrop"
                   accept="image/png, image/jpg"
                   onChange={(e) => handleSendFile(e)}
                   hidden
@@ -124,7 +123,7 @@ const Peca = ({ data }) => {
               </label>
             </li>
             <li
-              className={`closeDrop ${styles.optionsDropdownItem}`}
+              className={styles.optionsDropdownItem}
               onClick={handleDeleteFile}
             >
               Apagar imagem

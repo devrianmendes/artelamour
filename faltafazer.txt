@@ -1,6 +1,4 @@
 ----------- FALTA FAZER
-deletar a foto usando o dropdown (apagar do banco de dados)
-colocar os modais fixos
 colocar tudo pra carregar no carregamento da página
 o custo por peça não tá atualizando
 arrumar os loads
@@ -9,6 +7,8 @@ botao de editar peça sem funcionalidade
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
 
 ----------- FEITO
+colocar os modais fixos(nem lembro de ter feito)
+deletar a foto usando o dropdown (apagar do banco de dados)
 feito dropdown ao clicar na foto
 colocar upload de foto na peça
 atualizar a lista de materiais na detalhepeça ao incluir ou excluir um material
