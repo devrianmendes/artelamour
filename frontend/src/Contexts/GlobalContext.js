@@ -95,7 +95,7 @@ export const GlobalStorage = ({ children }) => {
   //PEÇAS
   const createPeca = async (data) => {
     try {
-      setLoading(true);
+      setLoading([true, "Criando nova peça..."]);
       const response = await axios.post('http://localhost:7070/peca/create', {
         nome: data.nome,
         desc: data.desc,
@@ -119,7 +119,6 @@ export const GlobalStorage = ({ children }) => {
 
   const deletePeca = async (id, nome) => {
     try {
-      setLoading(true);
       await axios.delete('http://localhost:7070/peca/delete', {
         data: {
           peca_id: id,
@@ -128,11 +127,8 @@ export const GlobalStorage = ({ children }) => {
       setChanged(true);
       toast.success(`${nome} deletada.`);
     } catch (err) {
-      setLoading(false);
       toast.error(`Erro ao deletar ${nome}.`);
       console.log('Erro ao deletar a peça', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -141,7 +137,7 @@ export const GlobalStorage = ({ children }) => {
     // Ela tá sendo executada duas vezes quando chamada, não sei o porque
     // Antes de usar o useCallback, estava sendo chamada mais de duas vezes (quando passado a função como dependencia no useEffect que chama ela)
     try {
-      setLoading(true);
+      setLoading([true, "Carregando peças..."]);
       const response = await axios.get('http://localhost:7070/peca/list');
       return response;
     } catch (err) {
@@ -157,7 +153,7 @@ export const GlobalStorage = ({ children }) => {
   const getMaterials = React.useCallback(async (id) => {
     //Estava sendo chamada entre 50 e 80 vezes antes de usar o callback
     try {
-      setLoading(true);
+      setLoading([true, "Carregando materiais..."]);
       const response = await axios.get(
         'http://localhost:7070/pecaMaterial/list',
         {
@@ -178,14 +174,10 @@ export const GlobalStorage = ({ children }) => {
   //Função que carrega todos os materiais registrados
   const getMaterialList = React.useCallback(async () => {
     try {
-      setLoading(true);
       const res = await axios.get('http://localhost:7070/material/list');
       return res;
     } catch (err) {
-      setLoading(false);
       console.log('Erro ao carregar a lista de materiais', err);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -198,7 +190,7 @@ export const GlobalStorage = ({ children }) => {
     custo,
   }) => {
     try {
-      setLoading(true);
+      setLoading([true, "Salvando material..."]);
       const res = await axios.post('http://localhost:7070/material/create', {
         nome,
         desc,
@@ -222,7 +214,6 @@ export const GlobalStorage = ({ children }) => {
   const deleteMaterial = async (id) => {
     let matName = '';
     try {
-      setLoading(true);
       const res = await axios.delete('http://localhost:7070/material/delete', {
         data: {
           material_id: id,
@@ -232,11 +223,8 @@ export const GlobalStorage = ({ children }) => {
       toast.success(`${matName} deletado(a).`);
       return res;
     } catch (err) {
-      setLoading(false);
       toast.error(`Erro ao deletar ${matName}.`);
       console.log(`Erro ao deletar ${matName}`, err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -250,7 +238,6 @@ export const GlobalStorage = ({ children }) => {
     custo,
   }) => {
     try {
-      setLoading(true);
       const res = await axios.put('http://localhost:7070/material/update', {
         material_id: id,
         nome: nome,
@@ -262,11 +249,8 @@ export const GlobalStorage = ({ children }) => {
       toast.success('Material atualizado.');
       return res;
     } catch (err) {
-      setLoading(false);
       toast.success('Erro ao atualizar material.');
       console.log('Erro ao editar o material.', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -292,7 +276,6 @@ export const GlobalStorage = ({ children }) => {
     material_id,
   }) => {
     try {
-      setLoading(true);
       const res = await axios.post(
         'http://localhost:7070/pecaMaterial/create',
         {
@@ -302,23 +285,17 @@ export const GlobalStorage = ({ children }) => {
           material_id: material_id,
         },
       );
-
-      setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
-      setLoading(false);
       toast.success('Erro ao atualizar a peça.');
       console.log('Erro ao atualizar a peça', err);
-    } finally {
-      setLoading(false);
     }
   };
 
   //Função que deleta o material da peça
   const deletePecaMaterial = async (id) => {
     try {
-      setLoading(true);
       const res = await axios.delete(
         'http://localhost:7070/pecaMaterial/delete',
         {
@@ -328,15 +305,11 @@ export const GlobalStorage = ({ children }) => {
         },
       );
 
-      setLoading(false);
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
-      setLoading(false);
       toast.success('Erro ao atualizar a peça.');
       console.log('Erro ao atualizar a peça', err);
-    } finally {
-      setLoading(false);
     }
   };
 

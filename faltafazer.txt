@@ -1,12 +1,12 @@
 ----------- FALTA FAZER
-colocar tudo pra carregar no carregamento da página
 o custo por peça não tá atualizando
-arrumar os loads
 colocar o valor de venda no componente peça
 botao de editar peça sem funcionalidade
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
 
 ----------- FEITO
+colocar tudo pra carregar no carregamento da página
+arrumar os loads
 colocar os modais fixos(nem lembro de ter feito)
 deletar a foto usando o dropdown (apagar do banco de dados)
 feito dropdown ao clicar na foto
