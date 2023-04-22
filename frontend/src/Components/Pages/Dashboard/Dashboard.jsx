@@ -7,6 +7,7 @@ import Pecas from '../../Pecas/Pecas';
 import Loading from '../../Loading/Loading';
 
 import NovaPecaModal from '../../Modal/NovaPecaModal';
+import UpdatePecaModal from '../../Modal/UpdatePecaModal';
 import ListaMateriaisModal from '../../Modal/ListaMateriaisModal';
 
 import { GlobalContext } from '../../../Contexts/GlobalContext';
@@ -18,6 +19,7 @@ const Dashboard = () => {
     <main className={styles.dashboard}>
       {loading && <Loading />}
       <NovaPecaModal />
+      <UpdatePecaModal />
       <ListaMateriaisModal />
       <Header />
       <section className={styles.sides}>

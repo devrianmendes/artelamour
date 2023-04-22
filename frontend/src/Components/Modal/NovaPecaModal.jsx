@@ -121,7 +121,7 @@ const NovaPecaModal = () => {
                   />
                 </label>
               </div>
-              <Button type="submit" loading={false} text="Cadastrar Peça" />
+              <Button type="submit" loading={false} text="Cadastrar peça" />
             </form>
           </main>
         </div>

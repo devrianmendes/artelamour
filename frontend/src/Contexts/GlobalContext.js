@@ -17,6 +17,7 @@ export const GlobalStorage = ({ children }) => {
   const [selected, setSelected] = React.useState(false);
   const [changed, setChanged] = React.useState(false);
   const [openPecaModal, setOpenPecaModal] = React.useState(false);
+  const [updatePecaModal, setUpdatePecaModal] = React.useState(false);
   const [openListaMaterialModal, setOpenListaMaterialModal] =
     React.useState(false);
   const [editMat, setEditMat] = React.useState(false);
@@ -116,6 +117,28 @@ export const GlobalStorage = ({ children }) => {
       setLoading(false);
     }
   };
+
+  const updatePeca = async (data) => {
+    try {
+      setLoading(true, "Atualizando informações...");
+      const response = await axios.put('http://localhost:7070/peca/update', {
+        peca_id: data.id,
+        nome: data.nome,
+        desc: data.desc,
+        hrProd: data.hrProd,
+        minProd: data.minProd,
+        lucroDesejado: data.lucroDesejado,
+      })
+      
+      
+    } catch (err) {
+      setLoading(false);
+      toast.error(`Erro ao atualizar ${data.nome}.`);
+      console.log('Erro ao atualizar a peça', err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const deletePeca = async (id, nome) => {
     try {
@@ -334,6 +357,7 @@ export const GlobalStorage = ({ children }) => {
     return res;
   };
 
+  
   return (
     <GlobalContext.Provider
       value={{
@@ -344,6 +368,7 @@ export const GlobalStorage = ({ children }) => {
         selected,
         changed,
         openPecaModal,
+        updatePecaModal,
         openListaMaterialModal,
         signIn,
         signUp,
@@ -355,6 +380,7 @@ export const GlobalStorage = ({ children }) => {
         setSelected,
         setChanged,
         setOpenPecaModal,
+        setUpdatePecaModal,
         setOpenListaMaterialModal,
         setEditMat,
         setArrayPecas,
@@ -366,6 +392,7 @@ export const GlobalStorage = ({ children }) => {
         deletePeca,
         createMaterials,
         deleteMaterial,
+        updatePeca,
         updateMaterial,
         updatePecaMateriais,
         deletePecaMaterial,

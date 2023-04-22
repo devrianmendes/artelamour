@@ -8,7 +8,7 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, deletePeca, uploadImg } =
+  const { setSelected, deletePeca, uploadImg, setUpdatePecaModal } =
     React.useContext(GlobalContext);
   const [location, setLocation] = React.useState([]);
   const [opened, setOpened] = React.useState(false);
@@ -16,6 +16,10 @@ const Peca = ({ data }) => {
   const handleClick = () => {
     setSelected(data);
   };
+
+  const handleEdit = () => {
+    setUpdatePecaModal(true);
+  }
 
   const handleDeletePeca = async () => {
     await deletePeca(id, nome);
@@ -47,7 +51,7 @@ const Peca = ({ data }) => {
 
   };
 
-  const handleDeleteFile = (e) => {
+  const handleDeleteFile = () => {
 
     const newData = new FormData();
     newData.append('peca_id', id);
@@ -135,7 +139,6 @@ const Peca = ({ data }) => {
         <h5>Nome</h5>
         <p>{nome}</p>
         <p>{desc}</p>
-        <p>Valor de venda</p>
       </div>
       <div className={styles.field}>
         <h5>Tempo de produção</h5>
@@ -150,7 +153,7 @@ const Peca = ({ data }) => {
       <div className={styles.field}>
         <h5>Ações</h5>
         <div>
-          <CiEdit size="35" className={styles.action} />
+          <CiEdit size="35" onClick={handleEdit} className={styles.action} />
           <BsTrash
             size="35"
             onClick={handleDeletePeca}

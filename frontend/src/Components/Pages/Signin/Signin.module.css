@@ -4,14 +4,6 @@
   flex-direction: column;
 }
 
-.atelie {
-  font-family: Parisienne;
-}
-
-.nome {
-  font-family: "Libre Bodoni";
-}
-
 .main {
   min-height: 100vh;
   display: flex;

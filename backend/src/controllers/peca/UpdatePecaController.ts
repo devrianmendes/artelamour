@@ -17,6 +17,7 @@ class UpdatePecaController{
     minProd = Number(minProd);
     lucroDesejado = Number(lucroDesejado);
 
+
     const updatePeca = new UpdatePecaService();
 
     if(!req.file) {

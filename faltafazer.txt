@@ -1,10 +1,12 @@
 ----------- FALTA FAZER
+verificar o lançe do hrprod, minprod e lucro serem string ou number, pra tirar a conversão do controller do update peça
 o custo por peça não tá atualizando
-colocar o valor de venda no componente peça
-botao de editar peça sem funcionalidade
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
 
 ----------- FEITO
+corrigido fonte do textarea
+botao de editar peça sem funcionalidade (criado outro modal pra update de peça)
+colocar o valor de venda no componente peça (removi esse campo)
 colocar tudo pra carregar no carregamento da página
 arrumar os loads
 colocar os modais fixos(nem lembro de ter feito)
