@@ -19,12 +19,14 @@ const Input = ({ ...rest }) => {
 
   //Aqui irá renderizar o olho apenas se tiver algo escrito na senha
   React.useEffect(() => {
-    const { length } = value;
-    if (name === 'passw' && length >= 1) {
-      setStyle({ opacity: 1, transition: '.3s' });
-    }
-    if (length < 1) {
-      setStyle({ opacity: 0, transition: '.3' });
+    if(name === 'passw') {
+      const { length } = value;
+      if (name === 'passw' && length >= 1) {
+        setStyle({ opacity: 1, transition: '.3s' });
+      }
+      if (length < 1) {
+        setStyle({ opacity: 0, transition: '.3' });
+      }
     }
   }, [value, name]);
 

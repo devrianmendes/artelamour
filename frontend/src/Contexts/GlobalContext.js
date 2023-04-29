@@ -128,9 +128,7 @@ export const GlobalStorage = ({ children }) => {
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
-      })
-      
-      
+      })      
     } catch (err) {
       setLoading(false);
       toast.error(`Erro ao atualizar ${data.nome}.`);
@@ -242,13 +240,17 @@ export const GlobalStorage = ({ children }) => {
           material_id: id,
         },
       });
+
       matName = res.data.nome;
       toast.success(`${matName} deletado(a).`);
       return res;
     } catch (err) {
-      toast.error(`Erro ao deletar ${matName}.`);
-      console.log(`Erro ao deletar ${matName}`, err);
-    }
+      if(err.response.data.id === 1) {
+        toast.error(`${err.response.data.error}`);
+      } else {
+        toast.error("Erro ao deletar material");
+      }
+    }    
   };
 
   //Função que edita um material

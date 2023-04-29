@@ -88,7 +88,6 @@
 /* O tamanho não ta funcionando */
 .tableTr {
   text-align: left;
-   margin: 5px 0px;
 }
 
 .tableTh {
@@ -138,3 +137,4 @@
   background-color: var(--white);
   transition: .2s;
 }
+

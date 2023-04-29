@@ -20,7 +20,8 @@ import { ListPecaMateriaisController } from './controllers/pecaMateriais/ListPec
 import { DeletePecaMateriaisController } from './controllers/pecaMateriais/DeletePecaMateriaisController';
 import { UpdatePecaMateriaisController } from './controllers/pecaMateriais/UpdatePecaMateriaisController';
 
-import { isAuthenticated } from './middlewares/isAuthenticated'
+import { isAuthenticated } from './middlewares/isAuthenticated';
+import { checkMaterial } from './middlewares/checkMaterial';
 import { ListPecaController } from './controllers/peca/ListPecaController';
 
 import uploadConfig from './config/multer';
@@ -35,7 +36,7 @@ router.post('/user/auth', new AuthUserController().handle);
 
 
 //ROTAS MATERIAL
-router.delete('/material/delete', isAuthenticated, new DeleteMaterialController().handle);
+router.delete('/material/delete', isAuthenticated, checkMaterial, new DeleteMaterialController().handle);
 router.post('/material/create', isAuthenticated, new CreateMaterialController().handle);
 router.put('/material/update', isAuthenticated, new UpdateMaterialController().handle);
 router.get('/material/list', isAuthenticated, new ListMaterialController().handle);

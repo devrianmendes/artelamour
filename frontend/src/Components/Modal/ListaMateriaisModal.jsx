@@ -14,7 +14,7 @@ import { AiOutlineSave } from 'react-icons/ai';
 const NovaPecaModal = () => {
   const [materialData, setMaterialData] = React.useState([]);
   const [newMaterial, setNewMaterial] = React.useState(false);
-  const [edit, setEdit] = React.useState(false);
+  const [editMaterial, setEditMaterial] = React.useState(false);
 
   const [nome, setNome] = React.useState('');
   const [desc, setDesc] = React.useState('');
@@ -48,7 +48,7 @@ const NovaPecaModal = () => {
     setNewMaterial(true);
   };
 
-  //Função que registra um novo material
+  //Função que salva um novo material
   const handleSave = async () => {
     let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
@@ -120,10 +120,20 @@ const NovaPecaModal = () => {
     setUnMedCusto('');
     setCusto('');
 
-    setEdit(null);
+    setEditMaterial(false);
 
     getList();
   };
+
+  React.useEffect(() => {
+    if (editMaterial) {
+      setNome(editMaterial.nome);
+      setDesc(editMaterial.desc);
+      setQtdCusto(editMaterial.qtd);
+      setUnMedCusto(editMaterial.med);
+      setCusto(editMaterial.custo);
+    }
+  }, [editMaterial]);
 
   //Deleta um material da lista
   const handleDelete = async (id) => {
@@ -133,7 +143,9 @@ const NovaPecaModal = () => {
 
   //Fecha o modal ao clicar no X
   const closeModal = () => {
+    setEditMaterial(false);
     setOpenListaMaterialModal(false);
+    setNewMaterial(false);
   };
 
   return (
@@ -251,7 +263,7 @@ const NovaPecaModal = () => {
                   ) : null}
                   {materialData.map((eachMaterial, index) => (
                     <tr key={index} className={styles.tableTr}>
-                      {eachMaterial.id === edit ? (
+                      {eachMaterial.id === editMaterial.id ? (
                         <>
                           <td>
                             <Input
@@ -328,7 +340,7 @@ const NovaPecaModal = () => {
                               size="35"
                               className={styles.action}
                               style={{ marginLeft: '15px' }}
-                              onClick={() => setEdit(null)}
+                              onClick={() => setEditMaterial(false)}
                             />
                           </td>
                         </>
@@ -348,7 +360,16 @@ const NovaPecaModal = () => {
                             <CiEdit
                               size="35"
                               className={styles.action}
-                              onClick={() => setEdit(eachMaterial.id)}
+                              onClick={() =>
+                                setEditMaterial({
+                                  id: eachMaterial.id,
+                                  nome: eachMaterial.nome,
+                                  desc: eachMaterial.desc,
+                                  qtd: eachMaterial.quantidadeCusto,
+                                  med: eachMaterial.unidadeMedidaCusto,
+                                  custo: eachMaterial.custo,
+                                })
+                              }
                             />
                             <BsTrash
                               size="35"

@@ -55,9 +55,9 @@ const UpdatePecaModal = () => {
       id: selected.id,
       nome: nome,
       desc: desc,
-      hrProd: Number(hrProd),
-      minProd: Number(minProd),
-      lucroDesejado: Number(lucro),
+      hrProd: hrProd,
+      minProd: minProd,
+      lucroDesejado: lucro,
     };
 
     await updatePeca(data);
@@ -77,7 +77,7 @@ const UpdatePecaModal = () => {
     >
       <div className={styles.container}>
         <header className={styles.modalHeader}>
-          <h3>Dados da peça AQUI É UPDATE CARALHO</h3>
+          <h3>Dados da peça</h3>
           <div className={styles.closeModal} onClick={closeModal}>
             <div className={styles.line1}></div>
             <div className={styles.line2}></div>
@@ -131,6 +131,7 @@ const UpdatePecaModal = () => {
                   name="minProd"
                   type="number"
                   min="0"
+                  max="59"
                   style={{ border: '1px solid #000' }}
                   value={minProd}
                   onChange={(e) => setMinProd(e.target.value)}
