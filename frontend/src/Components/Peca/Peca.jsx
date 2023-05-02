@@ -137,7 +137,7 @@ const Peca = ({ data }) => {
       )}
       <div className={styles.field}>
         <h5>Nome</h5>
-        <p>{nome}</p>
+        <p style={{fontWeight: 'bold'}}>{nome}</p>
         <p>{desc}</p>
       </div>
       <div className={styles.field}>

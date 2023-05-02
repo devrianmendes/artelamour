@@ -121,14 +121,15 @@ export const GlobalStorage = ({ children }) => {
   const updatePeca = async (data) => {
     try {
       setLoading(true, "Atualizando informações...");
-      const response = await axios.put('http://localhost:7070/peca/update', {
+      await axios.put('http://localhost:7070/peca/update', {
         peca_id: data.id,
         nome: data.nome,
         desc: data.desc,
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
-      })      
+      })
+      toast.success(`Peça ${data.nome} atualizada.`);
     } catch (err) {
       setLoading(false);
       toast.error(`Erro ao atualizar ${data.nome}.`);

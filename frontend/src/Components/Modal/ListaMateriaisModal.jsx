@@ -179,88 +179,6 @@ const NovaPecaModal = () => {
                 </thead>
 
                 <tbody className={styles.tableBody}>
-                  {newMaterial ? (
-                    <tr className={styles.tableTr}>
-                      <td>
-                        <Input
-                          editinput="newMat"
-                          name="name"
-                          type="text"
-                          value={nome}
-                          onChange={(e) => setNome(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <Input
-                          editinput="newMat"
-                          name="desc"
-                          type="text"
-                          value={desc}
-                          onChange={(e) => setDesc(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <Input
-                          editinput="newMat"
-                          name="qtdCusto"
-                          type="number"
-                          min="0"
-                          value={qtdCusto}
-                          onChange={(e) => setQtdCusto(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <select
-                          onChange={(e) => {
-                            setUnMedCusto(e.target.value);
-                          }}
-                        >
-                          <option>Selecione...</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
-                            Volume
-                          </option>
-                          <option value="mililitros">Mililitros</option>
-                          <option value="litros">Litros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
-                            Peso
-                          </option>
-                          <option value="gramas">Gramas</option>
-                          <option value="quilo">Quilos</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
-                            Comprimento
-                          </option>
-                          <option value="centimetros">Centímetros</option>
-                          <option value="metros">Metros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
-                            Outros
-                          </option>
-                          <option value="unidades">Unidades</option>
-                        </select>
-                      </td>
-                      <td>
-                        <Input
-                          editinput="newMat"
-                          name="name"
-                          type="text"
-                          value={custo}
-                          onChange={(e) => setCusto(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <AiOutlineSave
-                          size="35"
-                          className={styles.action}
-                          onClick={handleSave}
-                        />
-                        <BsTrash
-                          size="35"
-                          className={styles.action}
-                          style={{ marginLeft: '15px' }}
-                          onClick={() => setNewMaterial(false)}
-                        />
-                      </td>
-                    </tr>
-                  ) : null}
                   {materialData.map((eachMaterial, index) => (
                     <tr key={index} className={styles.tableTr}>
                       {eachMaterial.id === editMaterial.id ? (
@@ -382,6 +300,88 @@ const NovaPecaModal = () => {
                       )}
                     </tr>
                   ))}
+                  {newMaterial ? (
+                    <tr className={styles.tableTr}>
+                      <td>
+                        <Input
+                          editinput="newMat"
+                          name="name"
+                          type="text"
+                          value={nome}
+                          onChange={(e) => setNome(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          editinput="newMat"
+                          name="desc"
+                          type="text"
+                          value={desc}
+                          onChange={(e) => setDesc(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          editinput="newMat"
+                          name="qtdCusto"
+                          type="number"
+                          min="0"
+                          value={qtdCusto}
+                          onChange={(e) => setQtdCusto(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <select
+                          onChange={(e) => {
+                            setUnMedCusto(e.target.value);
+                          }}
+                        >
+                          <option>Selecione...</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Volume
+                          </option>
+                          <option value="mililitros">Mililitros</option>
+                          <option value="litros">Litros</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Peso
+                          </option>
+                          <option value="gramas">Gramas</option>
+                          <option value="quilo">Quilos</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Comprimento
+                          </option>
+                          <option value="centimetros">Centímetros</option>
+                          <option value="metros">Metros</option>
+                          <option disabled style={{ fontWeight: 'bold' }}>
+                            Outros
+                          </option>
+                          <option value="unidades">Unidades</option>
+                        </select>
+                      </td>
+                      <td>
+                        <Input
+                          editinput="newMat"
+                          name="name"
+                          type="text"
+                          value={custo}
+                          onChange={(e) => setCusto(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <AiOutlineSave
+                          size="35"
+                          className={styles.action}
+                          onClick={handleSave}
+                        />
+                        <BsTrash
+                          size="35"
+                          className={styles.action}
+                          style={{ marginLeft: '15px' }}
+                          onClick={() => setNewMaterial(false)}
+                        />
+                      </td>
+                    </tr>
+                  ) : null}
                 </tbody>
               </table>
             </main>

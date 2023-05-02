@@ -15,8 +15,7 @@ const NovaPecaModal = () => {
   const [minProd, setMinProd] = React.useState('');
   const [lucro, setLucro] = React.useState('');
 
-  const { createPeca, openPecaModal, setOpenPecaModal } =
-    React.useContext(GlobalContext);
+  const { createPeca, openPecaModal, setOpenPecaModal } = React.useContext(GlobalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +64,7 @@ const NovaPecaModal = () => {
         <main className={styles.modalBody}>
           <form action="" onSubmit={handleSubmit}>
             <div className={styles.modalRow}>
-              <label htmlFor="nome">
+              <label htmlFor='nome'>
                 <p>Nome da peça:</p>
                 <Input
                   name="nome"

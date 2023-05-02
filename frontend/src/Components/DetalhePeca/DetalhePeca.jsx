@@ -64,6 +64,11 @@ const DetalhePeca = () => {
       .catch((err) => console.log(err.message, err));
   }, [getMaterialList]);
 
+  //Carrega a lista de materiais registrados ao clicar para adicionar um material a peça
+  React.useEffect(() => {
+    editMat && getList();
+  }, [editMat, getList])
+
   //Função que atualiza a lista de materiais usados na peça
   const getMatList = async (id) => {
     getMaterials(id)
@@ -89,9 +94,9 @@ const DetalhePeca = () => {
 
   //Carregando todos os materiais ao carregar
   //O ideal seria colocar isso aqui no context pq ta carregando aqui e qnd abre o motal de materiais
-  React.useEffect(() => {
-    getList();
-  }, [getList]);
+  // React.useEffect(() => {
+  //   getList();
+  // }, [getList]);
 
   //Adciona um material na peça ao preencher os campos e salvar
   const handleEdit = async () => {
@@ -142,7 +147,7 @@ const DetalhePeca = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.eachContainer}>
-        <PecaHeader title="Valor final da peça" button={false} content={peca} />
+        <PecaHeader title="Valor final da peça" button={false} content={peca}/>
         <div className={styles.innerEachContainer}>
           <div>
             <h4>Custo da peça</h4>

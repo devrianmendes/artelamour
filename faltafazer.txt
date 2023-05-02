@@ -1,12 +1,12 @@
 ----------- FALTA FAZER
-na hora que clicar em adicionar material a peça, atualizar a lista de material
-na hora de editar o material, colcoar as informações anteriores nos campos
 FOCUS ao clicar em botoes
 calculo das unidades de medida
 o custo por peça não tá atualizando
 criar uma referencia de quem criou a peça ou material, para aparecer somente para quem criou
 
 ----------- FEITO
+na hora que clicar em adicionar material a peça, atualizar a lista de material
+na hora de editar o material, colcoar as informações anteriores nos campos
 impedir de deletar um material da lista caso ele esteja sendo usado por alguma peça
 conversão de horas (tempo gasto pra fazer peça)
 verificar o lançe do hrprod, minprod e lucro serem string ou number, pra tirar a conversão do controller do update peça
