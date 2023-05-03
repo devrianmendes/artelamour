@@ -3,10 +3,10 @@ import { CreateMaterialService } from '../../services/material/CreateMaterialSer
 
 class CreateMaterialController{
   async handle(req: Request, res: Response) {
-    const {nome, desc, qtdCusto, unMedCusto, custo} = req.body;
+    const {nome, desc, qtdCusto, unMedCusto, custo, user} = req.body;
 
     const createMaterial = new CreateMaterialService();
-    const material = await createMaterial.execute({nome, desc, qtdCusto, unMedCusto, custo})
+    const material = await createMaterial.execute({nome, desc, qtdCusto, unMedCusto, custo, user})
 
     return res.json(material)
 

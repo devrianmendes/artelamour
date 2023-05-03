@@ -1,1 +1,0 @@
-Finalizei a função de enviar e deletar as fotos, agora preciso separar em um novo service a função de deletar a foto

@@ -29,14 +29,15 @@ const NovaPecaModal = () => {
     setOpenListaMaterialModal,
     openListaMaterialModal,
     deleteMaterial,
+    user
   } = React.useContext(GlobalContext);
 
   // Função que atualiza o estado com a lista completa de materiais
   const getList = React.useCallback(() => {
-    getMaterialList()
+    getMaterialList(user.id)
       .then((res) => setMaterialData(res.data))
       .catch((err) => console.log(err.message, err));
-  }, [getMaterialList]);
+  }, [getMaterialList, user]);
 
   //Carregando a lista de todos os materiais ao abrir o modal
   React.useEffect(() => {

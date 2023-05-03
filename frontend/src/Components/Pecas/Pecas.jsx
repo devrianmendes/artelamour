@@ -4,25 +4,25 @@ import Peca from '../Peca/Peca';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Pecas = () => {
-  const { getPeca, changed, setChanged, setArrayPecas, arrayPecas } =
+  const { getPeca, changed, setChanged, setArrayPecas, arrayPecas, user } =
     React.useContext(GlobalContext);
 
   // Pegando todas as peças cadastradas no primeiro render
   React.useEffect(() => {
-    getPeca()
+    getPeca(user.id)
       .then((res) => setArrayPecas(res.data))
       .catch((err) => console.log(err));
-  }, [getPeca, setArrayPecas]);
+  }, [getPeca, setArrayPecas, user]);
 
   //Atualizando a lista de peça ao criar ou deletar uma
   React.useEffect(() => {
     if (changed) {
-      getPeca()
+      getPeca(user.id)
         .then((res) => setArrayPecas(res.data))
         .catch((err) => console.log(err));
     }
     setChanged(false);
-  }, [changed, setChanged, getPeca, setArrayPecas]);
+  }, [changed, setChanged, getPeca, setArrayPecas, user]);
 
   return (
     <div>

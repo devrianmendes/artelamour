@@ -22,6 +22,7 @@ const DetalhePeca = () => {
     deletePecaMaterial,
     updatePecaMateriais,
     updateMaterialPeca,
+    user
   } = React.useContext(GlobalContext);
 
   const [arrayMaterials, setArrayMaterials] = React.useState([]);
@@ -59,10 +60,10 @@ const DetalhePeca = () => {
 
   //Função que carrega a lista de todos os materiais para aparecer no select
   const getList = React.useCallback(() => {
-    getMaterialList()
+    getMaterialList(user.id)
       .then((res) => setSelectList(res.data))
       .catch((err) => console.log(err.message, err));
-  }, [getMaterialList]);
+  }, [getMaterialList, user]);
 
   //Carrega a lista de materiais registrados ao clicar para adicionar um material a peça
   React.useEffect(() => {

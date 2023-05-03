@@ -93,7 +93,7 @@ export const GlobalStorage = ({ children }) => {
     }
   };
 
-  //PEÇAS
+  //PEÇAS -- ADICIONADO USER NO CREATEPEÇA E GETPEÇA
   const createPeca = async (data) => {
     try {
       setLoading([true, "Criando nova peça..."]);
@@ -103,6 +103,7 @@ export const GlobalStorage = ({ children }) => {
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
+        user: user.id
       });
 
       setChanged(true);
@@ -154,13 +155,17 @@ export const GlobalStorage = ({ children }) => {
     }
   };
 
-  const getPeca = React.useCallback(async () => {
+  const getPeca = React.useCallback(async (user) => { //ADICIONADO USER
     // Função que carrega a lista de todas as peças
     // Ela tá sendo executada duas vezes quando chamada, não sei o porque
     // Antes de usar o useCallback, estava sendo chamada mais de duas vezes (quando passado a função como dependencia no useEffect que chama ela)
     try {
       setLoading([true, "Carregando peças..."]);
-      const response = await axios.get('http://localhost:7070/peca/list');
+      const response = await axios.get('http://localhost:7070/peca/list', {
+        params: {
+          user: user
+        }
+      });
       return response;
     } catch (err) {
       console.log('Erro ao carregar as peças', err);
@@ -193,17 +198,21 @@ export const GlobalStorage = ({ children }) => {
     }
   }, []);
 
-  //Função que carrega todos os materiais registrados
-  const getMaterialList = React.useCallback(async () => {
+  //Função que carrega todos os materiais registrados -- ADICIONADO USER
+  const getMaterialList = React.useCallback(async (user) => {
     try {
-      const res = await axios.get('http://localhost:7070/material/list');
+      const res = await axios.get('http://localhost:7070/material/list', {
+        params: {
+          user: user
+        }
+      });
       return res;
     } catch (err) {
       console.log('Erro ao carregar a lista de materiais', err);
     }
   }, []);
 
-  //Função que cria um novo material
+  //Função que cria um novo material -- ADICIONADO USER
   const createMaterials = async ({
     nome,
     desc,
@@ -219,6 +228,7 @@ export const GlobalStorage = ({ children }) => {
         qtdCusto,
         unMedCusto,
         custo,
+        user: user.id
       });
 
       toast.success(`${nome} registrado(a).`);
@@ -294,7 +304,7 @@ export const GlobalStorage = ({ children }) => {
     }
   };
 
-  //Função que adciona material na peça
+  //Função que adiciona material na peça
   const updatePecaMateriais = async ({
     qtdMatUsado,
     unMedidaUsado,
@@ -339,6 +349,7 @@ export const GlobalStorage = ({ children }) => {
     }
   };
 
+  //Função que edita um material já adicionado na peça
   const updateMaterialPeca = async ({ id, qtdMatUsado, unMedidaUsado }) => {
     try {
       const res = await axios.put('http://localhost:7070/pecaMaterial/update', {
@@ -360,7 +371,6 @@ export const GlobalStorage = ({ children }) => {
     return res;
   };
 
-  
   return (
     <GlobalContext.Provider
       value={{
