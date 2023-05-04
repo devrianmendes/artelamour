@@ -106,6 +106,7 @@ model Material{
   quantidadeCusto String
   unidadeMedidaCusto String
   custo Decimal
+  user String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
@@ -121,6 +122,7 @@ model Peca{
   minProd Int
   lucroDesejado Int
   banner String?
+  user String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

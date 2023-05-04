@@ -7,15 +7,15 @@ interface ListPecas {
 class ListPecaService {
   async execute({user}: ListPecas) {
 
-    const listPeca = await prismaClient.peca.findMany({});
-    return listPeca;
-
-    // const listPeca = await prismaClient.peca.findMany({
-    //   where: {
-    //     user: user
-    //   }
-    // });
+    // const listPeca = await prismaClient.peca.findMany({});
     // return listPeca;
+
+    const listPeca = await prismaClient.peca.findMany({
+      where: {
+        user: user
+      }
+    });
+    return listPeca;
   }
 }
 

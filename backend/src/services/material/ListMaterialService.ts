@@ -6,15 +6,15 @@ interface ListMaterial {
 
 class ListMaterialService {
   async execute({user}: ListMaterial) {
-    const listMaterial = await prismaClient.material.findMany({});
-    return listMaterial;
-
-    // const listMaterial = await prismaClient.material.findMany({
-    //   where: {
-    //     user: user
-    //   }
-    // });
+    // const listMaterial = await prismaClient.material.findMany({});
     // return listMaterial;
+
+    const listMaterial = await prismaClient.material.findMany({
+      where: {
+        user: user
+      }
+    });
+    return listMaterial;
   }
 }
 
