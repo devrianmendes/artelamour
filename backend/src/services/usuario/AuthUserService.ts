@@ -16,12 +16,12 @@ class AuthUserService {
     })
     
     if(!authUser) {
-      throw new Error('Usuário inválido')
+      throw new Error('Usuário não existe')
     }
 
     const authSenha = await compare(senha, authUser.senha);
     if(!authSenha) {
-      throw new Error('Senha incorreta');
+      throw new Error('Usuário ou senha incorreta.');
     }
 
     const token = sign(

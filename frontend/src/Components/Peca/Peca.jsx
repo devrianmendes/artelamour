@@ -23,6 +23,7 @@ const Peca = ({ data }) => {
 
   const handleDeletePeca = async () => {
     await deletePeca(id, nome);
+    setSelected(false);
   };
 
   const handleSendFile = (e) => {

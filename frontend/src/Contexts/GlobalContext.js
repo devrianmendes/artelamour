@@ -77,8 +77,7 @@ export const GlobalStorage = ({ children }) => {
       navigate('/dashboard');
     } catch (err) {
       setLoading(false);
-      toast.error('Erro ao logar');
-      console.log('Erro ao acessar', err);
+      toast.error(err.response.data);
     } finally {
       setLoading(false);
     }

@@ -5,12 +5,10 @@ import { GlobalStorage } from '../Contexts/GlobalContext';
 
 import Signin from '../Components/Pages/Signin/Signin';
 import Signup from '../Components/Pages/Signup/Signup';
-import Dashboard from '../Components/Pages/Dashboard/Dashboard';
 
-import { PrivateRoute } from './PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 
 import { ToastContainer } from 'react-toastify';
-
 
 const Rotas = () => {
   return (
@@ -20,7 +18,7 @@ const Rotas = () => {
         <Routes>
             <Route path="/" element={<Signin />} />
             <Route path="/create" element={<Signup />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<PrivateRoute />} />
         </Routes>
       </GlobalStorage>
     </BrowserRouter>

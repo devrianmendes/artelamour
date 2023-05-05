@@ -14,7 +14,14 @@ class DeletePecaService{
         nome: true,
         desc: true  
       }
-    })
+    });
+    
+    await prismaClient.pecaMateriais.deleteMany({
+      where: {
+        peca_id: peca_id
+      }
+    });
+
     return deletePeca;
   }
 }

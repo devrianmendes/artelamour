@@ -1,9 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { GlobalContext } from '../Contexts/GlobalContext';
+import Dashboard from '../Components/Pages/Dashboard/Dashboard';
 
-export function PrivateRoute({ children }) {
+const PrivateRoute = () => {
   const { isAuthenticated } = React.useContext(GlobalContext);
 
-  return isAuthenticated ? children : <Navigate to="/" />;
+  return isAuthenticated ? <Dashboard /> : <Navigate to="/" />
 }
+
+export default PrivateRoute;
