@@ -8,8 +8,7 @@
   ],
   "routes": [
     {
-      "src": "./routes.ts",
-      "des": "/"
+      "src": "./routes.ts"
     }
   ]
 }

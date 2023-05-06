@@ -12,7 +12,7 @@ server.use(router);
 server.use('/images', express.static(__dirname + '/../tmp'));
 
 const port = 7070;
-const portEnv = process.env.PORT || 3011;
+const portEnv = process.env.PORT || 3001;
 
 server.listen(7070, () => {
   console.log(`Server running on port ${port}`)
