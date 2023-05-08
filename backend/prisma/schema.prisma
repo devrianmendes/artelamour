@@ -1,89 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Tabela usuario
-// id string UUID PK
-// nome string
-// apelido string
-// email string
-// senha string
-
-// created_at DateTime
-// updated_at DateTime
-
-// Tabela materiais
-// id string UUID PK
-// nome string
-// desc string
-// quantidade int
-// unidadeMedida string
-// custo string
-
-// created_at DateTime
-// updated_at DateTime
-
-
-// Tabela pecas
-// id string UUID PK
-// nome string
-// desc string
-// hrProd int
-// minProd int
-// lucroDesejado int
-// created_at DateTime
-// updated_at DateTime
-
-// Tabela fornecedor
-// id string UUID PK
-// nome string
-// cnpj? string
-// tel1? string
-// tel2? string
-// tel3? string
-// email? string
-// rua? string
-// numero? string
-// bairro? string
-// site? string
-
-// Tabela materialFornecedor
-// id string UUID PK
-
-// material_id (FK)
-// fornecedor_id (FK)
-
-
-// Tabela clientes
-// id string UUID PK
-// nome string
-// tel1 string
-// tel2?
-// rua? string
-// numero? string
-// bairro? string
-// redeSocial1? string
-// redeSocial2? string
-
-// Tabela pedidos
-// id string UUID PK
-// status boolean
-// rascunho boolean
-
-// cliente_id (FK)
-
-// Tabela itensPedido
-// id string UUID PK
-// quantidade
-
-// pedido_id (FK)
-// peca_id (FK)
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
