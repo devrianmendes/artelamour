@@ -11,16 +11,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//planetscale config
-model Star { 
-  id              Int       @default(autoincrement()) @id
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  name            String    @db.VarChar(255)
-  constellation   String    @db.VarChar(255)
-}
-//planetscale config
-
 model User{
   id String @id @default(uuid())
   nome String
