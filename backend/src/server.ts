@@ -13,12 +13,7 @@ dotenv.config();
 // console.log(__dirname + '/../tmp')
 server.use('/images', express.static(__dirname + '/../tmp'));
 
-<<<<<<< HEAD
-const port = 7070;
-const portEnv = process.env.PORT || 3001;
-=======
 const port = 3333;
->>>>>>> teste
 
 server.listen(port, () => {
   console.log(`Server running on port ${port}`)
