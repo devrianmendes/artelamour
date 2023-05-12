@@ -7,7 +7,6 @@
     "node": "16.x"
   },
   "scripts": {
-
     "dev": "ts-node-dev src/server.ts",
     "vercel-build": "npx prisma migrate deploy"
   },
