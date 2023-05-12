@@ -101,7 +101,7 @@ const Peca = ({ data }) => {
           <FcAddImage className={`closeDrop ${styles.uploadImg}`} />
         ) : (
           <img
-            src={`http://localhost:7070/images/${data.banner}`}
+            src={`15.229.1.83/:3333/images/${data.banner}`}
             alt="Foto da peça"
             className={styles.preview}
           />

@@ -22,6 +22,8 @@ export const GlobalStorage = ({ children }) => {
     React.useState(false);
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
+  const serverIp = '15.229.1.83';
+  // const serverIp = 'http://localhost:3333';
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
 
@@ -30,7 +32,7 @@ export const GlobalStorage = ({ children }) => {
     try {
       setLoading(true);
       await axios
-        .post('http://localhost:7070/user/create', {
+        .post(`${serverIp}/user/create`, {
           nome: nome,
           apelido: apelido,
           email: email,
@@ -52,7 +54,7 @@ export const GlobalStorage = ({ children }) => {
   const signIn = async ({ email, senha }) => {
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:7070/user/auth', {
+      const response = await axios.post(`${serverIp}/user/auth`, {
         email,
         senha,
       });
@@ -95,14 +97,14 @@ export const GlobalStorage = ({ children }) => {
   //PEÇAS -- ADICIONADO USER NO CREATEPEÇA E GETPEÇA
   const createPeca = async (data) => {
     try {
-      setLoading([true, "Criando nova peça..."]);
-      const response = await axios.post('http://localhost:7070/peca/create', {
+      setLoading([true, 'Criando nova peça...']);
+      const response = await axios.post(`${serverIp}/peca/create`, {
         nome: data.nome,
         desc: data.desc,
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
-        user: user.id
+        user: user.id,
       });
 
       setChanged(true);
@@ -120,15 +122,15 @@ export const GlobalStorage = ({ children }) => {
 
   const updatePeca = async (data) => {
     try {
-      setLoading(true, "Atualizando informações...");
-      await axios.put('http://localhost:7070/peca/update', {
+      setLoading(true, 'Atualizando informações...');
+      await axios.put(`${serverIp}/peca/update`, {
         peca_id: data.id,
         nome: data.nome,
         desc: data.desc,
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
-      })
+      });
       toast.success(`Peça ${data.nome} atualizada.`);
     } catch (err) {
       setLoading(false);
@@ -137,11 +139,11 @@ export const GlobalStorage = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const deletePeca = async (id, nome) => {
     try {
-      await axios.delete('http://localhost:7070/peca/delete', {
+      await axios.delete(`${serverIp}/peca/delete`, {
         data: {
           peca_id: id,
         },
@@ -154,16 +156,17 @@ export const GlobalStorage = ({ children }) => {
     }
   };
 
-  const getPeca = React.useCallback(async (user) => { //ADICIONADO USER
+  const getPeca = React.useCallback(async (user) => {
+    //ADICIONADO USER
     // Função que carrega a lista de todas as peças
     // Ela tá sendo executada duas vezes quando chamada, não sei o porque
     // Antes de usar o useCallback, estava sendo chamada mais de duas vezes (quando passado a função como dependencia no useEffect que chama ela)
     try {
-      setLoading([true, "Carregando peças..."]);
-      const response = await axios.get('http://localhost:7070/peca/list', {
+      setLoading([true, 'Carregando peças...']);
+      const response = await axios.get(`${serverIp}/peca/list`, {
         params: {
-          user: user
-        }
+          user: user,
+        },
       });
       return response;
     } catch (err) {
@@ -179,15 +182,12 @@ export const GlobalStorage = ({ children }) => {
   const getMaterials = React.useCallback(async (id) => {
     //Estava sendo chamada entre 50 e 80 vezes antes de usar o callback
     try {
-      setLoading([true, "Carregando materiais..."]);
-      const response = await axios.get(
-        'http://localhost:7070/pecaMaterial/list',
-        {
-          params: {
-            peca_id: id,
-          },
+      setLoading([true, 'Carregando materiais...']);
+      const response = await axios.get(`${serverIp}/pecaMaterial/list`, {
+        params: {
+          peca_id: id,
         },
-      );
+      });
       return response;
     } catch (err) {
       console.log('Erro ao carregar os materiais', err);
@@ -200,10 +200,10 @@ export const GlobalStorage = ({ children }) => {
   //Função que carrega todos os materiais registrados -- ADICIONADO USER
   const getMaterialList = React.useCallback(async (user) => {
     try {
-      const res = await axios.get('http://localhost:7070/material/list', {
+      const res = await axios.get(`${serverIp}/material/list`, {
         params: {
-          user: user
-        }
+          user: user,
+        },
       });
       return res;
     } catch (err) {
@@ -220,14 +220,14 @@ export const GlobalStorage = ({ children }) => {
     custo,
   }) => {
     try {
-      setLoading([true, "Salvando material..."]);
-      const res = await axios.post('http://localhost:7070/material/create', {
+      setLoading([true, 'Salvando material...']);
+      const res = await axios.post(`${serverIp}/material/create`, {
         nome,
         desc,
         qtdCusto,
         unMedCusto,
         custo,
-        user: user.id
+        user: user.id,
       });
 
       toast.success(`${nome} registrado(a).`);
@@ -245,7 +245,7 @@ export const GlobalStorage = ({ children }) => {
   const deleteMaterial = async (id) => {
     let matName = '';
     try {
-      const res = await axios.delete('http://localhost:7070/material/delete', {
+      const res = await axios.delete(`${serverIp}/material/delete`, {
         data: {
           material_id: id,
         },
@@ -255,12 +255,12 @@ export const GlobalStorage = ({ children }) => {
       toast.success(`${matName} deletado(a).`);
       return res;
     } catch (err) {
-      if(err.response.data.id === 1) {
+      if (err.response.data.id === 1) {
         toast.error(`${err.response.data.error}`);
       } else {
-        toast.error("Erro ao deletar material");
+        toast.error('Erro ao deletar material');
       }
-    }    
+    }
   };
 
   //Função que edita um material
@@ -273,7 +273,7 @@ export const GlobalStorage = ({ children }) => {
     custo,
   }) => {
     try {
-      const res = await axios.put('http://localhost:7070/material/update', {
+      const res = await axios.put(`${serverIp}/material/update`, {
         material_id: id,
         nome: nome,
         desc: desc,
@@ -292,7 +292,7 @@ export const GlobalStorage = ({ children }) => {
   //Função que carrega os materiais usados por uma peça
   const getPecaMaterial = async (id) => {
     try {
-      const res = axios.get('http://localhost:7070/pecaMaterial/list', {
+      const res = axios.get(`${serverIp}/pecaMaterial/list`, {
         peca_id: id,
       });
 
@@ -311,15 +311,12 @@ export const GlobalStorage = ({ children }) => {
     material_id,
   }) => {
     try {
-      const res = await axios.post(
-        'http://localhost:7070/pecaMaterial/create',
-        {
-          qtdMatUsado: qtdMatUsado,
-          unMedidaUsado: unMedidaUsado,
-          peca_id: peca_id,
-          material_id: material_id,
-        },
-      );
+      const res = await axios.post(`${serverIp}/pecaMaterial/create`, {
+        qtdMatUsado: qtdMatUsado,
+        unMedidaUsado: unMedidaUsado,
+        peca_id: peca_id,
+        material_id: material_id,
+      });
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
@@ -331,14 +328,11 @@ export const GlobalStorage = ({ children }) => {
   //Função que deleta o material da peça
   const deletePecaMaterial = async (id) => {
     try {
-      const res = await axios.delete(
-        'http://localhost:7070/pecaMaterial/delete',
-        {
-          data: {
-            id: id,
-          },
+      const res = await axios.delete(`${serverIp}/pecaMaterial/delete`, {
+        data: {
+          id: id,
         },
-      );
+      });
 
       toast.success('Peça atualizada.');
       return res;
@@ -351,7 +345,7 @@ export const GlobalStorage = ({ children }) => {
   //Função que edita um material já adicionado na peça
   const updateMaterialPeca = async ({ id, qtdMatUsado, unMedidaUsado }) => {
     try {
-      const res = await axios.put('http://localhost:7070/pecaMaterial/update', {
+      const res = await axios.put(`${serverIp}/pecaMaterial/update`, {
         id: id,
         qtdMatUsado: qtdMatUsado,
         unMedidaUsado: unMedidaUsado,
@@ -359,13 +353,13 @@ export const GlobalStorage = ({ children }) => {
 
       return res;
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
     }
   };
 
   const uploadImg = async (data) => {
-    const res = await axios.put('http://localhost:7070/peca/update', data);
+    const res = await axios.put(`${serverIp}/peca/update`, data);
     setChanged(true);
     return res;
   };
