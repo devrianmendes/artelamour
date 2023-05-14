@@ -22,7 +22,7 @@ export const GlobalStorage = ({ children }) => {
     React.useState(false);
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
-  const serverIp = '15.229.1.83';
+  const serverIp = 'http://54.233.164.147:3333';
   // const serverIp = 'http://localhost:3333';
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
@@ -60,7 +60,7 @@ export const GlobalStorage = ({ children }) => {
       });
       const { id, nome, apelido, token } = response.data;
 
-      //Guardando o token em um cookie
+      // Guardando o token em um cookie
       setCookie(undefined, '@artelamour.token', token, {
         maxAge: 60 * 60 * 24 * 30, //Tempo pro token expirar (30 dias)
         path: '/', //Aqui diz que todas as rotas terão acesso ao cookie
@@ -367,6 +367,7 @@ export const GlobalStorage = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        serverIp,
         isSelected,
         isAuthenticated,
         user,

@@ -8,7 +8,7 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, deletePeca, uploadImg, setUpdatePecaModal } =
+  const { setSelected, deletePeca, uploadImg, setUpdatePecaModal, serverIp } =
     React.useContext(GlobalContext);
   const [location, setLocation] = React.useState([]);
   const [opened, setOpened] = React.useState(false);
@@ -101,7 +101,7 @@ const Peca = ({ data }) => {
           <FcAddImage className={`closeDrop ${styles.uploadImg}`} />
         ) : (
           <img
-            src={`15.229.1.83/:3333/images/${data.banner}`}
+            src={`${serverIp}/images/${data.banner}`}
             alt="Foto da peça"
             className={styles.preview}
           />
