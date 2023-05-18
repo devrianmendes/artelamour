@@ -27,3 +27,6 @@ For the database, I used MySQL and utilized Prisma as the ORM.
 The backend was written in TypeScript in a Node.js environment, with the help of Express.js for server creation. For user authentication, bcryptjs was used for password encryption, and jsonwebtoken for authentication. I used Multer for image storage.
 
 The frontend was developed using React.js.
+
+
+You can check the application [here](http://artelamour.s3-website-sa-east-1.amazonaws.com/)
