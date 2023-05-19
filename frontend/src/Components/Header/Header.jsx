@@ -1,23 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 import styles from './Header.module.css';
 
 import { IconContext } from 'react-icons';
 import logoImg from '../../img/logo.png';
 
 import { SlPuzzle } from 'react-icons/sl';
-import { TfiRulerPencil } from 'react-icons/tfi'
+import { TfiRulerPencil } from 'react-icons/tfi';
 import { CiLogout } from 'react-icons/ci';
 
 import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Header = () => {
-  const { signOut, setOpenListaMaterialModal } = React.useContext(GlobalContext);
+  const { signOut, setOpenListaMaterialModal } =
+    React.useContext(GlobalContext);
 
   const handleMaterial = () => {
     setOpenListaMaterialModal(true);
-  }
+  };
 
   return (
     <header className={styles.header}>
@@ -28,12 +29,14 @@ const Header = () => {
         <IconContext.Provider value={{ size: '35px' }}>
           <ul>
             <li>
-              <a role='button' onClick={() => Navigate('/dashboard')}>
+              <a role="button" onClick={() => Navigate('/dashboard')}>
                 <SlPuzzle />
                 <p>Peças</p>
               </a>
-              <a role='button' onClick={handleMaterial}>
-              <TfiRulerPencil />
+            </li>
+            <li>
+              <a role="button" onClick={handleMaterial}>
+                <TfiRulerPencil />
                 <p>Materiais</p>
               </a>
             </li>
@@ -48,6 +51,13 @@ const Header = () => {
           </a>
         </IconContext.Provider>
       </div>
+      {/* <div className={styles.hamburguer}>
+        <div className={styles.hamburguerWrapper}>
+          <div className={styles.line1}></div>
+          <div className={styles.line2}></div>
+          <div className={styles.line3}></div>
+        </div>
+      </div> */}
     </header>
   );
 };

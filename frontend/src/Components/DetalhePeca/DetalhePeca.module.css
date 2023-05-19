@@ -51,3 +51,55 @@ select {
     background-color: var(--white);
     transition: .2s;
 }
+
+.materialTableMobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .eachContainer:nth-child(1) {
+        margin-bottom: 2rem;
+    }
+    
+    .eachContainer:nth-child(2) {
+        margin-bottom: 0rem;
+    }
+
+    .innerEachContainer {
+        padding-top: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .materialTable {
+        display: none;
+    }
+    .materialTableMobile {
+        display: block;
+    }
+    .materialTableMobile tbody {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .materialTableMobile tr {
+        display: flex;
+    }
+
+    .materialTableMobile td {
+        width: 100%;
+    }
+
+    .materialTableMobile td:nth-child(1) {
+        text-align: right;
+        margin-right: 1rem;
+    }
+
+    .action:nth-child(2) {
+        margin-left: 0px !important;
+    }
+
+    .tdTitle {
+        font-weight: bold;
+    }
+}

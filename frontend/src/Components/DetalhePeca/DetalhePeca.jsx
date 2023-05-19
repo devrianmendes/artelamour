@@ -22,7 +22,7 @@ const DetalhePeca = () => {
     deletePecaMaterial,
     updatePecaMateriais,
     updateMaterialPeca,
-    user
+    user,
   } = React.useContext(GlobalContext);
 
   const [arrayMaterials, setArrayMaterials] = React.useState([]);
@@ -68,7 +68,7 @@ const DetalhePeca = () => {
   //Carrega a lista de materiais registrados ao clicar para adicionar um material a peça
   React.useEffect(() => {
     editMat && getList();
-  }, [editMat, getList])
+  }, [editMat, getList]);
 
   //Função que atualiza a lista de materiais usados na peça
   const getMatList = async (id) => {
@@ -143,12 +143,10 @@ const DetalhePeca = () => {
     }
   };
 
-  //o custo por peça não t´´a atualizando
-  //limpar o campo após clicar
   return (
     <div className={styles.mainContainer}>
       <div className={styles.eachContainer}>
-        <PecaHeader title="Valor final da peça" button={false} content={peca}/>
+        <PecaHeader title="Valor final da peça" button={false} content={peca} />
         <div className={styles.innerEachContainer}>
           <div>
             <h4>Custo da peça</h4>
@@ -350,6 +348,218 @@ const DetalhePeca = () => {
                     </>
                   )}
                 </tr>
+              ))}
+            </tbody>
+          </table>
+          <table className={styles.materialTableMobile}>
+            <tbody>
+              {editMat ? (
+                <>
+                  <tr className={styles.materialContent}>
+                    <td className={styles.tdTitle}>Nome</td>
+                    <td>
+                      <select
+                        onChange={(e) => {
+                          setMat(e.target.value);
+                        }}
+                      >
+                        <option>Selecione...</option>
+                        {selectList.map((eachMat, index) => (
+                          <option value={eachMat.id} key={index}>
+                            {eachMat.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles.tdTitle}>Qtd. usada</td>
+                    <td>
+                      <Input
+                        editinput="newMat"
+                        name="qtdMatUsado"
+                        type="number"
+                        min="0"
+                        value={qtdMatUsado}
+                        onChange={(e) => setQtdMatUsado(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles.tdTitle}>Medida</td>
+                    <td>
+                      <select
+                        onChange={(e) => {
+                          setUnMedidaUsado(e.target.value);
+                        }}
+                      >
+                        <option>Selecione...</option>
+                        <option
+                          disabled
+                          style={{ fontWeight: 'bold', color: '#000' }}
+                        >
+                          Volume
+                        </option>
+                        <option value="mililitros">Mililitros</option>
+                        <option value="litros">Litros</option>
+                        <option
+                          disabled
+                          style={{ fontWeight: 'bold', color: '#000' }}
+                        >
+                          Peso
+                        </option>
+                        <option value="gramas">Gramas</option>
+                        <option value="quilo">Quilos</option>
+                        <option
+                          disabled
+                          style={{ fontWeight: 'bold', color: '#000' }}
+                        >
+                          Comprimento
+                        </option>
+                        <option value="centimetros">Centímetros</option>
+                        <option value="metros">Metros</option>
+                        <option
+                          disabled
+                          style={{ fontWeight: 'bold', color: '#000' }}
+                        >
+                          Outros
+                        </option>
+                        <option value="unidades">Unidades</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles.tdTitle}>Ações</td>
+                    <td>
+                      <AiOutlineSave
+                        className={styles.action}
+                        size="35"
+                        onClick={() => {
+                          handleEdit();
+                        }}
+                      />
+                      <BsTrash
+                        className={styles.action}
+                        size="35"
+                        style={{ marginLeft: '15px' }}
+                        onClick={() => setEditMat(false)}
+                      />
+                    </td>
+                  </tr>
+                </>
+              ) : null}
+              {calcConsumoTotal.materiais.map((eachMaterial, index) => (
+                <>
+                  {eachMaterial.id === edit ? (
+                    <>
+                      <tr className={styles.materialContent}>
+                        <td className={styles.tdTitle}>Nome</td>
+                        <td>{eachMaterial.material.nome}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Qtd. usada</td>
+                        <td>
+                          <Input
+                            editinput="newMat"
+                            name="name"
+                            type="number"
+                            min="0"
+                            value={qtdMatUsado}
+                            onChange={(e) => setQtdMatUsado(e.target.value)}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Medida</td>
+                        <td>
+                          <select
+                            onChange={(e) => {
+                              setUnMedidaUsado(e.target.value);
+                            }}
+                          >
+                            <option>Selecione...</option>
+                            <option disabled style={{ fontWeight: 'bold' }}>
+                              Volume
+                            </option>
+                            <option value="mililitros">Mililitros</option>
+                            <option value="litros">Litros</option>
+                            <option disabled style={{ fontWeight: 'bold' }}>
+                              Peso
+                            </option>
+                            <option value="gramas">Gramas</option>
+                            <option value="quilo">Quilos</option>
+                            <option disabled style={{ fontWeight: 'bold' }}>
+                              Comprimento
+                            </option>
+                            <option value="centimetros">Centímetros</option>
+                            <option value="metros">Metros</option>
+                            <option disabled style={{ fontWeight: 'bold' }}>
+                              Outros
+                            </option>
+                            <option value="unidades">Unidades</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Custo</td>
+                        <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Ações</td>
+                        <td>
+                          <AiOutlineSave
+                            className={styles.action}
+                            size="35"
+                            onClick={() => {
+                              handleEditMat(eachMaterial.id);
+                            }}
+                          />
+                          <BsTrash
+                            className={styles.action}
+                            size="35"
+                            style={{ marginLeft: '15px' }}
+                            onClick={() => setEdit(false)}
+                          />
+                        </td>
+                      </tr>
+                    </>
+                  ) : (
+                    <>
+                      <tr className={styles.materialContent} key={index}>
+                        <td className={styles.tdTitle}>Nome</td>
+                        <td>{eachMaterial.material.nome}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Qtd. usada</td>
+                        <td>{eachMaterial.qtdMatUsado}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Medida</td>
+                        <td>{eachMaterial.unMedidaUsado}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Custo</td>
+                        <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.tdTitle}>Ações</td>
+                        <td>
+                          <CiEdit
+                            className={styles.action}
+                            size="35"
+                            onClick={() => setEdit(eachMaterial.id)}
+                          />
+                          <BsTrash
+                            className={styles.action}
+                            size="35"
+                            style={{ marginLeft: '15px' }}
+                            onClick={() => handleDelete(eachMaterial.id)}
+                          />
+                        </td>
+                      </tr>
+                    </>
+                  )}
+                </>
               ))}
             </tbody>
           </table>

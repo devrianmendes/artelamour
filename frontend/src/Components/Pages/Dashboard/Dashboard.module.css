@@ -19,6 +19,22 @@
 
 .rightSide {
   width: 100%;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
 
+}
+
+@media(max-width: 768px) {
+  .sides {
+    display: block;
+    margin-bottom: 0rem;
+  }
+
+  .leftSide{
+    margin-bottom: 2rem;
+  }
+
+  .rightSide {
+    margin-left: 0rem;
+    padding-bottom: 2rem;
+  }
 }

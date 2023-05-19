@@ -136,5 +136,6 @@
   border-radius: 5px;
   background-color: var(--white);
   transition: .2s;
+  z-index: 2000;
 }
 

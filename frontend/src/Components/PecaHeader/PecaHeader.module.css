@@ -9,3 +9,15 @@
   border: solid 2px #55C1F6;
   border-radius: 10px;
 }
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 0rem;
+  }
+}
+@media (max-width: 450px) {
+  .pecaName,
+  .title {
+    font-size: 1rem;
+  }
+}
