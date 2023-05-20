@@ -75,6 +75,7 @@ select {
         display: none;
     }
     .materialTableMobile {
+        width: 70%;
         display: block;
     }
     .materialTableMobile tbody {

@@ -46,3 +46,15 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .loadBox {
+    width: 50%;
+  }
+}
+
+@media (max-width: 420px) {
+  .loadBox {
+    width: 70%;
+  }
+}
