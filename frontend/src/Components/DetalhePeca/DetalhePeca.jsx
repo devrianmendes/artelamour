@@ -39,7 +39,8 @@ const DetalhePeca = () => {
       ? Number(eachMaterial.material.quantidadeCusto.split(',').join('.'))
       : Number(eachMaterial.material.quantidadeCusto);
     const valorComprado = Number(eachMaterial.material.custo);
-    const calcValorGasto = valorComprado / qntComprada;
+    const calcValorGasto =
+      (valorComprado / qntComprada) * eachMaterial.qtdMatUsado;
 
     return calcValorGasto;
   };
@@ -86,18 +87,22 @@ const DetalhePeca = () => {
         setArrayMaterials(res.data);
       } else {
         const res = await getMaterials(selected.id);
-        setPeca(selected);
+        const selectedPeca = arrayPecas.find(
+          (eachPeca) => eachPeca.id === selected.id,
+        );
+        if (selectedPeca) {
+          setPeca(selectedPeca);
+        }
+
         setArrayMaterials(res.data);
       }
     };
     main();
-  }, [arrayPecas, getMaterials, isSelected, selected, peca]);
+  }, [arrayPecas, getMaterials, isSelected, selected]);
 
-  //Carregando todos os materiais ao carregar
-  //O ideal seria colocar isso aqui no context pq ta carregando aqui e qnd abre o motal de materiais
-  // React.useEffect(() => {
-  //   getList();
-  // }, [getList]);
+  React.useEffect(() => {
+    console.log(selected);
+  }, [selected]);
 
   //Adciona um material na peça ao preencher os campos e salvar
   const handleEdit = async () => {
@@ -156,7 +161,10 @@ const DetalhePeca = () => {
             <h4>Valor sugerido para venda</h4>
             <p>
               R$
-              {(calcConsumoTotal.custoTotal + calcConsumoTotal.custoTotal * 0.7)
+              {(
+                calcConsumoTotal.custoTotal +
+                (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100
+              )
                 .toFixed(2)
                 .replace('.', ',')}
             </p>
