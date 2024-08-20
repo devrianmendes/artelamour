@@ -23,7 +23,7 @@ export const GlobalStorage = ({ children }) => {
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
   // const serverIp = 'http://54.233.164.147:3333';
-  const serverIp = https://67.205.172.80/3333;
+  const serverIp = 'https://67.205.172.80/3333';
   // const serverIp = 'http://localhost:3333';
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
