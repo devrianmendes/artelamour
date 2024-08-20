@@ -100,9 +100,9 @@ const DetalhePeca = () => {
     main();
   }, [arrayPecas, getMaterials, isSelected, selected]);
 
-  React.useEffect(() => {
-    console.log(selected);
-  }, [selected]);
+  // React.useEffect(() => {
+  //   console.log(selected);
+  // }, [selected]);
 
   //Adciona um material na peça ao preencher os campos e salvar
   const handleEdit = async () => {
@@ -160,13 +160,12 @@ const DetalhePeca = () => {
           <div>
             <h4>Valor sugerido para venda</h4>
             <p>
-              R$
-              {(
-                calcConsumoTotal.custoTotal +
-                (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100
-              )
-                .toFixed(2)
-                .replace('.', ',')}
+              {
+                !peca ? "R$0,00" : (
+                  "R$"+(calcConsumoTotal.custoTotal + (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100).toFixed(2).replace('.', ',')
+                )
+              }
+              {/* R${(calcConsumoTotal.custoTotal + (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100).toFixed(2).replace('.', ',')} */}
             </p>
           </div>
         </div>
