@@ -1,6 +1,7 @@
-# Artelamour
+# Artelamour  
+A full-stack management system for personalized product creation and sales.  
 
-This is my first full-stack project, developed entirely by myself. Artelamour is a management system for personalized products, serving any type of product you can produce.
+This is my first full-stack project, showcasing my ability to design and implement both frontend and backend solutions for managing personalized products efficiently.
 
 # Overview
 
@@ -14,18 +15,33 @@ In Artelamour, you can:
 
 - Store the materials used in your final products, including purchased quantity, unit of measure, and cost value. You can edit and delete them, but if a material is associated with a final product, first you need to desassociate or delete the final product first.
 
-- Associate the materials and quantities used with the final product, where the application will calculate the material cost considering the material's cost value and the profit percentage you want. You can edit and desassociate them.
+- Associate the materials and quantities used to the final product, where the application will calculate the cost of the material considering the cost value of the material and the profit percentage you want. You can edit and unlink them.
 
-Associate the materials and quantities used to the final product, where the application will calculate the cost of the material considering the cost value of the material and the profit percentage you want. You can edit and unlink them.
-
-# Resources
+# Technologies used
 
 In this project, I learned the usefulness of several technologies that I hadn't had the opportunity to work with before, and some that I wasn't even familiar with.
 
-For the database, I used MySQL and utilized Prisma as the ORM.
+- **Backend**:  
+  - **Language/Framework**: TypeScript, Node.js, Express.js  
+  - **Authentication**: JSON Web Tokens (jsonwebtoken), bcryptjs  
+  - **File Management**: Multer for image uploads  
 
-The backend was written in TypeScript in a Node.js environment, with the help of Express.js for server creation. For user authentication, jsonwebtoken and bcryptjs was used for password encryption. I used Multer for image storage.
+- **Database**:  
+  - MariaDB, managed with Prisma ORM  
 
-The frontend was developed using React.js.
+- **Frontend**:  
+  - React.js for a responsive and interactive UI  
+
+# Prerequisites
+- **Node.js** 16.x
+- **MariaDB** 10.11+
+- **Git** to clone the project (use the command git clone https://github.com/devrianmendes/artelamour.git)   
+- **Enviroment variables**
+  - Create a file '.env' in the root with the following variables:
+    - DATABASE_URL: Database url conection
+    - JWT_SECRET: Secret key for JWT token generation
+
+# Local dependencies
+After cloning the project, run the command **npm install** in the root directory to install all dependencies
 
 You can check the application [here](http://artelamour.s3-website-sa-east-1.amazonaws.com/)
