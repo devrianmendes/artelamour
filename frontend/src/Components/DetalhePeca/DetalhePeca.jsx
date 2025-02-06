@@ -371,8 +371,8 @@ const DetalhePeca = () => {
                         }}
                       >
                         <option>Selecione...</option>
-                        {selectList.map((eachMat, index) => (
-                          <option value={eachMat.id} key={index}>
+                        {selectList.map((eachMat) => (
+                          <option value={eachMat.id} key={eachMat.id}>
                             {eachMat.nome}
                           </option>
                         ))}

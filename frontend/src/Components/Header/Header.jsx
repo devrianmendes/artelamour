@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import styles from './Header.module.css';
 
 import { IconContext } from 'react-icons';
@@ -29,10 +29,10 @@ const Header = () => {
         <IconContext.Provider value={{ size: '35px' }}>
           <ul>
             <li>
-              <a role="button" onClick={() => Navigate('/dashboard')}>
+              <Link role="button" href='/dashboard'>
                 <SlPuzzle />
                 <p>Peças</p>
-              </a>
+              </Link>
             </li>
             <li>
               <a role="button" onClick={handleMaterial}>

@@ -23,8 +23,8 @@ export const GlobalStorage = ({ children }) => {
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
 
-  const serverIp = 'http://67.205.172.80:3333';
-  // const serverIp = 'http://localhost:3333';
+  // const serverIp = 'http://67.205.172.80:3333';
+  const serverIp = 'http://localhost:3333';
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
 
@@ -76,7 +76,7 @@ export const GlobalStorage = ({ children }) => {
 
       //Permitindo o token ser utilizado por todas as próximas requisições
       axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-      toast.success(`Bem-vinda, ${apelido}!`);
+      toast.success(`Bem-vindo(a), ${apelido}!`);
       navigate('/dashboard');
     } catch (err) {
       setLoading(false);
