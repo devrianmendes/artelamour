@@ -9,6 +9,7 @@ const Pecas = () => {
 
   // Pegando todas as peças cadastradas no primeiro render
   React.useEffect(() => {
+
     getPeca(user.id)
       .then((res) => setArrayPecas(res.data))
       .catch((err) => console.log(err));
@@ -17,6 +18,8 @@ const Pecas = () => {
   //Atualizando a lista de peça ao criar ou deletar uma
   React.useEffect(() => {
     if (changed) {
+
+
       getPeca(user.id)
         .then((res) => setArrayPecas(res.data))
         .catch((err) => console.log(err));

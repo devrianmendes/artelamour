@@ -1,26 +1,31 @@
-import React, { useEffect } from 'react';
-import styles from './Peca.module.css';
+import React from "react";
+import styles from "./Peca.module.css";
 
-import { BsTrash } from 'react-icons/bs';
-import { CiEdit } from 'react-icons/ci';
-import { FcAddImage } from 'react-icons/fc';
-import { GlobalContext } from '../../Contexts/GlobalContext';
+import { BsTrash } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { FcAddImage } from "react-icons/fc";
+import { GlobalContext } from "../../Contexts/GlobalContext";
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, selected, deletePeca, uploadImg, setUpdatePecaModal, serverIp } =
-    React.useContext(GlobalContext);
+  const {
+    setSelected,
+    selected,
+    deletePeca,
+    uploadImg,
+    setUpdatePecaModal,
+    serverIp,
+  } = React.useContext(GlobalContext);
   const [location, setLocation] = React.useState([]);
   const [opened, setOpened] = React.useState(false);
 
   const handleClick = () => {
     setSelected(data);
-    console.log('clicou na peça', data)
   };
 
   const handleEdit = () => {
     setUpdatePecaModal(true);
-  }
+  };
 
   const handleDeletePeca = async () => {
     await deletePeca(id, nome);
@@ -28,7 +33,6 @@ const Peca = ({ data }) => {
   };
 
   const handleSendFile = (e) => {
-
     if (!e.target.files) {
       return;
     }
@@ -40,29 +44,27 @@ const Peca = ({ data }) => {
     }
 
     const newData = new FormData();
-    newData.append('peca_id', id);
-    newData.append('nome', nome);
-    newData.append('desc', desc);
-    newData.append('hrProd', hrProd);
-    newData.append('minProd', minProd);
-    newData.append('lucroDesejado', lucroDesejado);
-    newData.append('file', image);
+    newData.append("peca_id", id);
+    newData.append("nome", nome);
+    newData.append("desc", desc);
+    newData.append("hrProd", hrProd);
+    newData.append("minProd", minProd);
+    newData.append("lucroDesejado", lucroDesejado);
+    newData.append("file", image);
 
     uploadImg(newData);
     setOpened(false);
-
   };
 
   const handleDeleteFile = () => {
-
     const newData = new FormData();
-    newData.append('peca_id', id);
-    newData.append('nome', nome);
-    newData.append('desc', desc);
-    newData.append('hrProd', hrProd);
-    newData.append('minProd', minProd);
-    newData.append('lucroDesejado', lucroDesejado);
-    newData.append('file', null);
+    newData.append("peca_id", id);
+    newData.append("nome", nome);
+    newData.append("desc", desc);
+    newData.append("hrProd", hrProd);
+    newData.append("minProd", minProd);
+    newData.append("lucroDesejado", lucroDesejado);
+    newData.append("file", null);
 
     uploadImg(newData);
     setOpened(false);
@@ -75,24 +77,23 @@ const Peca = ({ data }) => {
 
   const handleMenu = (e) => {
     if (opened) {
-      if(!e.target.parentElement.classList.value.includes('closeDrop')) {
+      if (!e.target.parentElement.classList.value.includes("closeDrop")) {
         setOpened(false);
       }
     }
   };
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", (e) => {
     handleMenu(e);
   });
 
-  useEffect(() => {
-    console.log(selected.id)
-    console.log(data.id)
-  }, [selected, data])
-
   return (
     <div
-      className={`${styles.mainContainer} ${selected.id === data.id ? styles.mainContainerSelected : styles.mainContainer} `}
+      className={`${styles.mainContainer} ${
+        selected.id === data.id
+          ? styles.mainContainerSelected
+          : styles.mainContainer
+      } `}
       onClick={(e) => {
         handleClick(e);
       }}
@@ -116,7 +117,7 @@ const Peca = ({ data }) => {
       {opened && (
         <div
           style={{
-            position: 'fixed',
+            position: "fixed",
             top: `${location[1]}px`,
             left: `${location[0]}px`,
           }}
@@ -144,7 +145,7 @@ const Peca = ({ data }) => {
       )}
       <div className={styles.field}>
         <h5>Nome</h5>
-        <p style={{fontWeight: 'bold'}}>{nome}</p>
+        <p style={{ fontWeight: "bold" }}>{nome}</p>
         <p>{desc}</p>
       </div>
       <div className={styles.field}>

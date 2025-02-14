@@ -1,9 +1,9 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { destroyCookie, setCookie } from 'nookies';
+import { destroyCookie, setCookie } from "nookies";
 
 export const GlobalContext = React.createContext();
 
@@ -24,11 +24,11 @@ export const GlobalStorage = ({ children }) => {
   const isSelected = !!selected;
 
   // const serverIp = 'http://67.205.172.80:3333';
-  const serverIp = 'http://localhost:3333';
+  const serverIp = "http://localhost:3333";
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
 
-  //LOGIN E AUTH
+  //SIGNUP E AUTH
   const signUp = async (nome, apelido, email, passw) => {
     try {
       setLoading(true);
@@ -40,13 +40,13 @@ export const GlobalStorage = ({ children }) => {
           senha: passw,
         })
         .then(() => {
-          toast.success('Conta criada com sucesso!');
-          navigate('/');
+          toast.success("Conta criada com sucesso!");
+          navigate("/");
         });
     } catch (err) {
       setLoading(false);
-      console.log('Erro ao criar a conta.', err);
-      toast.error('Erro ao criar a conta.');
+      console.log("Erro ao criar a conta.", err.response.data.message);
+      toast.error(`Erro ao criar a conta: ${err.response.data.message}`);
     } finally {
       setLoading(false);
     }
@@ -62,9 +62,9 @@ export const GlobalStorage = ({ children }) => {
       const { id, nome, apelido, token } = response.data;
 
       // Guardando o token em um cookie
-      setCookie(undefined, '@artelamour.token', token, {
+      setCookie(undefined, "@artelamour.token", token, {
         maxAge: 60 * 60 * 24 * 30, //Tempo pro token expirar (30 dias)
-        path: '/', //Aqui diz que todas as rotas terão acesso ao cookie
+        path: "/", //Aqui diz que todas as rotas terão acesso ao cookie
       });
 
       setUser({
@@ -75,12 +75,13 @@ export const GlobalStorage = ({ children }) => {
       });
 
       //Permitindo o token ser utilizado por todas as próximas requisições
-      axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers["Authorization"] = `Bearer ${token}`;
       toast.success(`Bem-vindo(a), ${apelido}!`);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err) {
       setLoading(false);
-      toast.error(err.response.data);
+      toast.error(`Erro ao autenticar: ${err.response.data.message}`);
+      console.log("Erro ao authenticar.", err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -88,17 +89,18 @@ export const GlobalStorage = ({ children }) => {
 
   const signOut = async () => {
     try {
-      destroyCookie(undefined, '@artelamour.token');
-      navigate('/');
-    } catch (error) {
-      console.log(error);
+      destroyCookie(undefined, "@artelamour.token");
+      navigate("/");
+    } catch (err) {
+      toast.error("Erro ao deslogar, verifique o log.");
+      console.log("Erro ao deslogar.", err.response.data.message);
     }
   };
 
   //PEÇAS -- ADICIONADO USER NO CREATEPEÇA E GETPEÇA
   const createPeca = async (data) => {
     try {
-      setLoading([true, 'Criando nova peça...']);
+      setLoading([true, "Criando nova peça..."]);
       const response = await axios.post(`${serverIp}/peca/create`, {
         nome: data.nome,
         desc: data.desc,
@@ -114,8 +116,8 @@ export const GlobalStorage = ({ children }) => {
       toast.success(`Peça ${nome} criada!`);
     } catch (err) {
       setLoading(false);
-      toast.error(`Erro ao criar ${data.nome}.`);
-      console.log('Erro ao criar a peça', err);
+      toast.error(`Erro ao criar ${data.nome}. Verifique o log.`);
+      console.log(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -123,7 +125,7 @@ export const GlobalStorage = ({ children }) => {
 
   const updatePeca = async (data) => {
     try {
-      setLoading(true, 'Atualizando informações...');
+      setLoading(true, "Atualizando informações...");
       await axios.put(`${serverIp}/peca/update`, {
         peca_id: data.id,
         nome: data.nome,
@@ -134,9 +136,8 @@ export const GlobalStorage = ({ children }) => {
       });
       toast.success(`Peça ${data.nome} atualizada.`);
     } catch (err) {
-      setLoading(false);
-      toast.error(`Erro ao atualizar ${data.nome}.`);
-      console.log('Erro ao atualizar a peça', err);
+      toast.error(`Erro ao atualizar ${data.nome}. Verifique o log.`);
+      console.log(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -152,38 +153,41 @@ export const GlobalStorage = ({ children }) => {
       setChanged(true);
       toast.success(`${nome} deletada.`);
     } catch (err) {
-      toast.error(`Erro ao deletar ${nome}.`);
-      console.log('Erro ao deletar a peça', err);
+      toast.error(`Erro ao deletar ${nome}. Verifique o log.`);
+      console.log(err.response.data.message);
     }
   };
 
-  const getPeca = React.useCallback(async (user) => {
-    //ADICIONADO USER
-    // Função que carrega a lista de todas as peças
-    // Ela tá sendo executada duas vezes quando chamada, não sei o porque
-    // Antes de usar o useCallback, estava sendo chamada mais de duas vezes (quando passado a função como dependencia no useEffect que chama ela)
-    try {
-      setLoading([true, 'Carregando peças...']);
-      const response = await axios.get(`${serverIp}/peca/list`, {
-        params: {
-          user: user,
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log('Erro ao carregar as peças', err);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const getPeca = React.useCallback(
+    async (user) => {
+      try {
+        setLoading([true, "Carregando peças..."]);
+
+        if (!user) return;
+        const response = await axios.get(`${serverIp}/peca/list`, {
+          params: {
+            user: user,
+          },
+        });
+
+        return response;
+      } catch (err) {
+        toast.error("Erro ao carregar as peças. Verifique o log.");
+        console.log(err.response.data.message);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [user]
+  );
 
   //MATERIAIS ----------------------------------------
   //Função que carrega os materiais da peça clicada
   const getMaterials = React.useCallback(async (id) => {
     //Estava sendo chamada entre 50 e 80 vezes antes de usar o callback
     try {
-      setLoading([true, 'Carregando materiais...']);
+      setLoading([true, "Carregando materiais..."]);
       const response = await axios.get(`${serverIp}/pecaMaterial/list`, {
         params: {
           peca_id: id,
@@ -191,8 +195,8 @@ export const GlobalStorage = ({ children }) => {
       });
       return response;
     } catch (err) {
-      console.log('Erro ao carregar os materiais', err);
-      setLoading(false);
+      toast.error("Erro ao carregar os materiais. Verifique o log.");
+      console.log(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -208,7 +212,8 @@ export const GlobalStorage = ({ children }) => {
       });
       return res;
     } catch (err) {
-      console.log('Erro ao carregar a lista de materiais', err);
+      toast.error("Erro ao carregar os materiais. Verifique o log.");
+      console.log(err.response.data.message);
     }
   }, []);
 
@@ -222,8 +227,7 @@ export const GlobalStorage = ({ children }) => {
     custo,
   }) => {
     try {
-      setLoading([true, 'Salvando material...']);
-      // console.log(tipoMedida, unMedCusto)
+      setLoading([true, "Salvando material..."]);
       const res = await axios.post(`${serverIp}/material/create`, {
         nome,
         desc,
@@ -238,8 +242,8 @@ export const GlobalStorage = ({ children }) => {
       return res;
     } catch (err) {
       setLoading(false);
-      toast.success(`Erro ao registrar ${nome}.`);
-      console.log(`Erro ao registrar ${nome}`, err);
+      toast.success(`Erro ao registrar ${nome}. Verifique o log.`);
+      console.log(`Erro ao registrar ${nome}`, err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -247,7 +251,7 @@ export const GlobalStorage = ({ children }) => {
 
   //Função que deleta um material
   const deleteMaterial = async (id) => {
-    let matName = '';
+    let matName = "";
     try {
       const res = await axios.delete(`${serverIp}/material/delete`, {
         data: {
@@ -259,11 +263,13 @@ export const GlobalStorage = ({ children }) => {
       toast.success(`${matName} deletado(a).`);
       return res;
     } catch (err) {
-      if (err.response.data.id === 1) {
-        toast.error(`${err.response.data.error}`);
-      } else {
-        toast.error('Erro ao deletar material');
-      }
+      toast.success(`Erro ao deletar ${matName}. Verifique o log.`);
+      console.log(`Erro ao registrar ${matName}`, err.response.data.message);
+      // if (err.response.data.id === 1) {
+      //   toast.error(`${err.response.data.error}`);
+      // } else {
+      //   toast.error("Erro ao deletar material");
+      // }
     }
   };
 
@@ -285,11 +291,11 @@ export const GlobalStorage = ({ children }) => {
         unMedCusto: unMedCusto,
         custo: custo,
       });
-      toast.success('Material atualizado.');
+      toast.success("Material atualizado.");
       return res;
     } catch (err) {
-      toast.error('Erro ao atualizar material.');
-      console.log('Erro ao editar o material.', err);
+      toast.error("Erro ao atualizar material. Verifique o log.");
+      console.log("Erro ao atualizar o material.", err.response.data.message);
     }
   };
 
@@ -302,8 +308,11 @@ export const GlobalStorage = ({ children }) => {
 
       return res;
     } catch (err) {
-      console.log('Não foi possível carregar os materiais da peça.', err);
-    } finally {
+      toast.error("Erro ao carregar os materiais da peça. Verifique o log.");
+      console.log(
+        "Não foi possível carregar os materiais da peça.",
+        err.response.data.message
+      );
     }
   };
 
@@ -315,18 +324,17 @@ export const GlobalStorage = ({ children }) => {
     material_id,
   }) => {
     try {
-      console.log(qtdMatUsado, unMedidaUsado, peca_id, material_id, 'no context')
       const res = await axios.post(`${serverIp}/pecaMaterial/create`, {
         qtdMatUsado: qtdMatUsado,
         unMedidaUsado: unMedidaUsado,
         peca_id: peca_id,
         material_id: material_id,
       });
-      toast.success('Peça atualizada.');
+      toast.success("Peça atualizada.");
       return res;
     } catch (err) {
-      toast.error('Erro ao atualizar a peça.');
-      console.log('Erro ao atualizar a peça', err);
+      toast.error("Erro ao atualizar a peça.");
+      console.log("Erro ao atualizar a peça", err.response.data.message);
     }
   };
 
@@ -339,11 +347,11 @@ export const GlobalStorage = ({ children }) => {
         },
       });
 
-      toast.success('Peça atualizada.');
+      toast.success("Peça atualizada.");
       return res;
     } catch (err) {
-      toast.error('Erro ao atualizar a peça.');
-      console.log('Erro ao atualizar a peça', err);
+      toast.error("Erro ao atualizar a peça.");
+      console.log("Erro ao atualizar a peça", err.response.data.message);
     }
   };
 
@@ -358,8 +366,8 @@ export const GlobalStorage = ({ children }) => {
 
       return res;
     } catch (err) {
-      console.log(err);
-    } finally {
+      console.log("Erro ao atualizar o material.", err.response.data.message);
+      toast.error("Erro ao atualizar o material. Verifique o log.");
     }
   };
 
