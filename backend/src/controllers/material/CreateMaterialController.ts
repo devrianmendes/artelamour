@@ -1,16 +1,23 @@
-import { Request, Response } from 'express';
-import { CreateMaterialService } from '../../services/material/CreateMaterialService';
+import { Request, Response } from "express";
+import { CreateMaterialService } from "../../services/material/CreateMaterialService";
 
-class CreateMaterialController{
+class CreateMaterialController {
   async handle(req: Request, res: Response) {
-    const {nome, desc, qtdCusto, unMedCusto, custo, user} = req.body;
+    const { nome, desc, qtdCusto, tipoMedida, unMedCusto, custo, user } = req.body;
 
     const createMaterial = new CreateMaterialService();
-    const material = await createMaterial.execute({nome, desc, qtdCusto, unMedCusto, custo, user})
+    const material = await createMaterial.execute({
+      nome,
+      desc,
+      qtdCusto,
+      tipoMedida,
+      unMedCusto,
+      custo,
+      user,
+    });
 
-    return res.json(material)
-
+    return res.json(material);
   }
 }
 
-export {CreateMaterialController}
+export { CreateMaterialController };

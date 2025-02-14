@@ -30,6 +30,7 @@ model Material{
   desc String
   quantidadeCusto String
   unidadeMedidaCusto String
+  tipoMedida String
   custo Decimal
   user String
   created_at DateTime @default(now())

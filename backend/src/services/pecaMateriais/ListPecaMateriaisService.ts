@@ -20,7 +20,8 @@ class ListPecaMateriaisService{
             desc: true,
             quantidadeCusto: true,
             unidadeMedidaCusto: true,
-            custo: true
+            custo: true,
+            tipoMedida: true
           }
         }
       },
