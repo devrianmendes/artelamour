@@ -20,20 +20,42 @@ class UpdateMaterialService {
     custo,
     material_id,
   }: UpdateMaterial) {
-    const updateMaterial = await prismaClient.material.update({
-      where: {
-        id: material_id,
-      },
-      data: {
-        nome: nome,
-        desc: desc,
-        quantidadeCusto: qtdCusto,
-        unidadeMedidaCusto: unMedCusto,
-        custo: custo,
-        tipoMedida: tipoMedida,
-      },
-    });
-    return updateMaterial;
+    try {
+      const updateMaterial = await prismaClient.material.update({
+        where: {
+          id: material_id,
+        },
+        data: {
+          nome: nome,
+          desc: desc,
+          quantidadeCusto: qtdCusto,
+          unidadeMedidaCusto: unMedCusto,
+          custo: custo,
+          tipoMedida: tipoMedida,
+        },
+      });
+      return updateMaterial;
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error("Erro na conexão com o banco de dados. " + err.message);
+      } else {
+        throw new Error("Erro genérico.");
+      }
+    }
+    // const updateMaterial = await prismaClient.material.update({
+    //   where: {
+    //     id: material_id,
+    //   },
+    //   data: {
+    //     nome: nome,
+    //     desc: desc,
+    //     quantidadeCusto: qtdCusto,
+    //     unidadeMedidaCusto: unMedCusto,
+    //     custo: custo,
+    //     tipoMedida: tipoMedida,
+    //   },
+    // });
+    // return updateMaterial;
   }
 }
 

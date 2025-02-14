@@ -15,7 +15,6 @@ class CreatePecaMateriaisService {
     unMedidaUsado,
   }: CreatePecaMateriais) {
     try {
-
       const create = prismaClient.pecaMateriais.create({
         data: {
           peca_id: peca_id,
@@ -25,9 +24,26 @@ class CreatePecaMateriaisService {
         },
       });
       return create;
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error("Erro na conexão com o banco de dados. " + err.message);
+      } else {
+        throw new Error("Erro genérico.");
+      }
     }
+    //   const create = prismaClient.pecaMateriais.create({
+    //     data: {
+    //       peca_id: peca_id,
+    //       material_id: material_id,
+    //       qtdMatUsado: qtdMatUsado,
+    //       unMedidaUsado: unMedidaUsado,
+    //     },
+    //   });
+    //   return create;
+    // }
+    // catch(error) {
+    //   console.log(error);
+    // }
   }
 }
 

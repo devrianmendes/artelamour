@@ -6,10 +6,30 @@ class DeletePecaMateriaisController {
     
     const {id} = req.body;
 
-    const deleteService = new DeletePecaMateriaisService();
-    const deleteMaterial = await deleteService.execute({id});
+    try {
+      if (!id) {
+        return res
+          .status(400)
+          .json({ message: "Erro ao desvincular material. Dados faltantes." });
+      }
+      const deleteService = new DeletePecaMateriaisService();
+      const deletedMaterial = await deleteService.execute({
+        id
+      });
+
+      
+      return res.status(201).json(deletedMaterial);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(500).json({ message: err.message });
+      } else {
+        return res.status(500).json({ message: "Erro inesperado." });
+      }
+    }
+    // const deleteService = new DeletePecaMateriaisService();
+    // const deleteMaterial = await deleteService.execute({id});
     
-    return res.json(deleteMaterial);
+    // return res.json(deleteMaterial);
   }
 }
 

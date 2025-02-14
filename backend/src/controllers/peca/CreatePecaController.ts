@@ -3,12 +3,37 @@ import { CreatePecaService } from "../../services/peca/CreatePecaService";
 
 class CreatePecaController {
   async handle(req: Request, res: Response) {
-    const {nome, desc, hrProd, minProd, lucroDesejado, user} = req.body;
+    const { nome, desc, hrProd, minProd, lucroDesejado, user } = req.body;
 
-    const createPeca = new CreatePecaService();
-    const peca = await createPeca.execute({nome, desc, hrProd, minProd, lucroDesejado, user});
-    return res.json(peca)
+    try {
+      if (!nome || !desc || !hrProd || !minProd || !lucroDesejado || !user) {
+        return res
+          .status(400)
+          .json({ message: "Erro ao criar peça. Dados faltantes." });
+      }
+      const createPeca = new CreatePecaService();
+      const peca = await createPeca.execute({
+        nome,
+        desc,
+        hrProd,
+        minProd,
+        lucroDesejado,
+        user,
+      });
+
+      
+      return res.status(201).json(peca);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(500).json({ message: err.message });
+      } else {
+        return res.status(500).json({ message: "Erro inesperado." });
+      }
+    }
+    // const createPeca = new CreatePecaService();
+    // const peca = await createPeca.execute({nome, desc, hrProd, minProd, lucroDesejado, user});
+    // return res.json(peca)
   }
 }
 
-export { CreatePecaController }
+export { CreatePecaController };
