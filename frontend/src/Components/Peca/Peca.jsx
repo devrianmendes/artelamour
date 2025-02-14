@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Peca.module.css';
 
 import { BsTrash } from 'react-icons/bs';
@@ -8,13 +8,14 @@ import { GlobalContext } from '../../Contexts/GlobalContext';
 
 const Peca = ({ data }) => {
   const { id, nome, desc, hrProd, minProd, lucroDesejado } = data;
-  const { setSelected, deletePeca, uploadImg, setUpdatePecaModal, serverIp } =
+  const { setSelected, selected, deletePeca, uploadImg, setUpdatePecaModal, serverIp } =
     React.useContext(GlobalContext);
   const [location, setLocation] = React.useState([]);
   const [opened, setOpened] = React.useState(false);
 
   const handleClick = () => {
     setSelected(data);
+    console.log('clicou na peça', data)
   };
 
   const handleEdit = () => {
@@ -84,9 +85,14 @@ const Peca = ({ data }) => {
     handleMenu(e);
   });
 
+  useEffect(() => {
+    console.log(selected.id)
+    console.log(data.id)
+  }, [selected, data])
+
   return (
     <div
-      className={styles.mainContainer}
+      className={`${styles.mainContainer} ${selected.id === data.id ? styles.mainContainerSelected : styles.mainContainer} `}
       onClick={(e) => {
         handleClick(e);
       }}

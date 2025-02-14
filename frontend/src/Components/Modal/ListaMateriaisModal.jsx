@@ -1,26 +1,26 @@
-import React from 'react';
-import styles from './ListaMateriaisModal.module.css';
-import { toast } from 'react-toastify';
+import React from "react";
+import styles from "./ListaMateriaisModal.module.css";
+import { toast } from "react-toastify";
 
-import Button from '../Form/Button';
-import Input from '../Form/Input';
+import Button from "../Form/Button";
+import Input from "../Form/Input";
 
-import { GlobalContext } from '../../Contexts/GlobalContext';
+import { GlobalContext } from "../../Contexts/GlobalContext";
 
-import { BsTrash } from 'react-icons/bs';
-import { CiEdit } from 'react-icons/ci';
-import { AiOutlineSave } from 'react-icons/ai';
+import { BsTrash } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { AiOutlineSave } from "react-icons/ai";
 
 const NovaPecaModal = () => {
   const [materialData, setMaterialData] = React.useState([]);
   const [newMaterial, setNewMaterial] = React.useState(false);
   const [editMaterial, setEditMaterial] = React.useState(false);
 
-  const [nome, setNome] = React.useState('');
-  const [desc, setDesc] = React.useState('');
-  const [qtdCusto, setQtdCusto] = React.useState('');
-  const [unMedCusto, setUnMedCusto] = React.useState('');
-  const [custo, setCusto] = React.useState('');
+  const [nome, setNome] = React.useState("");
+  const [desc, setDesc] = React.useState("");
+  const [qtdCusto, setQtdCusto] = React.useState("");
+  const [unMedCusto, setUnMedCusto] = React.useState("");
+  const [custo, setCusto] = React.useState("");
 
   const {
     getMaterialList,
@@ -29,7 +29,7 @@ const NovaPecaModal = () => {
     setOpenListaMaterialModal,
     openListaMaterialModal,
     deleteMaterial,
-    user
+    user,
   } = React.useContext(GlobalContext);
 
   // Função que atualiza o estado com a lista completa de materiais
@@ -53,15 +53,16 @@ const NovaPecaModal = () => {
   const handleSave = async () => {
     let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
-      toast.error('Preencha todos os campos');
+      toast.error("Preencha todos os campos");
     }
 
-    if (!custo.includes(',') && !custo.includes('.')) {
+    if (!custo.includes(",") && !custo.includes(".")) {
       data = {
         nome,
         desc,
         qtdCusto,
-        unMedCusto,
+        tipoMedida: unMedCusto.split("-")[0],
+        unMedCusto: unMedCusto.split("-")[1],
         custo: Number(custo).toFixed(2),
       };
     } else {
@@ -69,19 +70,20 @@ const NovaPecaModal = () => {
         nome,
         desc,
         qtdCusto,
-        unMedCusto,
-        custo: custo.includes(',') ? custo.replace(',', '.') : custo,
+        tipoMedida: unMedCusto.split("-")[0],
+        unMedCusto: unMedCusto.split("-")[1],
+        custo: custo.includes(",") ? custo.replace(",", ".") : custo,
       };
     }
 
     await createMaterials(data);
     setNewMaterial(false);
 
-    setNome('');
-    setDesc('');
-    setQtdCusto('');
-    setUnMedCusto('');
-    setCusto('');
+    setNome("");
+    setDesc("");
+    setQtdCusto("");
+    setUnMedCusto("");
+    setCusto("");
 
     getList();
   };
@@ -90,10 +92,10 @@ const NovaPecaModal = () => {
   const handleEdit = async (id) => {
     let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
-      toast.error('Preencha todos os campos');
+      toast.error("Preencha todos os campos");
     }
 
-    if (!custo.includes(',') && !custo.includes('.')) {
+    if (!custo.includes(",") && !custo.includes(".")) {
       data = {
         id,
         nome,
@@ -109,17 +111,17 @@ const NovaPecaModal = () => {
         desc,
         qtdCusto,
         unMedCusto,
-        custo: custo.includes(',') ? custo.replace(',', '.') : custo,
+        custo: custo.includes(",") ? custo.replace(",", ".") : custo,
       };
     }
 
     await updateMaterial(data);
 
-    setNome('');
-    setDesc('');
-    setQtdCusto('');
-    setUnMedCusto('');
-    setCusto('');
+    setNome("");
+    setDesc("");
+    setQtdCusto("");
+    setUnMedCusto("");
+    setCusto("");
 
     setEditMaterial(false);
 
@@ -173,6 +175,7 @@ const NovaPecaModal = () => {
                     <th className={styles.tableTh}>Nome</th>
                     <th className={styles.tableTh}>Descrição</th>
                     <th className={styles.tableTh}>Quantidade</th>
+                    {/* <th className={styles.tableTh}>Tipo de medida</th> */}
                     <th className={styles.tableTh}>Medida</th>
                     <th className={styles.tableTh}>Custo</th>
                     <th className={styles.tableTh}>Ações</th>
@@ -219,25 +222,29 @@ const NovaPecaModal = () => {
                               }}
                             >
                               <option>Selecione...</option>
-                              <option disabled style={{ fontWeight: 'bold' }}>
+                              <option disabled style={{ fontWeight: "bold" }}>
                                 Volume
                               </option>
-                              <option value="mililitros">Mililitros</option>
-                              <option value="litros">Litros</option>
-                              <option disabled style={{ fontWeight: 'bold' }}>
+                              <option value="volume-mililitros">
+                                Mililitros
+                              </option>
+                              <option value="volume-litros">Litros</option>
+                              <option disabled style={{ fontWeight: "bold" }}>
                                 Peso
                               </option>
-                              <option value="gramas">Gramas</option>
-                              <option value="quilo">Quilos</option>
-                              <option disabled style={{ fontWeight: 'bold' }}>
+                              <option value="peso-gramas">Gramas</option>
+                              <option value="peso-quilo">Quilos</option>
+                              <option disabled style={{ fontWeight: "bold" }}>
                                 Comprimento
                               </option>
-                              <option value="centimetros">Centímetros</option>
-                              <option value="metros">Metros</option>
-                              <option disabled style={{ fontWeight: 'bold' }}>
+                              <option value="comprimento-centimetros">
+                                Centímetros
+                              </option>
+                              <option value="comprimento-metros">Metros</option>
+                              <option disabled style={{ fontWeight: "bold" }}>
                                 Outros
                               </option>
-                              <option value="unidades">Unidades</option>
+                              <option value="unidade-unidades">Unidades</option>
                             </select>
                           </td>
                           <td>
@@ -258,7 +265,7 @@ const NovaPecaModal = () => {
                             <BsTrash
                               size="35"
                               className={styles.action}
-                              style={{ marginLeft: '15px' }}
+                              style={{ marginLeft: "15px" }}
                               onClick={() => setEditMaterial(false)}
                             />
                           </td>
@@ -273,7 +280,7 @@ const NovaPecaModal = () => {
                             R$
                             {Number(eachMaterial.custo)
                               .toFixed(2)
-                              .replace('.', ',')}
+                              .replace(".", ",")}
                           </td>
                           <td>
                             <CiEdit
@@ -292,7 +299,7 @@ const NovaPecaModal = () => {
                             />
                             <BsTrash
                               size="35"
-                              style={{ marginLeft: '15px' }}
+                              style={{ marginLeft: "15px" }}
                               className={styles.action}
                               onClick={() => handleDelete(eachMaterial.id)}
                             />
@@ -338,25 +345,27 @@ const NovaPecaModal = () => {
                           }}
                         >
                           <option>Selecione...</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Volume
                           </option>
-                          <option value="mililitros">Mililitros</option>
-                          <option value="litros">Litros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="volume-mililitros">Mililitros</option>
+                          <option value="volume-litros">Litros</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Peso
                           </option>
-                          <option value="gramas">Gramas</option>
-                          <option value="quilo">Quilos</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="peso-gramas">Gramas</option>
+                          <option value="peso-quilo">Quilos</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Comprimento
                           </option>
-                          <option value="centimetros">Centímetros</option>
-                          <option value="metros">Metros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="comprimento-centimetros">
+                            Centímetros
+                          </option>
+                          <option value="comprimento-metros">Metros</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Outros
                           </option>
-                          <option value="unidades">Unidades</option>
+                          <option value="unidade-unidades">Unidades</option>
                         </select>
                       </td>
                       <td>
@@ -377,7 +386,7 @@ const NovaPecaModal = () => {
                         <BsTrash
                           size="35"
                           className={styles.action}
-                          style={{ marginLeft: '15px' }}
+                          style={{ marginLeft: "15px" }}
                           onClick={() => setNewMaterial(false)}
                         />
                       </td>

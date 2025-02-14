@@ -217,15 +217,18 @@ export const GlobalStorage = ({ children }) => {
     nome,
     desc,
     qtdCusto,
+    tipoMedida,
     unMedCusto,
     custo,
   }) => {
     try {
       setLoading([true, 'Salvando material...']);
+      // console.log(tipoMedida, unMedCusto)
       const res = await axios.post(`${serverIp}/material/create`, {
         nome,
         desc,
         qtdCusto,
+        tipoMedida,
         unMedCusto,
         custo,
         user: user.id,
@@ -285,7 +288,7 @@ export const GlobalStorage = ({ children }) => {
       toast.success('Material atualizado.');
       return res;
     } catch (err) {
-      toast.success('Erro ao atualizar material.');
+      toast.error('Erro ao atualizar material.');
       console.log('Erro ao editar o material.', err);
     }
   };
@@ -312,6 +315,7 @@ export const GlobalStorage = ({ children }) => {
     material_id,
   }) => {
     try {
+      console.log(qtdMatUsado, unMedidaUsado, peca_id, material_id, 'no context')
       const res = await axios.post(`${serverIp}/pecaMaterial/create`, {
         qtdMatUsado: qtdMatUsado,
         unMedidaUsado: unMedidaUsado,
@@ -321,7 +325,7 @@ export const GlobalStorage = ({ children }) => {
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
-      toast.success('Erro ao atualizar a peça.');
+      toast.error('Erro ao atualizar a peça.');
       console.log('Erro ao atualizar a peça', err);
     }
   };
@@ -338,7 +342,7 @@ export const GlobalStorage = ({ children }) => {
       toast.success('Peça atualizada.');
       return res;
     } catch (err) {
-      toast.success('Erro ao atualizar a peça.');
+      toast.error('Erro ao atualizar a peça.');
       console.log('Erro ao atualizar a peça', err);
     }
   };

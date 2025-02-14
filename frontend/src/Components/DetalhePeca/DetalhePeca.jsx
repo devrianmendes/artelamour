@@ -1,14 +1,14 @@
-import React from 'react';
-import styles from './DetalhePeca.module.css';
-import { toast } from 'react-toastify';
-import { GlobalContext } from '../../Contexts/GlobalContext';
+import React, { useEffect } from "react";
+import styles from "./DetalhePeca.module.css";
+import { toast } from "react-toastify";
+import { GlobalContext } from "../../Contexts/GlobalContext";
 
-import { CiEdit } from 'react-icons/ci';
-import { BsTrash } from 'react-icons/bs';
-import { AiOutlineSave } from 'react-icons/ai';
+import { CiEdit } from "react-icons/ci";
+import { BsTrash } from "react-icons/bs";
+import { AiOutlineSave } from "react-icons/ai";
 
-import PecaHeader from '../PecaHeader/PecaHeader';
-import Input from '../Form/Input';
+import PecaHeader from "../PecaHeader/PecaHeader";
+import Input from "../Form/Input";
 
 const DetalhePeca = () => {
   const {
@@ -29,25 +29,69 @@ const DetalhePeca = () => {
 
   const [edit, setEdit] = React.useState(false);
   const [selectList, setSelectList] = React.useState([]);
-  const [mat, setMat] = React.useState('Selecione...');
-  const [peca, setPeca] = React.useState('');
-  const [qtdMatUsado, setQtdMatUsado] = React.useState('');
-  const [unMedidaUsado, setUnMedidaUsado] = React.useState('');
+  const [mat, setMat] = React.useState("Selecione...");
+  const [peca, setPeca] = React.useState("");
+  const [qtdMatUsado, setQtdMatUsado] = React.useState("");
+  const [unMedidaUsado, setUnMedidaUsado] = React.useState("Selecione...");
+  const [newMat, setNewMat] = React.useState({});
+  const [options, setOptions] = React.useState([]);
+
+  const possibleOptions = [
+    { label: "Mililitros", value: "volume-mililitros" },
+    { label: "Litros", value: "volume-litros" },
+    { label: "Gramas", value: "peso-gramas" },
+    { label: "Quilos", value: "peso-quilo" },
+    {
+      label: "Centímetros",
+      value: "comprimento-centimetros",
+    },
+    { label: "Metros", value: "comprimento-metros" },
+    { label: "Unidades", value: "unidades" },
+  ];
+
+  const unitConversions = {
+    mililitros: 1, // ml é a base
+    litros: 1000, // 1 litro = 1000 ml
+    gramas: 1, // grama é a base
+    quilos: 1000, // 1 quilo = 1000 gramas
+    centimetros: 1, // cm é a base
+    metros: 100, // 1 metro = 100 cm
+    unidades: 1, // unidade não precisa de conversão
+  };
+
+  // const calcConsumo = (eachMaterial) => {
+  //   const qntComprada = eachMaterial.material.quantidadeCusto.includes(",")
+  //     ? Number(eachMaterial.material.quantidadeCusto.split(",").join("."))
+  //     : Number(eachMaterial.material.quantidadeCusto);
+  //   const valorComprado = Number(eachMaterial.material.custo);
+  //   const calcValorGasto =
+  //     (valorComprado / qntComprada) * eachMaterial.qtdMatUsado;
+
+  //   return calcValorGasto;
+  // };
 
   const calcConsumo = (eachMaterial) => {
-    const qntComprada = eachMaterial.material.quantidadeCusto.includes(',')
-      ? Number(eachMaterial.material.quantidadeCusto.split(',').join('.'))
+    const qntComprada = eachMaterial.material.quantidadeCusto.includes(",")
+      ? Number(eachMaterial.material.quantidadeCusto.replace(",", "."))
       : Number(eachMaterial.material.quantidadeCusto);
+  
     const valorComprado = Number(eachMaterial.material.custo);
-    const calcValorGasto =
-      (valorComprado / qntComprada) * eachMaterial.qtdMatUsado;
+  
+    const fatorCompra = unitConversions[eachMaterial.material.unidadeMedidaCusto.toLowerCase()];
+    const fatorUso = unitConversions[eachMaterial.unMedidaUsado.toLowerCase()];
+  
+    const qntCompradaBase = qntComprada * fatorCompra;
+    const qtdMatUsadoBase = eachMaterial.qtdMatUsado * fatorUso;
 
+    const calcValorGasto = (valorComprado / qntCompradaBase) * qtdMatUsadoBase;
+  
     return calcValorGasto;
   };
 
   let calcConsumoTotal = arrayMaterials.reduce(
     (acc, curr) => {
       const materialCusto = Number(calcConsumo(curr).toFixed(2));
+
       return {
         custoTotal: acc.custoTotal + materialCusto,
         materiais: [
@@ -56,7 +100,7 @@ const DetalhePeca = () => {
         ],
       };
     },
-    { custoTotal: 0, materiais: [] },
+    { custoTotal: 0, materiais: [] }
   );
 
   //Função que carrega a lista de todos os materiais para aparecer no select
@@ -81,6 +125,7 @@ const DetalhePeca = () => {
   //Carrega os materiais da peça inicial ou da selecionada
   React.useEffect(() => {
     const main = async () => {
+      if (arrayPecas.length === 0) return;
       if (!isSelected) {
         const res = await getMaterials(arrayPecas[0].id);
         setPeca(arrayPecas[0]);
@@ -88,7 +133,7 @@ const DetalhePeca = () => {
       } else {
         const res = await getMaterials(selected.id);
         const selectedPeca = arrayPecas.find(
-          (eachPeca) => eachPeca.id === selected.id,
+          (eachPeca) => eachPeca.id === selected.id
         );
         if (selectedPeca) {
           setPeca(selectedPeca);
@@ -100,12 +145,8 @@ const DetalhePeca = () => {
     main();
   }, [arrayPecas, getMaterials, isSelected, selected]);
 
-  // React.useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
-
   //Adciona um material na peça ao preencher os campos e salvar
-  const handleEdit = async () => {
+  const addMaterialToPeca = async () => {
     if (isSelected) {
       setPeca(selected);
     }
@@ -114,13 +155,13 @@ const DetalhePeca = () => {
       qtdMatUsado,
       unMedidaUsado,
       peca_id: peca.id,
-      material_id: mat,
+      material_id: newMat,
     };
 
     await updatePecaMateriais(data);
 
     getMatList(peca.id);
-    setQtdMatUsado('');
+    setQtdMatUsado("");
     setEditMat(false);
   };
 
@@ -131,8 +172,8 @@ const DetalhePeca = () => {
 
   //Edita o material da peça
   const handleEditMat = async (id) => {
-    if (qtdMatUsado === '' || unMedidaUsado === '') {
-      toast.error('Preencha todos os campos');
+    if (qtdMatUsado === "" || unMedidaUsado === "") {
+      toast.error("Preencha todos os campos");
     } else {
       let data = {
         id,
@@ -141,12 +182,26 @@ const DetalhePeca = () => {
       };
 
       await updateMaterialPeca(data);
-      setQtdMatUsado(''); //Limpando os campos de edição
-      setUnMedidaUsado(''); //Limpando os campos de edição
+      setQtdMatUsado(""); //Limpando os campos de edição
+      setUnMedidaUsado(""); //Limpando os campos de edição
       setEdit(false); //Fechando os campos de edição
       getMatList(peca.id);
     }
   };
+
+  useEffect(() => {
+    const loadOptions = (item) => {
+      setOptions(
+        possibleOptions.filter((eachTeste) =>
+          eachTeste.value.startsWith(item.tipoMedida)
+        )
+      );
+    };
+
+    selectList.forEach((eachItem) => {
+      eachItem.id === newMat && loadOptions(eachItem);
+    });
+  }, [newMat, selectList]);
 
   return (
     <div className={styles.mainContainer}>
@@ -155,16 +210,20 @@ const DetalhePeca = () => {
         <div className={styles.innerEachContainer}>
           <div>
             <h4>Custo da peça</h4>
-            <p>R${calcConsumoTotal.custoTotal.toFixed(2).replace('.', ',')}</p>
+            <p>R${calcConsumoTotal.custoTotal.toFixed(2).replace(".", ",")}</p>
           </div>
           <div>
             <h4>Valor sugerido para venda</h4>
             <p>
-              {
-                !peca ? "R$0,00" : (
-                  "R$"+(calcConsumoTotal.custoTotal + (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100).toFixed(2).replace('.', ',')
-                )
-              }
+              {!peca
+                ? "R$0,00"
+                : "R$" +
+                  (
+                    calcConsumoTotal.custoTotal +
+                    (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100
+                  )
+                    .toFixed(2)
+                    .replace(".", ",")}
               {/* R${(calcConsumoTotal.custoTotal + (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100).toFixed(2).replace('.', ',')} */}
             </p>
           </div>
@@ -194,7 +253,7 @@ const DetalhePeca = () => {
                   <td>
                     <select
                       onChange={(e) => {
-                        setMat(e.target.value);
+                        setNewMat(e.target.value);
                       }}
                     >
                       <option>Selecione...</option>
@@ -221,38 +280,13 @@ const DetalhePeca = () => {
                         setUnMedidaUsado(e.target.value);
                       }}
                     >
-                      <option>Selecione...</option>
-                      <option
-                        disabled
-                        style={{ fontWeight: 'bold', color: '#000' }}
-                      >
-                        Volume
-                      </option>
-                      <option value="mililitros">Mililitros</option>
-                      <option value="litros">Litros</option>
-                      <option
-                        disabled
-                        style={{ fontWeight: 'bold', color: '#000' }}
-                      >
-                        Peso
-                      </option>
-                      <option value="gramas">Gramas</option>
-                      <option value="quilo">Quilos</option>
-                      <option
-                        disabled
-                        style={{ fontWeight: 'bold', color: '#000' }}
-                      >
-                        Comprimento
-                      </option>
-                      <option value="centimetros">Centímetros</option>
-                      <option value="metros">Metros</option>
-                      <option
-                        disabled
-                        style={{ fontWeight: 'bold', color: '#000' }}
-                      >
-                        Outros
-                      </option>
-                      <option value="unidades">Unidades</option>
+                      <option default>Selecione...</option>
+                      {options.length > 0 &&
+                        options.map((eachOptions, index) => (
+                          <option key={index} value={eachOptions.label}>
+                            {eachOptions.label}
+                          </option>
+                        ))}
                     </select>
                   </td>
                   <td> </td>
@@ -261,13 +295,13 @@ const DetalhePeca = () => {
                       className={styles.action}
                       size="35"
                       onClick={() => {
-                        handleEdit();
+                        addMaterialToPeca();
                       }}
                     />
                     <BsTrash
                       className={styles.action}
                       size="35"
-                      style={{ marginLeft: '15px' }}
+                      style={{ marginLeft: "15px" }}
                       onClick={() => setEditMat(false)}
                     />
                   </td>
@@ -295,28 +329,30 @@ const DetalhePeca = () => {
                           }}
                         >
                           <option>Selecione...</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Volume
                           </option>
-                          <option value="mililitros">Mililitros</option>
-                          <option value="litros">Litros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="volume-mililitros">Mililitros</option>
+                          <option value="volume-litros">Litros</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Peso
                           </option>
-                          <option value="gramas">Gramas</option>
-                          <option value="quilo">Quilos</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="peso-gramas">Gramas</option>
+                          <option value="peso-quilo">Quilos</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Comprimento
                           </option>
-                          <option value="centimetros">Centímetros</option>
-                          <option value="metros">Metros</option>
-                          <option disabled style={{ fontWeight: 'bold' }}>
+                          <option value="comprimento-centimetros">
+                            Centímetros
+                          </option>
+                          <option value="comprimento-metros">Metros</option>
+                          <option disabled style={{ fontWeight: "bold" }}>
                             Outros
                           </option>
                           <option value="unidades">Unidades</option>
                         </select>
                       </td>
-                      <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      <td>R${eachMaterial.custo.replace(".", ",")}</td>
                       <td>
                         <AiOutlineSave
                           className={styles.action}
@@ -328,7 +364,7 @@ const DetalhePeca = () => {
                         <BsTrash
                           className={styles.action}
                           size="35"
-                          style={{ marginLeft: '15px' }}
+                          style={{ marginLeft: "15px" }}
                           onClick={() => setEdit(false)}
                         />
                       </td>
@@ -338,7 +374,7 @@ const DetalhePeca = () => {
                       <td>{eachMaterial.material.nome}</td>
                       <td>{eachMaterial.qtdMatUsado}</td>
                       <td>{eachMaterial.unMedidaUsado}</td>
-                      <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                      <td>R${eachMaterial.custo.replace(".", ",")}</td>
                       <td>
                         <CiEdit
                           className={styles.action}
@@ -348,7 +384,7 @@ const DetalhePeca = () => {
                         <BsTrash
                           className={styles.action}
                           size="35"
-                          style={{ marginLeft: '15px' }}
+                          style={{ marginLeft: "15px" }}
                           onClick={() => handleDelete(eachMaterial.id)}
                         />
                       </td>
@@ -403,7 +439,7 @@ const DetalhePeca = () => {
                         <option>Selecione...</option>
                         <option
                           disabled
-                          style={{ fontWeight: 'bold', color: '#000' }}
+                          style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Volume
                         </option>
@@ -411,7 +447,7 @@ const DetalhePeca = () => {
                         <option value="litros">Litros</option>
                         <option
                           disabled
-                          style={{ fontWeight: 'bold', color: '#000' }}
+                          style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Peso
                         </option>
@@ -419,7 +455,7 @@ const DetalhePeca = () => {
                         <option value="quilo">Quilos</option>
                         <option
                           disabled
-                          style={{ fontWeight: 'bold', color: '#000' }}
+                          style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Comprimento
                         </option>
@@ -427,7 +463,7 @@ const DetalhePeca = () => {
                         <option value="metros">Metros</option>
                         <option
                           disabled
-                          style={{ fontWeight: 'bold', color: '#000' }}
+                          style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Outros
                         </option>
@@ -442,13 +478,13 @@ const DetalhePeca = () => {
                         className={styles.action}
                         size="35"
                         onClick={() => {
-                          handleEdit();
+                          addMaterialToPeca();
                         }}
                       />
                       <BsTrash
                         className={styles.action}
                         size="35"
-                        style={{ marginLeft: '15px' }}
+                        style={{ marginLeft: "15px" }}
                         onClick={() => setEditMat(false)}
                       />
                     </td>
@@ -485,22 +521,22 @@ const DetalhePeca = () => {
                             }}
                           >
                             <option>Selecione...</option>
-                            <option disabled style={{ fontWeight: 'bold' }}>
+                            <option disabled style={{ fontWeight: "bold" }}>
                               Volume
                             </option>
                             <option value="mililitros">Mililitros</option>
                             <option value="litros">Litros</option>
-                            <option disabled style={{ fontWeight: 'bold' }}>
+                            <option disabled style={{ fontWeight: "bold" }}>
                               Peso
                             </option>
                             <option value="gramas">Gramas</option>
                             <option value="quilo">Quilos</option>
-                            <option disabled style={{ fontWeight: 'bold' }}>
+                            <option disabled style={{ fontWeight: "bold" }}>
                               Comprimento
                             </option>
                             <option value="centimetros">Centímetros</option>
                             <option value="metros">Metros</option>
-                            <option disabled style={{ fontWeight: 'bold' }}>
+                            <option disabled style={{ fontWeight: "bold" }}>
                               Outros
                             </option>
                             <option value="unidades">Unidades</option>
@@ -509,7 +545,7 @@ const DetalhePeca = () => {
                       </tr>
                       <tr>
                         <td className={styles.tdTitle}>Custo</td>
-                        <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                        <td>R${eachMaterial.custo.replace(".", ",")}</td>
                       </tr>
                       <tr>
                         <td className={styles.tdTitle}>Ações</td>
@@ -524,7 +560,7 @@ const DetalhePeca = () => {
                           <BsTrash
                             className={styles.action}
                             size="35"
-                            style={{ marginLeft: '15px' }}
+                            style={{ marginLeft: "15px" }}
                             onClick={() => setEdit(false)}
                           />
                         </td>
@@ -546,7 +582,7 @@ const DetalhePeca = () => {
                       </tr>
                       <tr>
                         <td className={styles.tdTitle}>Custo</td>
-                        <td>R${eachMaterial.custo.replace('.', ',')}</td>
+                        <td>R${eachMaterial.custo.replace(".", ",")}</td>
                       </tr>
                       <tr>
                         <td className={styles.tdTitle}>Ações</td>
@@ -559,7 +595,7 @@ const DetalhePeca = () => {
                           <BsTrash
                             className={styles.action}
                             size="35"
-                            style={{ marginLeft: '15px' }}
+                            style={{ marginLeft: "15px" }}
                             onClick={() => handleDelete(eachMaterial.id)}
                           />
                         </td>
