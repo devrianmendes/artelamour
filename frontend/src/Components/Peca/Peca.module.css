@@ -130,7 +130,7 @@ height: 100%;
 }
 
 .action:nth-child(1) {
-  margin-right: .5rem;
+  margin-right: .1rem;
 }
 
 .action:hover {
@@ -155,7 +155,7 @@ height: 100%;
   }
 }
 
-@media (max-width: 470px) {
+@media (max-width: 520px) {
   .mainContainer {
     flex-direction: column;
     height: auto;

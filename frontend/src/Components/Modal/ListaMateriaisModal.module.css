@@ -21,6 +21,7 @@
   width: 60%;
   height: 80vh;
   max-height: 80vh;
+  /* min-width: 760px; */
 }
 
 .container {
@@ -85,6 +86,7 @@
 /* TABLE */
 .materialTable {
   width: 100%;
+  min-width: 680px;
 }
 
 /* O tamanho não ta funcionando */
@@ -123,13 +125,13 @@
 }
 
 
-@media (max-width: 968px){
+@media (max-width: 1000px){
   .modalWrapper {
-    width: 80%
+    width: 90%
   }
 }
 
-@media (max-width: 692px) {
+@media (max-width: 790px) {
   .modalWrapper {
     width: 100%;
   }
@@ -143,9 +145,5 @@
   .closeModal {
     position: relative;
     top: -15px;
-  }
-
-  .materialTable {
-    min-width: 500px;
   }
 }

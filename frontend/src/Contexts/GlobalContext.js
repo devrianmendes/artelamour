@@ -281,6 +281,7 @@ export const GlobalStorage = ({ children }) => {
     qtdCusto,
     unMedCusto,
     custo,
+    tipoMedida,
   }) => {
     try {
       const res = await axios.put(`${serverIp}/material/update`, {
@@ -290,6 +291,7 @@ export const GlobalStorage = ({ children }) => {
         qtdCusto: qtdCusto,
         unMedCusto: unMedCusto,
         custo: custo,
+        tipoMedida: tipoMedida,
       });
       toast.success("Material atualizado.");
       return res;

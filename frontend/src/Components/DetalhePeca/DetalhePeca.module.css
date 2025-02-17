@@ -42,6 +42,7 @@ select {
     padding: .3rem;
     transition: .2s;
     border: 2px solid transparent;
+    margin: 0px;
 }
 
 .action:hover {
@@ -97,7 +98,7 @@ select {
     }
 
     .action:nth-child(2) {
-        margin-left: 0px !important;
+        /* margin-left: 0px !important; */
     }
 
     .tdTitle {

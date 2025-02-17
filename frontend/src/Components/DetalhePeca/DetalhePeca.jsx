@@ -41,50 +41,37 @@ const DetalhePeca = () => {
     { label: "Litros", value: "volume-litros" },
     { label: "Gramas", value: "peso-gramas" },
     { label: "Quilos", value: "peso-quilo" },
-    {
-      label: "Centímetros",
-      value: "comprimento-centimetros",
-    },
+    { label: "Centimetros", value: "comprimento-centimetros" },
     { label: "Metros", value: "comprimento-metros" },
     { label: "Unidades", value: "unidades" },
   ];
 
   const unitConversions = {
-    mililitros: 1, // ml é a base
-    litros: 1000, // 1 litro = 1000 ml
-    gramas: 1, // grama é a base
-    quilos: 1000, // 1 quilo = 1000 gramas
-    centimetros: 1, // cm é a base
-    metros: 100, // 1 metro = 100 cm
-    unidades: 1, // unidade não precisa de conversão
+    mililitros: 1,
+    litros: 1000,
+    gramas: 1,
+    quilos: 1000,
+    centimetros: 1,
+    metros: 100,
+    unidades: 1,
   };
-
-  // const calcConsumo = (eachMaterial) => {
-  //   const qntComprada = eachMaterial.material.quantidadeCusto.includes(",")
-  //     ? Number(eachMaterial.material.quantidadeCusto.split(",").join("."))
-  //     : Number(eachMaterial.material.quantidadeCusto);
-  //   const valorComprado = Number(eachMaterial.material.custo);
-  //   const calcValorGasto =
-  //     (valorComprado / qntComprada) * eachMaterial.qtdMatUsado;
-
-  //   return calcValorGasto;
-  // };
 
   const calcConsumo = (eachMaterial) => {
     const qntComprada = eachMaterial.material.quantidadeCusto.includes(",")
       ? Number(eachMaterial.material.quantidadeCusto.replace(",", "."))
       : Number(eachMaterial.material.quantidadeCusto);
-  
+
     const valorComprado = Number(eachMaterial.material.custo);
-  
-    const fatorCompra = unitConversions[eachMaterial.material.unidadeMedidaCusto.toLowerCase()];
+
+    const fatorCompra =
+      unitConversions[eachMaterial.material.unidadeMedidaCusto.toLowerCase()];
     const fatorUso = unitConversions[eachMaterial.unMedidaUsado.toLowerCase()];
-  
+
     const qntCompradaBase = qntComprada * fatorCompra;
     const qtdMatUsadoBase = eachMaterial.qtdMatUsado * fatorUso;
 
     const calcValorGasto = (valorComprado / qntCompradaBase) * qtdMatUsadoBase;
-  
+
     return calcValorGasto;
   };
 
@@ -178,10 +165,11 @@ const DetalhePeca = () => {
       let data = {
         id,
         qtdMatUsado,
-        unMedidaUsado,
+        unMedidaUsado: unMedidaUsado,
       };
 
       await updateMaterialPeca(data);
+
       setQtdMatUsado(""); //Limpando os campos de edição
       setUnMedidaUsado(""); //Limpando os campos de edição
       setEdit(false); //Fechando os campos de edição
@@ -201,6 +189,7 @@ const DetalhePeca = () => {
     selectList.forEach((eachItem) => {
       eachItem.id === newMat && loadOptions(eachItem);
     });
+
   }, [newMat, selectList]);
 
   return (
@@ -224,7 +213,6 @@ const DetalhePeca = () => {
                   )
                     .toFixed(2)
                     .replace(".", ",")}
-              {/* R${(calcConsumoTotal.custoTotal + (calcConsumoTotal.custoTotal * peca.lucroDesejado) / 100).toFixed(2).replace('.', ',')} */}
             </p>
           </div>
         </div>
@@ -242,13 +230,14 @@ const DetalhePeca = () => {
               <tr className={styles.tableTr}>
                 <th className={styles.tableTh}>Nome</th>
                 <th className={styles.tableTh}>Quantidade</th>
-                <th className={styles.tableTh}>Unidade de medida</th>
+                <th className={styles.tableTh}>Un. de medida</th>
                 <th className={styles.tableTh}>Custo por peça</th>
                 <th className={styles.tableTh}>Ações</th>
               </tr>
             </thead>
             <tbody>
               {editMat ? (
+                //Essa parte é quando está adicionando um novo material na peça
                 <tr className={styles.materialContent}>
                   <td>
                     <select
@@ -301,12 +290,13 @@ const DetalhePeca = () => {
                     <BsTrash
                       className={styles.action}
                       size="35"
-                      style={{ marginLeft: "15px" }}
+                      // style={{ marginLeft: "15px" }}
                       onClick={() => setEditMat(false)}
                     />
                   </td>
                 </tr>
               ) : null}
+              {/* Aqui é editando um material na peça */}
               {calcConsumoTotal.materiais.map((eachMaterial, index) => (
                 <tr className={styles.materialContent} key={index}>
                   {eachMaterial.id === edit ? (
@@ -328,28 +318,13 @@ const DetalhePeca = () => {
                             setUnMedidaUsado(e.target.value);
                           }}
                         >
-                          <option>Selecione...</option>
-                          <option disabled style={{ fontWeight: "bold" }}>
-                            Volume
-                          </option>
-                          <option value="volume-mililitros">Mililitros</option>
-                          <option value="volume-litros">Litros</option>
-                          <option disabled style={{ fontWeight: "bold" }}>
-                            Peso
-                          </option>
-                          <option value="peso-gramas">Gramas</option>
-                          <option value="peso-quilo">Quilos</option>
-                          <option disabled style={{ fontWeight: "bold" }}>
-                            Comprimento
-                          </option>
-                          <option value="comprimento-centimetros">
-                            Centímetros
-                          </option>
-                          <option value="comprimento-metros">Metros</option>
-                          <option disabled style={{ fontWeight: "bold" }}>
-                            Outros
-                          </option>
-                          <option value="unidades">Unidades</option>
+                          <option default>Selecione...</option>
+                          {options.length > 0 &&
+                            options.map((eachOptions, index) => (
+                              <option key={index} value={eachOptions.label}>
+                                {eachOptions.label}
+                              </option>
+                            ))}
                         </select>
                       </td>
                       <td>R${eachMaterial.custo.replace(".", ",")}</td>
@@ -364,7 +339,7 @@ const DetalhePeca = () => {
                         <BsTrash
                           className={styles.action}
                           size="35"
-                          style={{ marginLeft: "15px" }}
+                          // style={{ marginLeft: "15px" }}
                           onClick={() => setEdit(false)}
                         />
                       </td>
@@ -384,7 +359,7 @@ const DetalhePeca = () => {
                         <BsTrash
                           className={styles.action}
                           size="35"
-                          style={{ marginLeft: "15px" }}
+                          // style={{ marginLeft: "15px" }}
                           onClick={() => handleDelete(eachMaterial.id)}
                         />
                       </td>
@@ -396,6 +371,7 @@ const DetalhePeca = () => {
           </table>
           <table className={styles.materialTableMobile}>
             <tbody>
+              {/* Aqui é um novo material na peça mobile */}
               {editMat ? (
                 <>
                   <tr className={styles.materialContent}>
@@ -443,24 +419,26 @@ const DetalhePeca = () => {
                         >
                           Volume
                         </option>
-                        <option value="mililitros">Mililitros</option>
-                        <option value="litros">Litros</option>
+                        <option value="volume-mililitros">Mililitros</option>
+                        <option value="volume-litros">Litros</option>
                         <option
                           disabled
                           style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Peso
                         </option>
-                        <option value="gramas">Gramas</option>
-                        <option value="quilo">Quilos</option>
+                        <option value="peso-gramas">Gramas</option>
+                        <option value="peso-quilo">Quilos</option>
                         <option
                           disabled
                           style={{ fontWeight: "bold", color: "#000" }}
                         >
                           Comprimento
                         </option>
-                        <option value="centimetros">Centímetros</option>
-                        <option value="metros">Metros</option>
+                        <option value="comprimento-centimetros">
+                          Centímetros
+                        </option>
+                        <option value="comprimento-metros">Metros</option>
                         <option
                           disabled
                           style={{ fontWeight: "bold", color: "#000" }}
@@ -484,7 +462,7 @@ const DetalhePeca = () => {
                       <BsTrash
                         className={styles.action}
                         size="35"
-                        style={{ marginLeft: "15px" }}
+                        // style={{ marginLeft: "15px" }}
                         onClick={() => setEditMat(false)}
                       />
                     </td>
@@ -493,6 +471,7 @@ const DetalhePeca = () => {
               ) : null}
               {calcConsumoTotal.materiais.map((eachMaterial, index) => (
                 <>
+                  {/* Editando material já na peça mobile*/}
                   {eachMaterial.id === edit ? (
                     <>
                       <tr className={styles.materialContent}>
@@ -524,18 +503,22 @@ const DetalhePeca = () => {
                             <option disabled style={{ fontWeight: "bold" }}>
                               Volume
                             </option>
-                            <option value="mililitros">Mililitros</option>
-                            <option value="litros">Litros</option>
+                            <option value="volume-mililitros">
+                              Mililitros
+                            </option>
+                            <option value="volume-litros">Litros</option>
                             <option disabled style={{ fontWeight: "bold" }}>
                               Peso
                             </option>
-                            <option value="gramas">Gramas</option>
-                            <option value="quilo">Quilos</option>
+                            <option value="peso-gramas">Gramas</option>
+                            <option value="peso-quilo">Quilos</option>
                             <option disabled style={{ fontWeight: "bold" }}>
                               Comprimento
                             </option>
-                            <option value="centimetros">Centímetros</option>
-                            <option value="metros">Metros</option>
+                            <option value="comprimento-centimetros">
+                              Centímetros
+                            </option>
+                            <option value="comprimento-metros">Metros</option>
                             <option disabled style={{ fontWeight: "bold" }}>
                               Outros
                             </option>
@@ -560,7 +543,7 @@ const DetalhePeca = () => {
                           <BsTrash
                             className={styles.action}
                             size="35"
-                            style={{ marginLeft: "15px" }}
+                            // style={{ marginLeft: "15px" }}
                             onClick={() => setEdit(false)}
                           />
                         </td>
@@ -595,7 +578,7 @@ const DetalhePeca = () => {
                           <BsTrash
                             className={styles.action}
                             size="35"
-                            style={{ marginLeft: "15px" }}
+                            // style={{ marginLeft: "15px" }}
                             onClick={() => handleDelete(eachMaterial.id)}
                           />
                         </td>

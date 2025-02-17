@@ -75,7 +75,6 @@ const NovaPecaModal = () => {
         custo: custo.includes(",") ? custo.replace(",", ".") : custo,
       };
     }
-
     await createMaterials(data);
     setNewMaterial(false);
 
@@ -101,7 +100,11 @@ const NovaPecaModal = () => {
         nome,
         desc,
         qtdCusto,
-        unMedCusto,
+        tipoMedida: unMedCusto.split("-")[0],
+        unMedCusto:
+          unMedCusto.split("-")[1] === undefined
+            ? editMaterial.med
+            : unMedCusto.split("-")[1],
         custo: Number(custo).toFixed(2),
       };
     } else {
@@ -110,7 +113,11 @@ const NovaPecaModal = () => {
         nome,
         desc,
         qtdCusto,
-        unMedCusto,
+        tipoMedida: unMedCusto.split("-")[0],
+        unMedCusto:
+          unMedCusto.split("-")[1] === undefined
+            ? editMaterial.med
+            : unMedCusto.split("-")[1],
         custo: custo.includes(",") ? custo.replace(",", ".") : custo,
       };
     }
