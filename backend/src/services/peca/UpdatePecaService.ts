@@ -59,36 +59,6 @@ class UpdatePecaService {
         throw new Error("Erro genérico.");
       }
     }
-    // if (banner === null) {
-    //   const deleteFile = await prismaClient.peca.findFirst({
-    //     where: {
-    //       id: peca_id,
-    //     },
-    //     select: {
-    //       banner: true,
-    //     },
-    //   });
-
-    //   unlink(`tmp/${deleteFile.banner}`, (err) => {
-    //     if (err) console.log(err);
-    //     console.log(`${deleteFile.banner} foi apagada.`);
-    //   });
-    // }
-
-    // const updatePeca = await prismaClient.peca.update({
-    //   where: {
-    //     id: peca_id,
-    //   },
-    //   data: {
-    //     nome,
-    //     desc,
-    //     hrProd,
-    //     banner,
-    //     minProd,
-    //     lucroDesejado,
-    //   },
-    // });
-    // return updatePeca;
   }
 }
 

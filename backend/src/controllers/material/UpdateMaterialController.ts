@@ -31,7 +31,6 @@ class UpdateMaterialController {
         material_id,
       });
 
-      
       return res.status(201).json(updatedMaterial);
     } catch (err) {
       if (err instanceof Error) {

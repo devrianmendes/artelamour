@@ -28,11 +28,6 @@ class CreatePecaMateriaisController {
         return res.status(500).json({ message: "Erro inesperado." });
       }
     }
-    // console.log(peca_id, material_id, qtdMatUsado, unMedidaUsado)
-    // const createPecaMateriais = new CreatePecaMateriaisService();
-    // const create = await createPecaMateriais.execute({peca_id, material_id, qtdMatUsado, unMedidaUsado})
-
-    // return res.json(create);
   }
 }
 

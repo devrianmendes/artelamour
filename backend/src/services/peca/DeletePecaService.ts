@@ -47,38 +47,6 @@ class DeletePecaService {
         throw new Error("Erro genérico.");
       }
     }
-    // const bannerVerify = await prismaClient.peca.findFirst({
-    //   where: {
-    //     id: peca_id,
-    //   },
-    //   select: {
-    //     banner: true,
-    //   },
-    // });
-
-    // if (!!bannerVerify.banner) {
-    //   unlink(`tmp/${bannerVerify.banner}`, (err) => {
-    //     if (err) console.log(err);
-    //   });
-    // }
-
-    // const deletePeca = await prismaClient.peca.delete({
-    //   where: {
-    //     id: peca_id,
-    //   },
-    //   select: {
-    //     nome: true,
-    //     desc: true,
-    //   },
-    // });
-
-    // await prismaClient.pecaMateriais.deleteMany({
-    //   where: {
-    //     peca_id: peca_id,
-    //   },
-    // });
-
-    // return deletePeca;
   }
 }
 
