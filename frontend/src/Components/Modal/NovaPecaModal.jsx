@@ -29,6 +29,7 @@ const NovaPecaModal = () => {
         minProd: Number(minProd),
         lucroDesejado: Number(lucro),
       };
+
       await createPeca(data);
       setNome('');
       setDesc('');

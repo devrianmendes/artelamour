@@ -33,7 +33,7 @@ export const GlobalStorage = ({ children }) => {
     try {
       setLoading(true);
       await axios
-        .post(`${serverIp}/user/create`, {
+        .post(`${serverIp}/user`, {
           nome: nome,
           apelido: apelido,
           email: email,
@@ -55,7 +55,7 @@ export const GlobalStorage = ({ children }) => {
   const signIn = async ({ email, senha }) => {
     try {
       setLoading(true);
-      const response = await axios.post(`${serverIp}/user/auth`, {
+      const response = await axios.post(`${serverIp}/session`, {
         email,
         senha,
       });
@@ -100,15 +100,17 @@ export const GlobalStorage = ({ children }) => {
   //PEÇAS -- ADICIONADO USER NO CREATEPEÇA E GETPEÇA
   const createPeca = async (data) => {
     try {
-      setLoading([true, "Criando nova peça..."]);
-      const response = await axios.post(`${serverIp}/peca/create`, {
+
+      const newPeca = {
         nome: data.nome,
         desc: data.desc,
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
         user: user.id,
-      });
+      };
+      setLoading([true, "Criando nova peça..."]);
+      const response = await axios.post(`${serverIp}/peca`, newPeca);
 
       setChanged(true);
       const { nome } = response.data;
@@ -126,14 +128,15 @@ export const GlobalStorage = ({ children }) => {
   const updatePeca = async (data) => {
     try {
       setLoading(true, "Atualizando informações...");
-      await axios.put(`${serverIp}/peca/update`, {
+      const pecaData = {
         peca_id: data.id,
         nome: data.nome,
         desc: data.desc,
         hrProd: data.hrProd,
         minProd: data.minProd,
         lucroDesejado: data.lucroDesejado,
-      });
+      };
+      await axios.patch(`${serverIp}/peca/${data.id}`, pecaData);
       toast.success(`Peça ${data.nome} atualizada.`);
     } catch (err) {
       toast.error(`Erro ao atualizar ${data.nome}. Verifique o log.`);
@@ -145,7 +148,7 @@ export const GlobalStorage = ({ children }) => {
 
   const deletePeca = async (id, nome) => {
     try {
-      await axios.delete(`${serverIp}/peca/delete`, {
+      await axios.delete(`${serverIp}/peca/${id}/delete`, {
         data: {
           peca_id: id,
         },
@@ -164,7 +167,7 @@ export const GlobalStorage = ({ children }) => {
         setLoading([true, "Carregando peças..."]);
 
         if (!user) return;
-        const response = await axios.get(`${serverIp}/peca/list`, {
+        const response = await axios.get(`${serverIp}/peca`, {
           params: {
             user: user,
           },
@@ -188,11 +191,15 @@ export const GlobalStorage = ({ children }) => {
     //Estava sendo chamada entre 50 e 80 vezes antes de usar o callback
     try {
       setLoading([true, "Carregando materiais..."]);
-      const response = await axios.get(`${serverIp}/pecaMaterial/list`, {
-        params: {
-          peca_id: id,
-        },
-      });
+      const response = await axios.get(
+        `${serverIp}/pecaMaterial`,
+        {
+          params: {
+            peca_id: id,
+          },
+        }
+      );
+      
       return response;
     } catch (err) {
       toast.error("Erro ao carregar os materiais. Verifique o log.");
@@ -205,7 +212,7 @@ export const GlobalStorage = ({ children }) => {
   //Função que carrega todos os materiais registrados -- ADICIONADO USER
   const getMaterialList = React.useCallback(async (user) => {
     try {
-      const res = await axios.get(`${serverIp}/material/list`, {
+      const res = await axios.get(`${serverIp}/material`, {
         params: {
           user: user,
         },
@@ -228,7 +235,7 @@ export const GlobalStorage = ({ children }) => {
   }) => {
     try {
       setLoading([true, "Salvando material..."]);
-      const res = await axios.post(`${serverIp}/material/create`, {
+      const res = await axios.post(`${serverIp}/material`, {
         nome,
         desc,
         qtdCusto,
@@ -253,7 +260,7 @@ export const GlobalStorage = ({ children }) => {
   const deleteMaterial = async (id) => {
     let matName = "";
     try {
-      const res = await axios.delete(`${serverIp}/material/delete`, {
+      const res = await axios.delete(`${serverIp}/material/${id}/delete`, {
         data: {
           material_id: id,
         },
@@ -265,11 +272,6 @@ export const GlobalStorage = ({ children }) => {
     } catch (err) {
       toast.success(`Erro ao deletar ${matName}. Verifique o log.`);
       console.log(`Erro ao registrar ${matName}`, err.response.data.message);
-      // if (err.response.data.id === 1) {
-      //   toast.error(`${err.response.data.error}`);
-      // } else {
-      //   toast.error("Erro ao deletar material");
-      // }
     }
   };
 
@@ -284,7 +286,7 @@ export const GlobalStorage = ({ children }) => {
     tipoMedida,
   }) => {
     try {
-      const res = await axios.put(`${serverIp}/material/update`, {
+      const res = await axios.put(`${serverIp}/material/${id}/update`, {
         material_id: id,
         nome: nome,
         desc: desc,
@@ -304,7 +306,7 @@ export const GlobalStorage = ({ children }) => {
   //Função que carrega os materiais usados por uma peça
   const getPecaMaterial = async (id) => {
     try {
-      const res = axios.get(`${serverIp}/pecaMaterial/list`, {
+      const res = axios.get(`${serverIp}/pecaMaterial/${id}`, {
         peca_id: id,
       });
 
@@ -325,13 +327,19 @@ export const GlobalStorage = ({ children }) => {
     peca_id,
     material_id,
   }) => {
+
+    const data = {
+      qtdMatUsado,
+      unMedidaUsado,
+      peca_id,
+      material_id,
+    };
+    
     try {
-      const res = await axios.post(`${serverIp}/pecaMaterial/create`, {
-        qtdMatUsado: qtdMatUsado,
-        unMedidaUsado: unMedidaUsado,
-        peca_id: peca_id,
-        material_id: material_id,
-      });
+      const res = await axios.post(
+        `${serverIp}/pecaMaterial`,
+        data
+      );
       toast.success("Peça atualizada.");
       return res;
     } catch (err) {
@@ -342,29 +350,42 @@ export const GlobalStorage = ({ children }) => {
 
   //Função que deleta o material da peça
   const deletePecaMaterial = async (id) => {
-    try {
-      const res = await axios.delete(`${serverIp}/pecaMaterial/delete`, {
-        data: {
-          id: id,
-        },
-      });
 
-      toast.success("Peça atualizada.");
+    try {
+    //  console.log(`${serverIp}/pecaMaterial/${pecaId}/delete/${matId}`)
+      const res = await axios.delete(`${serverIp}/pecaMaterial/${id}`,
+        {
+          data: {
+            id: id,
+          },
+        }
+      );
+
+      toast.success("Material excluido da peça.");
       return res;
     } catch (err) {
-      toast.error("Erro ao atualizar a peça.");
-      console.log("Erro ao atualizar a peça", err.response.data.message);
+      toast.error("Erro ao deletar material da peça.");
+      console.log("Erro ao deletar material da peça", err.response.data.message);
     }
   };
 
   //Função que edita um material já adicionado na peça
-  const updateMaterialPeca = async ({ id, qtdMatUsado, unMedidaUsado }) => {
+  const updateMaterialPeca = async ({
+    id,
+    qtdMatUsado,
+    unMedidaUsado,
+    pecaId,
+  }) => {
+
     try {
-      const res = await axios.put(`${serverIp}/pecaMaterial/update`, {
-        id: id,
-        qtdMatUsado: qtdMatUsado,
-        unMedidaUsado: unMedidaUsado,
-      });
+      const res = await axios.patch(
+        `${serverIp}/pecaMaterial/${pecaId}`,
+        {
+          id: id,
+          qtdMatUsado: qtdMatUsado,
+          unMedidaUsado: unMedidaUsado,
+        }
+      );
 
       return res;
     } catch (err) {

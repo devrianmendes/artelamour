@@ -153,21 +153,24 @@ const DetalhePeca = () => {
   };
 
   const handleDelete = async (id) => {
+
     await deletePecaMaterial(id);
     getMatList(peca.id);
   };
 
   //Edita o material da peça
   const handleEditMat = async (id) => {
-    if (qtdMatUsado === "" || unMedidaUsado === "") {
+
+    if (qtdMatUsado === "" || unMedidaUsado === "" || unMedidaUsado === "Selecione...") {
       toast.error("Preencha todos os campos");
     } else {
       let data = {
         id,
         qtdMatUsado,
         unMedidaUsado: unMedidaUsado,
+        pecaId: peca.id
       };
-
+    
       await updateMaterialPeca(data);
 
       setQtdMatUsado(""); //Limpando os campos de edição
@@ -179,6 +182,7 @@ const DetalhePeca = () => {
 
   useEffect(() => {
     const loadOptions = (item) => {
+
       setOptions(
         possibleOptions.filter((eachTeste) =>
           eachTeste.value.startsWith(item.tipoMedida)
