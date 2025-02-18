@@ -1,10 +1,9 @@
-import {Request, Response} from 'express';
-import { DeletePecaMateriaisService } from '../../services/pecaMateriais/DeletePecaMateriaisService';
+import { Request, Response } from "express";
+import { DeletePecaMateriaisService } from "../../services/pecaMateriais/DeletePecaMateriaisService";
 
 class DeletePecaMateriaisController {
   async handle(req: Request, res: Response) {
-    
-    const {id} = req.body;
+    const { id } = req.body;
 
     try {
       if (!id) {
@@ -17,7 +16,6 @@ class DeletePecaMateriaisController {
         id
       });
 
-      
       return res.status(201).json(deletedMaterial);
     } catch (err) {
       if (err instanceof Error) {
@@ -26,11 +24,7 @@ class DeletePecaMateriaisController {
         return res.status(500).json({ message: "Erro inesperado." });
       }
     }
-    // const deleteService = new DeletePecaMateriaisService();
-    // const deleteMaterial = await deleteService.execute({id});
-    
-    // return res.json(deleteMaterial);
   }
 }
 
-export {DeletePecaMateriaisController};
+export { DeletePecaMateriaisController };

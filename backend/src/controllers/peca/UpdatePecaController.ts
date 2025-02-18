@@ -52,21 +52,6 @@ class UpdatePecaController {
         return res.status(500).json({ message: "Erro inesperado." });
       }
     }
-    // const updatePeca = new UpdatePecaService();
-
-    // if(!req.file) {
-    //   const banner = null;
-    //   const updatedPeca = await updatePeca.execute({peca_id, nome, desc, hrProd, minProd, lucroDesejado, banner});
-
-    //   return res.json(updatedPeca);
-    // }
-    //   else
-    // {
-    //   const {filename: banner} = req.file;
-    //   const updatedPeca = await updatePeca.execute({peca_id, nome, desc, hrProd, minProd, lucroDesejado, banner});
-
-    //   return res.json(updatedPeca);
-    // }
   }
 }
 

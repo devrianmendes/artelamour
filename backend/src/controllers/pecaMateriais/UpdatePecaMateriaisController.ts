@@ -18,7 +18,6 @@ class UpdatePecaMateriaisController {
         unMedidaUsado,
       });
 
-      
       return res.status(201).json(up);
     } catch (err) {
       if (err instanceof Error) {
@@ -27,10 +26,6 @@ class UpdatePecaMateriaisController {
         return res.status(500).json({ message: "Erro inesperado." });
       }
     }
-    // const update = new UpdatePecaMateriaisService();
-    // const up = await update.execute({id, qtdMatUsado, unMedidaUsado});
-
-    // return res.json(up);
   }
 }
 

@@ -31,28 +31,25 @@ const upload = multer(uploadConfig.upload("./tmp"));
 
 //ROTAS USER
 router.get('/user/details', isAuthenticated, new DetailUserController().handle);
-router.post('/user/create', new CreateUserController().handle);
-router.post('/user/auth', new AuthUserController().handle);
-
-
-//ROTAS MATERIAL
-router.delete('/material/delete', isAuthenticated, checkMaterial, new DeleteMaterialController().handle);
-router.post('/material/create', isAuthenticated, new CreateMaterialController().handle);
-router.put('/material/update', isAuthenticated, new UpdateMaterialController().handle);
-router.get('/material/list', isAuthenticated, new ListMaterialController().handle);
-
+router.post('/user', new CreateUserController().handle);
+router.post('/session', new AuthUserController().handle);
 
 //ROTAS PECA
-router.delete('/peca/delete', isAuthenticated, new DeletePecaController().handle);
-router.post('/peca/create', isAuthenticated, new CreatePecaController().handle);
-router.put('/peca/update', isAuthenticated, upload.single('file'), new UpdatePecaController().handle);
-router.get('/peca/list', isAuthenticated, new ListPecaController().handle);
+router.delete('/peca/:id/delete', isAuthenticated, new DeletePecaController().handle);
+router.post('/peca', isAuthenticated, new CreatePecaController().handle);
+router.patch('/peca/:id', isAuthenticated, upload.single('file'), new UpdatePecaController().handle);
+router.get('/peca', isAuthenticated, new ListPecaController().handle);
+
+//ROTAS MATERIAL
+router.delete('/material/:id/delete', isAuthenticated, checkMaterial, new DeleteMaterialController().handle);
+router.post('/material', isAuthenticated, new CreateMaterialController().handle);
+router.put('/material/:id/update', isAuthenticated, new UpdateMaterialController().handle);
+router.get('/material', isAuthenticated, new ListMaterialController().handle);
 
 //ROTAS PECAMATERIAL
-router.delete('/pecaMaterial/delete', isAuthenticated, new DeletePecaMateriaisController().handle);
-router.post('/pecaMaterial/create', isAuthenticated, new CreatePecaMateriaisController().handle);
-router.put('/pecaMaterial/update', isAuthenticated, new UpdatePecaMateriaisController().handle);
-router.get('/pecaMaterial/list', isAuthenticated, new ListPecaMateriaisController().handle);
-
+router.delete('/pecaMaterial/:id', isAuthenticated, new DeletePecaMateriaisController().handle);
+router.post('/pecaMaterial', isAuthenticated, new CreatePecaMateriaisController().handle);
+router.patch('/pecaMaterial/:id', isAuthenticated, new UpdatePecaMateriaisController().handle);
+router.get('/pecaMaterial', isAuthenticated, new ListPecaMateriaisController().handle);
 
 export default router;

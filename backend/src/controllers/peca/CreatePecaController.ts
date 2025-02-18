@@ -21,7 +21,6 @@ class CreatePecaController {
         user,
       });
 
-      
       return res.status(201).json(peca);
     } catch (err) {
       if (err instanceof Error) {
@@ -30,9 +29,6 @@ class CreatePecaController {
         return res.status(500).json({ message: "Erro inesperado." });
       }
     }
-    // const createPeca = new CreatePecaService();
-    // const peca = await createPeca.execute({nome, desc, hrProd, minProd, lucroDesejado, user});
-    // return res.json(peca)
   }
 }
 
