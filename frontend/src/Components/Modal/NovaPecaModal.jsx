@@ -69,6 +69,7 @@ const NovaPecaModal = () => {
                 <p>Nome da peça:</p>
                 <Input
                   name="nome"
+                  id="nome"
                   type="text"
                   style={{ border: '1px solid #000' }}
                   value={nome}
@@ -81,8 +82,10 @@ const NovaPecaModal = () => {
                 <p>Descrição:</p>
                 <Textarea
                   name="desc"
+                  id="desc"
                   type="textarea"
                   rows="4"
+                  maxLength="20"
                   style={{ border: '1px solid #000', resize: 'none' }}
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
@@ -94,6 +97,7 @@ const NovaPecaModal = () => {
                 <p>Horas gastas:</p>
                 <Input
                   name="hrProd"
+                  id="hrProd"
                   type="number"
                   min="0"
                   style={{ border: '1px solid #000' }}
@@ -107,6 +111,7 @@ const NovaPecaModal = () => {
                 <p>Minutos gastos:</p>
                 <Input
                   name="minProd"
+                  id="minProd"
                   type="number"
                   min="0"
                   max="59"
@@ -121,6 +126,7 @@ const NovaPecaModal = () => {
                 <p>Lucro desejado:</p>
                 <Input
                   name="lucroDesejado"
+                  id="lucroDesejado"
                   type="number"
                   min="0"
                   style={{ border: '1px solid #000' }}

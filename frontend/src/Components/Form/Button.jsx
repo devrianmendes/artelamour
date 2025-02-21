@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Button.module.css';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 import { BiLoaderAlt } from 'react-icons/bi';
 
 
-const Button = ({loading ,text, ...rest}) => {
+const Button = ({loading, text, id,...rest}) => {
   const { setOpenPecaModal, setEditMat } = React.useContext(GlobalContext);
 
   const handleClick = (id) => {
+    
     switch(id) {
       case 'criarPeca':
         setOpenPecaModal(true);
@@ -19,6 +20,8 @@ const Button = ({loading ,text, ...rest}) => {
         return;
     }
   }
+
+  // console.log({...rest})
   
   return (
     <button
@@ -27,7 +30,8 @@ const Button = ({loading ,text, ...rest}) => {
     disabled={loading}
     {...rest}
     >
-      {loading ? <BiLoaderAlt color="#55C1F6" size={18} className={styles.load}/>: text}</button>
+      {loading ? <BiLoaderAlt color="#FAFAFA" size={18} className={styles.load}/> : text}</button>
+
   )
 }
 

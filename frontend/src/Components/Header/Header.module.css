@@ -10,7 +10,7 @@
   width: 150px;
 }
 
-.menu{
+.menu {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,43 +20,32 @@
   display: flex;
 }
 
-.menu a {
+.menu a,
+.logout {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 5rem;
-  margin: .2rem;
-  padding: .8rem;
+  margin: 0.2rem;
+  padding: 0.8rem;
   cursor: pointer;
-  border: 2px solid var(--blue);
+  border: 1px solid var(--blue);
   border-radius: 5px;
-  transition: .3s;
+  transition: 0.3s;
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
-.menu a:hover {
-  background-color: var(--white);
-  border: 2px solid var(--blue-darker);
+.menu a:hover,
+.logout:hover {
+  border-radius: 0px;
+  background-color: var(--blue-lighter);
+  border: 1px solid var(--blue-darker);
   border-radius: 5px;
-  transition: .3s;
-}
-
-.menu li {
-}
-
-.logout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.logout a {
-  padding: 1rem;
-}
-
-.logout a:hover {
-  cursor: pointer;
+  transition: 0.2s;
 }
 
 .hamburguer {
@@ -64,24 +53,8 @@
   padding: 1rem;
 }
 
-/* .hamburguerWrapper {
-  height: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.line1,
-.line2,
-.line3 {
-  width: 30px;
-  height: 2px;
-  background-color: #000;
-} */
-
-@media(max-width: 420px) {
-  
-  .menu ul{
+@media (max-width: 420px) {
+  .menu ul {
     flex-direction: column;
   }
 
@@ -94,11 +67,11 @@
   }
 }
 
-@media(max-width: 500px) {
+@media (max-width: 500px) {
   .logo img,
   .logout a,
   .menu a {
-    transform: scale(.8);
+    transform: scale(0.8);
   }
   .header {
     padding: 1rem;

@@ -91,6 +91,7 @@ const UpdatePecaModal = () => {
                 <p>Nome da peça:</p>
                 <Input
                   name="nome"
+                  id="nome"
                   type="text"
                   style={{ border: '1px solid #000' }}
                   value={nome}
@@ -103,6 +104,7 @@ const UpdatePecaModal = () => {
                 <p>Descrição:</p>
                 <Textarea
                   name="desc"
+                  id="desc"
                   type="textarea"
                   rows="4"
                   style={{ border: '1px solid #000', resize: 'none' }}
@@ -116,6 +118,7 @@ const UpdatePecaModal = () => {
                 <p>Horas gastas:</p>
                 <Input
                   name="hrProd"
+                  id="hrProd"
                   type="number"
                   min="0"
                   style={{ border: '1px solid #000' }}
@@ -129,6 +132,7 @@ const UpdatePecaModal = () => {
                 <p>Minutos gastos:</p>
                 <Input
                   name="minProd"
+                  id="minProd"
                   type="number"
                   min="0"
                   max="59"
@@ -143,6 +147,7 @@ const UpdatePecaModal = () => {
                 <p>Lucro desejado:</p>
                 <Input
                   name="lucroDesejado"
+                  id="lucroDesejado"
                   type="number"
                   min="0"
                   style={{ border: '1px solid #000' }}

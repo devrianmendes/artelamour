@@ -208,6 +208,7 @@ const NovaPecaModal = () => {
                               editinput="newMat"
                               name="desc"
                               type="text"
+                              maxLength="20"
                               value={desc}
                               onChange={(e) => setDesc(e.target.value)}
                             />
@@ -258,12 +259,12 @@ const NovaPecaModal = () => {
                             <Input
                               editinput="newMat"
                               name="custo"
-                              type="text"
+                              type="number"
                               value={custo}
                               onChange={(e) => setCusto(e.target.value)}
                             />
                           </td>
-                          <td>
+                          <td className={styles.actionWrapper}>
                             <AiOutlineSave
                               size="35"
                               className={styles.action}
@@ -331,6 +332,7 @@ const NovaPecaModal = () => {
                           editinput="newMat"
                           name="desc"
                           type="text"
+                          maxLength="20"
                           value={desc}
                           onChange={(e) => setDesc(e.target.value)}
                         />
@@ -378,8 +380,8 @@ const NovaPecaModal = () => {
                       <td>
                         <Input
                           editinput="newMat"
-                          name="name"
-                          type="text"
+                          name="custo"
+                          type="number"
                           value={custo}
                           onChange={(e) => setCusto(e.target.value)}
                         />

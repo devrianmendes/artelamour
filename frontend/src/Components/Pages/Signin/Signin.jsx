@@ -52,7 +52,7 @@ const Signin = () => {
             setPassw(e.target.value);
           }}
         />
-        <Button type="submit" loading={loading} text="Acessar"></Button>
+        <Button type="submit" loading={loading} id="login" text="Acessar"></Button>
       </form>
       <Link to="/create">Crie sua conta aqui.</Link>
     </div>

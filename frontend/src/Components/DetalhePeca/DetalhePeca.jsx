@@ -225,7 +225,7 @@ const DetalhePeca = () => {
         <PecaHeader
           title="Materiais usados na peça"
           button={true}
-          buttonTitle="Adicionar material à peça"
+          buttonTitle="Adicionar material"
           id="addMatToPeca"
         />
         <div className={styles.innerEachContainer}>

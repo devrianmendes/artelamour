@@ -1,20 +1,20 @@
-.mainContainer{
+.mainContainer {
   display: flex;
   justify-content: space-between;
   height: 150px;
   border: solid 2px transparent;
   border-radius: 5px;
   background-color: var(--blue-lighter);
-  padding: .5rem;
-  transition: .3s;
-  margin-bottom: .2rem;
+  padding: 0.5rem;
+  transition: 0.3s;
+  margin-bottom: 0.2rem;
 }
 
 .mainContainer:hover,
 .mainContainerSelected {
   background-color: var(--white);
   border-color: var(--blue-darker);
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .field {
@@ -25,14 +25,14 @@
 }
 
 .field h5 {
-  margin-bottom: .5rem;
+  margin-bottom: 1.3rem;
 }
 
 .field:nth-child(1) {
-  padding: 1rem !important;
+  padding: 0rem !important;
   border-radius: 5px;
-  border: 2px solid transparent;
-  transition: .3s;
+  border: 1px solid transparent;
+  transition: 0.3s;
   display: flex;
   justify-content: center;
   position: relative;
@@ -40,18 +40,23 @@
 
 .field:nth-child(1):hover {
   border-color: var(--blue-darker);
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .field:nth-child(2) {
   flex-direction: column;
   justify-content: start;
+
+  p:nth-of-type(2) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
 }
 
 .optionsDropdown {
   width: 200px;
-  background-color: #FFF;
-  border: 2px solid var(--blue-darker);
+  background-color: #fff;
+  border: 1px solid var(--blue-darker);
   border-radius: 10px;
   overflow: hidden;
   z-index: 200;
@@ -64,7 +69,7 @@
   justify-content: center;
 }
 
-.optionsDropdownItem label{
+.optionsDropdownItem label {
   width: 100%;
   height: 100%;
   display: flex;
@@ -77,13 +82,13 @@
   cursor: pointer;
 }
 
-.upload{
+.upload {
   cursor: pointer;
 }
 
 .uploadImg {
-width: 100%;
-height: 100%;
+  width: 5rem;
+  height: auto;
 }
 
 .preview {
@@ -99,14 +104,14 @@ height: 100%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  background-color: rgba(255, 255, 255,.8);
+  background-color: rgba(255, 255, 255, 0.8);
   z-index: 99;
 }
 
-.iconCircle{
+.iconCircle {
   margin: 0 5px 0 5px;
-  padding: .5rem;
-  border: 2px solid white;
+  padding: 0.5rem;
+  border: 1px solid white;
   background-color: var(--blue-lighter);
   width: 40px;
   height: 40px;
@@ -115,7 +120,7 @@ height: 100%;
 
 .trash,
 .edit {
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 .trash:hover,
@@ -124,21 +129,21 @@ height: 100%;
 }
 
 .action {
-  padding: .3rem;
-  transition: .2s;
-  border: 2px solid transparent;
+  padding: 0.3rem;
+  transition: 0.2s;
+  border: 1px solid transparent;
 }
 
 .action:nth-child(1) {
-  margin-right: .1rem;
+  margin-right: 0.1rem;
 }
 
 .action:hover {
   cursor: pointer;
-  border: 2px solid var(--blue-darker);
+  border: 1px solid var(--blue-darker);
   border-radius: 5px;
   background-color: var(--white);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -23,8 +23,8 @@ export const GlobalStorage = ({ children }) => {
   const [editMat, setEditMat] = React.useState(false);
   const isSelected = !!selected;
 
-  // const serverIp = 'http://67.205.172.80:3333';
-  const serverIp = "http://localhost:3333";
+  const serverIp = 'http://67.205.172.80:5000';
+  // const serverIp = "http://localhost:3333";
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
 
@@ -55,6 +55,7 @@ export const GlobalStorage = ({ children }) => {
   const signIn = async ({ email, senha }) => {
     try {
       setLoading(true);
+
       const response = await axios.post(`${serverIp}/session`, {
         email,
         senha,
@@ -84,6 +85,7 @@ export const GlobalStorage = ({ children }) => {
       console.log("Erro ao authenticar.", err.response.data.message);
     } finally {
       setLoading(false);
+
     }
   };
 

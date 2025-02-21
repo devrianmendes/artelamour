@@ -8,13 +8,13 @@
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .opened {
   visibility: visible;
   opacity: 1;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .modalWrapper {
@@ -25,13 +25,11 @@
 }
 
 .container {
-  
-  background-color: #FFF;
+  background-color: #fff;
   padding: 1rem;
   border-radius: 20px;
   height: 100%;
   box-shadow: 0px 0px 20px #333;
-
 }
 
 .modalHeader {
@@ -46,16 +44,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: .5rem;
+  padding: 0.5rem;
   box-sizing: content-box;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
 }
 
 .line1 {
- width: 100%;
- height: 2px;
- background-color: #000;
- transform: rotate(45deg) translate3d(7px,7px, 0px);
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  transform: rotate(45deg) translate3d(7px, 7px, 0px);
 }
 
 .line2 {
@@ -63,7 +61,7 @@
   height: 2px;
   background-color: #000;
   transform: rotate(-45deg) translate3d(6px, -6px, 0px);
- }
+}
 
 .row {
   margin: 2% 0%;
@@ -77,6 +75,7 @@
 .modalBody {
   height: 75%;
   overflow: auto;
+  /* text-align: start; */
 }
 
 .modalFooter {
@@ -87,16 +86,23 @@
 .materialTable {
   width: 100%;
   min-width: 680px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* O tamanho não ta funcionando */
 .tableTr {
-  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.tableTr td {
+  width: 100%;
 }
 
 .tableTh {
-  width: 12%;
-  min-width:fit-content;
+  width: 100%;
+  text-align: start;
 }
 
 .tableTh:nth-child(6) {
@@ -104,42 +110,39 @@
 }
 
 .action {
-  padding: .3rem;
-  transition: .2s;
-  border: 2px solid transparent;
+  padding: 0.3rem;
+  transition: 0.2s;
+  border: 1px solid transparent;
 }
 
 .action:hover,
 .closeModal:hover {
   cursor: pointer;
-  border: 2px solid var(--blue-darker);
+  border: 1px solid var(--blue-darker);
   border-radius: 5px;
   background-color: var(--white);
-  transition: .2s;
+  transition: 0.2s;
+}
+
+.actionWrapper {
+  padding-left: 5px;
 }
 
 @media (max-width: 1300px) {
-  .modalWrapper{
+  .modalWrapper {
     width: 70%;
   }
 }
 
-
-@media (max-width: 1000px){
+@media (max-width: 1000px) {
   .modalWrapper {
-    width: 90%
+    width: 90%;
   }
 }
 
 @media (max-width: 790px) {
   .modalWrapper {
     width: 100%;
-  }
-
-  .tableTh th,
-  .tableTr td {
-    margin-right: 20px;
-
   }
 
   .closeModal {
