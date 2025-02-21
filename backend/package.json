@@ -7,8 +7,10 @@
     "node": "16.x"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build": "npx prisma migrate deploy",
+    "up": "node dist/server.js"
   },
   "dependencies": {
     "@prisma/client": "^4.10.0",
