@@ -10,7 +10,7 @@
     "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
     "vercel-build": "npx prisma migrate deploy",
-    "up": "node dist/server.js"
+    "up": "node build/server.js"
   },
   "dependencies": {
     "@prisma/client": "^4.10.0",
