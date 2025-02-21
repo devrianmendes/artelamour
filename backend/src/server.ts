@@ -7,11 +7,15 @@ const server = express();
 
 server.use(express.json())
 server.use(cors());
-server.use(router);
 dotenv.config();
+server.use(router);
 
 // console.log(__dirname + '/../tmp')
 server.use('/images', express.static(__dirname + '/../tmp'));
+
+server.get("/ping", (req, res) => {
+  return res.json({ message: "pong" });
+});
 
 const port = 5000;
 
