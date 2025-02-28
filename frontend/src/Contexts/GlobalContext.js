@@ -26,7 +26,7 @@ export const GlobalStorage = ({ children }) => {
   // const serverIp = "http://localhost:3000";
   // const serverIp = "http://localhost:5000";
   // const serverIp = 'http://67.205.172.80:5000';
-  const serverIp = 'https://apizzaria.duckdns.org:5000';
+  const serverIp = 'https://devrianmendes.duckdns.org/artelamour';
 
   const [arrayPecas, setArrayPecas] = React.useState([]);
 
