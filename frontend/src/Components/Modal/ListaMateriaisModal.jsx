@@ -53,7 +53,7 @@ const NovaPecaModal = () => {
   const handleSave = async () => {
     let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
-      toast.error("Preencha todos os campos");
+      toast.warning("Preencha todos os campos");
     }
 
     if (!custo.includes(",") && !custo.includes(".")) {
@@ -91,7 +91,7 @@ const NovaPecaModal = () => {
   const handleEdit = async (id) => {
     let data;
     if (!nome || !qtdCusto || !unMedCusto || !custo) {
-      toast.error("Preencha todos os campos");
+      toast.warning("Preencha todos os campos");
     }
 
     if (!custo.includes(",") && !custo.includes(".")) {

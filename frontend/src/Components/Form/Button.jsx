@@ -20,14 +20,13 @@ const Button = ({loading, text, id,...rest}) => {
         return;
     }
   }
-
-  // console.log({...rest})
   
   return (
     <button
     className={styles.button}
     onClick={(e) => {handleClick(e.target.id)}}
     disabled={loading}
+    id={id}
     {...rest}
     >
       {loading ? <BiLoaderAlt color="#FAFAFA" size={18} className={styles.load}/> : text}</button>

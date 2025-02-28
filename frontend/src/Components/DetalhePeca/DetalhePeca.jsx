@@ -10,6 +10,8 @@ import { AiOutlineSave } from "react-icons/ai";
 import PecaHeader from "../PecaHeader/PecaHeader";
 import Input from "../Form/Input";
 
+import { possibleOptions } from "../../constants/possibleOptions";
+
 const DetalhePeca = () => {
   const {
     getMaterials,
@@ -29,22 +31,11 @@ const DetalhePeca = () => {
 
   const [edit, setEdit] = React.useState(false);
   const [selectList, setSelectList] = React.useState([]);
-  const [mat, setMat] = React.useState("Selecione...");
   const [peca, setPeca] = React.useState("");
   const [qtdMatUsado, setQtdMatUsado] = React.useState("");
   const [unMedidaUsado, setUnMedidaUsado] = React.useState("Selecione...");
   const [newMat, setNewMat] = React.useState({});
   const [options, setOptions] = React.useState([]);
-
-  const possibleOptions = [
-    { label: "Mililitros", value: "volume-mililitros" },
-    { label: "Litros", value: "volume-litros" },
-    { label: "Gramas", value: "peso-gramas" },
-    { label: "Quilos", value: "peso-quilo" },
-    { label: "Centimetros", value: "comprimento-centimetros" },
-    { label: "Metros", value: "comprimento-metros" },
-    { label: "Unidades", value: "unidades" },
-  ];
 
   const unitConversions = {
     mililitros: 1,
@@ -132,10 +123,18 @@ const DetalhePeca = () => {
     main();
   }, [arrayPecas, getMaterials, isSelected, selected]);
 
-  //Adciona um material na peça ao preencher os campos e salvar
+  //Adiciona um material na peça ao preencher os campos e salvar
   const addMaterialToPeca = async () => {
     if (isSelected) {
       setPeca(selected);
+    } else {
+      if (!peca) {
+        toast.warning("Crie uma peça para adicionar materiais.");
+        return;
+      } else {
+        toast.warning("Selecione uma peça primeiro.");
+        return;
+      }
     }
 
     let data = {
@@ -153,25 +152,33 @@ const DetalhePeca = () => {
   };
 
   const handleDelete = async (id) => {
-
     await deletePecaMaterial(id);
     getMatList(peca.id);
   };
 
   //Edita o material da peça
   const handleEditMat = async (id) => {
-
-    if (qtdMatUsado === "" || unMedidaUsado === "" || unMedidaUsado === "Selecione...") {
-      toast.error("Preencha todos os campos");
+    if (
+      qtdMatUsado === "" ||
+      unMedidaUsado === "" ||
+      unMedidaUsado === "Selecione..."
+    ) {
+      toast.warning("Preencha todos os campos");
     } else {
       let data = {
         id,
         qtdMatUsado,
         unMedidaUsado: unMedidaUsado,
-        pecaId: peca.id
+        pecaId: peca.id,
       };
-    
-      await updateMaterialPeca(data);
+
+      try {
+        await updateMaterialPeca(data);
+        toast.success("Material atualizado.")
+      } catch (err) {
+        toast.error("Erro ao atualizar material. Verifique o log.");
+        console.log(err.response.data.message);
+      }
 
       setQtdMatUsado(""); //Limpando os campos de edição
       setUnMedidaUsado(""); //Limpando os campos de edição
@@ -181,20 +188,17 @@ const DetalhePeca = () => {
   };
 
   useEffect(() => {
+    const opt = possibleOptions;
     const loadOptions = (item) => {
-
       setOptions(
-        possibleOptions.filter((eachTeste) =>
-          eachTeste.value.startsWith(item.tipoMedida)
-        )
+        opt.filter((eachTeste) => eachTeste.value.startsWith(item.tipoMedida))
       );
     };
 
     selectList.forEach((eachItem) => {
       eachItem.id === newMat && loadOptions(eachItem);
     });
-
-  }, [newMat, selectList]);
+  }, [newMat, edit, selectList]);
 
   return (
     <div className={styles.mainContainer}>
@@ -383,12 +387,12 @@ const DetalhePeca = () => {
                     <td>
                       <select
                         onChange={(e) => {
-                          setMat(e.target.value);
+                          setNewMat(e.target.value);
                         }}
                       >
                         <option>Selecione...</option>
-                        {selectList.map((eachMat) => (
-                          <option value={eachMat.id} key={eachMat.id}>
+                        {selectList.map((eachMat, index) => (
+                          <option value={eachMat.id} key={index}>
                             {eachMat.nome}
                           </option>
                         ))}
@@ -416,40 +420,13 @@ const DetalhePeca = () => {
                           setUnMedidaUsado(e.target.value);
                         }}
                       >
-                        <option>Selecione...</option>
-                        <option
-                          disabled
-                          style={{ fontWeight: "bold", color: "#000" }}
-                        >
-                          Volume
-                        </option>
-                        <option value="volume-mililitros">Mililitros</option>
-                        <option value="volume-litros">Litros</option>
-                        <option
-                          disabled
-                          style={{ fontWeight: "bold", color: "#000" }}
-                        >
-                          Peso
-                        </option>
-                        <option value="peso-gramas">Gramas</option>
-                        <option value="peso-quilo">Quilos</option>
-                        <option
-                          disabled
-                          style={{ fontWeight: "bold", color: "#000" }}
-                        >
-                          Comprimento
-                        </option>
-                        <option value="comprimento-centimetros">
-                          Centímetros
-                        </option>
-                        <option value="comprimento-metros">Metros</option>
-                        <option
-                          disabled
-                          style={{ fontWeight: "bold", color: "#000" }}
-                        >
-                          Outros
-                        </option>
-                        <option value="unidades">Unidades</option>
+                        <option default>Selecione...</option>
+                        {options.length > 0 &&
+                          options.map((eachOptions, index) => (
+                            <option key={index} value={eachOptions.label}>
+                              {eachOptions.label}
+                            </option>
+                          ))}
                       </select>
                     </td>
                   </tr>
@@ -474,7 +451,7 @@ const DetalhePeca = () => {
                 </>
               ) : null}
               {calcConsumoTotal.materiais.map((eachMaterial, index) => (
-                <>
+                <React.Fragment key={eachMaterial.id || index}>
                   {/* Editando material já na peça mobile*/}
                   {eachMaterial.id === edit ? (
                     <>
@@ -503,30 +480,13 @@ const DetalhePeca = () => {
                               setUnMedidaUsado(e.target.value);
                             }}
                           >
-                            <option>Selecione...</option>
-                            <option disabled style={{ fontWeight: "bold" }}>
-                              Volume
-                            </option>
-                            <option value="volume-mililitros">
-                              Mililitros
-                            </option>
-                            <option value="volume-litros">Litros</option>
-                            <option disabled style={{ fontWeight: "bold" }}>
-                              Peso
-                            </option>
-                            <option value="peso-gramas">Gramas</option>
-                            <option value="peso-quilo">Quilos</option>
-                            <option disabled style={{ fontWeight: "bold" }}>
-                              Comprimento
-                            </option>
-                            <option value="comprimento-centimetros">
-                              Centímetros
-                            </option>
-                            <option value="comprimento-metros">Metros</option>
-                            <option disabled style={{ fontWeight: "bold" }}>
-                              Outros
-                            </option>
-                            <option value="unidades">Unidades</option>
+                            <option default>Selecione...</option>
+                            {options.length > 0 &&
+                              options.map((eachOptions, index) => (
+                                <option key={index} value={eachOptions.label}>
+                                  {eachOptions.label}
+                                </option>
+                              ))}
                           </select>
                         </td>
                       </tr>
@@ -589,7 +549,7 @@ const DetalhePeca = () => {
                       </tr>
                     </>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>

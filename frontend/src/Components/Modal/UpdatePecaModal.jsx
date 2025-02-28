@@ -47,7 +47,7 @@ const UpdatePecaModal = () => {
     }
 
     if (nome === '' || hrProd === '' || minProd === '' || lucro === '') {
-      toast.error('Preencha todos os campos.');
+      toast.warning('Preencha todos os campos.');
       return;
     }
 

@@ -42,6 +42,7 @@
 .materialContent {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .materialContent td:nth-child(5) {
@@ -128,7 +129,10 @@ select {
 
   .materialContent td {
     text-align: start;
+    display: flex;
+    text-align: center;
   }
+  
   .materialTableMobile tbody {
     display: flex;
     flex-direction: column;

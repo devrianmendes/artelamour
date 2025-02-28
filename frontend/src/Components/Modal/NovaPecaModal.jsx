@@ -20,7 +20,7 @@ const NovaPecaModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nome || !hrProd || !minProd || !lucro) {
-      toast.error('Preencha todos os campos.');
+      toast.warning('Preencha todos os campos.');
     } else {
       let data = {
         nome: nome,
