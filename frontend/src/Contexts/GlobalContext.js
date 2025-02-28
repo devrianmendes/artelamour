@@ -47,8 +47,8 @@ export const GlobalStorage = ({ children }) => {
         });
     } catch (err) {
       setLoading(false);
-      console.log("Erro ao criar a conta.", err.response.data.message);
-      toast.error(`Erro ao criar a conta: ${err.response.data.message}`);
+      console.log("Erro ao criar a conta: ", err.response.data.message);
+      toast.error(`Erro ao criar a conta. Verifique o log.`);
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ export const GlobalStorage = ({ children }) => {
       navigate("/dashboard");
     } catch (err) {
       setLoading(false);
-      toast.error(`Erro ao autenticar: ${err.response.data.message}`);
+      toast.error("Erro ao autenticar. Verifique o log.");
       console.log("Erro ao authenticar.", err.response.data.message);
     } finally {
       setLoading(false);
