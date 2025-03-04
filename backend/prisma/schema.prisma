@@ -3,9 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  // provider = "postgresql"
   url      = env("DATABASE_URL")
-  // relationMode = "prisma" //planetscale config
 }
 
 generator client {
@@ -66,4 +64,6 @@ model PecaMateriais {
 
   material Material @relation(fields: [material_id], references: [id])
   material_id String
+
+  @@map("pecaMateriais")
 }
